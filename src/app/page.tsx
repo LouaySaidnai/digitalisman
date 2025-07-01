@@ -124,16 +124,16 @@ Clarification stratégique, validation de votre idée, offres sur-mesure : tout 
 </div>
             </div>
             <div className="lg:w-1/2 flex justify-center">
-              <div className="relative w-full max-w-md">
+              <div className="relative w-full max-w-md flex justify-center items-center">
                 <div className="absolute -top-10 -left-10 w-32 h-32 bg-pink-500 rounded-full filter blur-3xl opacity-30" />
                 <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-blue-500 rounded-full filter blur-3xl opacity-30" />
-           <Image
-  src="/images/coffee.jpg"
-  alt="Coffee"
-  width={612}
-  height={612}
-  className="relative z-10 w-full floating rounded-xl"
-/>
+                <img
+                  src="/images/houta.png"
+                  alt="Laurent Hanout"
+                  width={612}
+                  height={612}
+                  className="relative z-10 w-72 h-72 md:w-96 md:h-96 object-cover rounded-full floating border-4 border-white shadow-xl"
+                />
               </div>
             </div>
           </div>
@@ -260,7 +260,7 @@ Clarification stratégique, validation de votre idée, offres sur-mesure : tout 
         <div className="flex items-center mb-5">
           <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Emma Rodriguez" className="w-14 h-14 rounded-full mr-4" />
           <div>
-            <h4 className="font-bold text-[#4B2E05]">Nadia Ben Salem</h4>
+            <h4 className="font-bold text-[#4B2E05]">Emma Rodrigo</h4>
             <p className="text-[#B9986F] font-semibold">Créatrice de Zen & Serein</p>
           </div>
         </div>
@@ -310,21 +310,37 @@ Clarification stratégique, validation de votre idée, offres sur-mesure : tout 
       {/* Photo - moved more to the left */}
       <div className="md:w-1/3 flex justify-center md:justify-start">
         <img
-          src="images\Laurent.jpg.jpeg"
+          src="images/Laurent.jpg.jpeg"
           alt="Laurent Hanout"
-          className="w-64 h-64 rounded-full object-cover border-4 border-white shadow-xl transform transition duration-500 hover:scale-105"
+          className="w-80 h-80 rounded-full object-cover border-4 border-white shadow-xl transform transition duration-500 hover:scale-105"
         />
       </div>
 
       {/* Texte */}
       <div className="md:w-2/3 text-left">
-        <h3 className="text-2xl font-bold mb-3">Laurent Hanout</h3>
+        <h3 className="text-2xl font-bold mb-3">
+          UNE EXPÉRIENCE INTERNATIONALE RÉELLE DU E-COMMERCE A GRANDE ÉCHELLE <br />
+          <span className="text-[#4B2E05]">Laurent Hanout</span>
+        </h3>
         <p className="mb-4 text-[#FDEBD0]">
-          Co-fondateur de 7 startups (3 succès, 3 échecs) avec 30+ ans d'expérience en marketing digital et e-commerce. Ancien CMO chez JPG (Raja), BHV Galeries Lafayette et Delbard. 
-          Il a conseillé de nombreuses startups sur leur modèle économique, pitch deck et stratégie de conversion.
+ De formation EM Lyon, homme de marketing et de stratégie, Laurent 
+Hanout a mis en place et piloté les sites marchands de grandes 
+sociétés spécialisées de la distribution : JPG Groupe Staples, BHV 
+Galeries Lafayette, pépinières Delbard, en alternance avec des 
+expériences entrepreneuriales. <br /> 
+Consultant en stratégie et opérations e-commerce depuis plus de 10 
+ans, Laurent Hanout a réalisé de nombreuses missions en Europe 
+(notamment avec Javelin Accenture) et accompagné plusieurs PME 
+tunisiennes et marocaines dans leur transformation vers le canal de 
+vente digital (Groupe Maille Club, Meubles Intérieurs, Lamacom). <br/>
+Avec la BERD, il a accompagné un collectif d'artisans.
+Également conférencier et enseignant en master2 (Univ. Assas 
+Panthéon, IHEC Tunis, ISAMM, Master ISG, ESPRIT School of 
+Business), il a co-fondé la SEVAD, chambre syndicale du E-commerce 
+au sein de l'UTICA
         </p>
         <p className="mb-8 text-[#FDEBD0]">
-          Aujourd'hui, il aide les cadres de plus de 50 ans à rebondir et entreprendre avec succès en quelques semaines. Il est aussi consultant international et enseignant dans plusieurs masters.
+          Aujourd'hui, il aide les cadres de plus de 50 ans à rebondir et entreprendre avec succès en quelques semaines!
         </p>
 
         {/* Icônes de contact - styled like the reference */}
