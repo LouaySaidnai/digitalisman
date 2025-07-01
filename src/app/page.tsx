@@ -1,23 +1,14 @@
 "use client";
 import React from "react";
 import { useEffect } from "react";
-import Image from "next/image";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import './globals.css';
 import { ArrowRight, CheckCircle, Users, User } from 'lucide-react';
 import {
-  FaBolt,
-  FaPaintBrush,
-  FaShieldAlt,
   FaArrowRight,
-  FaStar,
-  FaStarHalfAlt,
-  FaPaperPlane,
-  FaCrown,
   FaTwitter,
   FaFacebookF,
   FaInstagram,
-  FaYoutube,
   FaLinkedin,
 } from "react-icons/fa";
 import "@/app/globals.css";
@@ -63,24 +54,7 @@ export default function Home() {
         }
       );
     }
-    const starsContainer = document.getElementById("stars");
 
-    if (!starsContainer) return;
-
-    // Clear previous stars if any
-    starsContainer.innerHTML = "";
-
-    for (let i = 0; i < 100; i++) {
-      const star = document.createElement("div");
-      star.className = "star";
-      star.style.left = `${Math.random() * 100}%`;
-      star.style.top = `${Math.random() * 100}%`;
-      const size = Math.random() * 2 + 1;
-      star.style.width = `${size}px`;
-      star.style.height = `${size}px`;
-      star.style.setProperty("--duration", `${Math.random() * 3 + 1}s`);
-      starsContainer.appendChild(star);
-    }
   }, []);
 
   return (

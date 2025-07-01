@@ -92,7 +92,31 @@
   
   /* The background for the Dial Handle (at bottom-left) */
   .dial-bg {
-    @apply absolute bottom-2 left-6 w-24 h-24 rounded-full bg-[var(--color-base-light)] rotate-45 before:w-1/2 before:h-full before:bg-[var(--color-base)] before:rounded-tl-full before:rounded-bl-full before:absolute hidden sm:block;
+    position: absolute;
+    bottom: 0.5rem;
+    left: 1.5rem;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 9999px;
+    background-color: var(--color-base-light);
+    transform: rotate(45deg);
+    display: none;
+  }
+  @media (min-width: 640px) {
+    .dial-bg {
+      display: block;
+    }
+  }
+  .dial-bg::before {
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: var(--color-base);
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+    left: 0;
+    top: 0;
   }
 
   /* Styles for Dial Markings */
