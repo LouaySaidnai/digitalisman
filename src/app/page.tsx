@@ -361,90 +361,96 @@ au sein de l'UTICA
         
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="inline-block">
-            <div className="bg-white shadow-lg rounded-full px-8 py-4 border border-amber-200">
-              <h2 className="text-2xl font-bold text-amber-800">
-                Inspirez-vous de leur réussite
-              </h2>
-            </div>
-          </div>
+        <p className="text-lg text-amber-900 mb-6 max-w-xl mx-auto">
+          Découvrez les parcours inspirants de celles et ceux qui ont transformé leur vie professionnelle grâce à notre accompagnement. Lisez leurs histoires et voyez comment notre plateforme a concrètement changé leur trajectoire.
+        </p>
+        <div className="flex justify-center">
+          <button
+        className="group/btn bg-white shadow-lg rounded-full px-6 py-2 border border-amber-200 text-base font-semibold text-amber-800 hover:bg-amber-50 transition-all duration-300 flex items-center space-x-2 hover:space-x-3"
+        type="button"
+        onClick={() => window.location.href = "/temoignages"}
+          >
+        <span>Lisez leurs histoires</span>
+        <CheckCircle className="w-5 h-5 text-amber-700 group-hover/btn:scale-110 transition-transform duration-300" />
+          </button>
+        </div>
         </div>
 
         {/* Cards Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
           
           {/* First Card - Savings Theme */}
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-600 via-amber-700 to-yellow-800 text-white min-h-[400px] group hover:scale-105 transition-transform duration-500">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 opacity-20">
-              <div className="absolute top-10 right-10 w-32 h-32 border border-white/30 rounded-full"></div>
-              <div className="absolute bottom-20 left-10 w-24 h-24 border border-white/20 rounded-full"></div>
-              <div className="absolute top-1/2 right-1/4 w-16 h-16 bg-white/10 rounded-full"></div>
-              
-              {/* Dotted Pattern */}
-              <div className="absolute inset-0">
-                {[...Array(50)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="absolute w-1 h-1 bg-white/20 rounded-full"
-                    style={{
-                      left: `${Math.random() * 100}%`,
-                      top: `${Math.random() * 100}%`,
-                      animationDelay: `${Math.random() * 3}s`
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#4B2E05] via-[#7A5230] to-[#A8875E] text-white min-h-[400px] group hover:scale-105 transition-transform duration-500">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-10 right-10 w-32 h-32 border border-white/30 rounded-full"></div>
+          <div className="absolute bottom-20 left-10 w-24 h-24 border border-white/20 rounded-full"></div>
+          <div className="absolute top-1/2 right-1/4 w-16 h-16 bg-white/10 rounded-full"></div>
+          
+          {/* Dotted Pattern */}
+          <div className="absolute inset-0">
+          {[...Array(50)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute w-1 h-1 bg-white/20 rounded-full"
+          style={{
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        animationDelay: `${Math.random() * 3}s`
+          }}
+        />
+          ))}
+          </div>
+        </div>
 
-            <div className="relative p-10 h-full flex flex-col justify-between">
-              <div>
-                <div className="flex items-center mb-6">
-                  <Users className="w-8 h-8 text-yellow-300 mr-3" />
-                  <span className="text-yellow-200 font-medium">Nos Formateurs</span>
-                </div>
-                <h3 className="text-3xl font-bold leading-tight mb-6">
-                   Découvrez les experts qui vous accompagnent pas à pas
-                </h3>
-              </div>
-              
-              <div>
-                <button className="group/btn bg-white text-amber-800 px-8 py-4 rounded-xl font-semibold hover:bg-amber-50 transition-all duration-300 flex items-center space-x-3 hover:space-x-4">
-                  <span>Voir leurs profils</span>
-                  <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                </button>
-              </div>
-            </div>
+        <div className="relative p-10 h-full flex flex-col justify-between">
+          <div>
+          <div className="flex items-center mb-6">
+        <Users className="w-8 h-8 text-[#F3E4C0] mr-3" />
+        <span className="text-[#F3E4C0] font-medium">Nos Formateurs</span>
+          </div>
+          <h3 className="text-3xl font-bold leading-tight mb-6">
+         Découvrez les experts qui vous accompagnent pas à pas
+          </h3>
+          </div>
+          
+          <div>
+          <button className="group/btn bg-white text-[#7A5230] px-8 py-4 rounded-xl font-semibold hover:bg-[#F3E4C0] transition-all duration-300 flex items-center space-x-3 hover:space-x-4">
+        <span>Voir leurs profils</span>
+        <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
+          </button>
+          </div>
+        </div>
           </div>
 
           {/* Second Card - Entrepreneur Theme */}
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-600 via-amber-700 to-yellow-700 text-white min-h-[400px] group hover:scale-105 transition-transform duration-500">
-            {/* Background Elements */}
-            <div className="absolute inset-0 opacity-30">
-              <div className="absolute top-1/4 right-8 w-40 h-40 border-2 border-white/30 rounded-full"></div>
-              <div className="absolute bottom-1/4 right-12">
-                <CheckCircle className="w-24 h-24 text-white/20" />
-              </div>
-            </div>
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#4B2E05] via-[#7A5230] to-[#A8875E] text-white min-h-[400px] group hover:scale-105 transition-transform duration-500">
+        {/* Background Elements */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-1/4 right-8 w-40 h-40 border-2 border-white/30 rounded-full"></div>
+          <div className="absolute bottom-1/4 right-12">
+        <CheckCircle className="w-24 h-24 text-white/20" />
+          </div>
+        </div>
 
-            <div className="relative p-10 h-full flex flex-col justify-between">
-              <div>
-                <div className="flex items-center mb-6">
-                  <User className="w-8 h-8 text-orange-200 mr-3" />
-                  <span className="text-orange-200 font-medium">Test de Personnalité</span>
-                </div>
-                <h3 className="text-3xl font-bold leading-tight mb-6">
-                  Quel entrepreneur engagé êtes-vous ?
-                </h3>
-              </div>
-              
-              <div>
-                <button className="group/btn bg-white text-orange-700 px-8 py-4 rounded-xl font-semibold hover:bg-orange-50 transition-all duration-300 flex items-center space-x-3 hover:space-x-4">
-                  <span>Je fais le test</span>
-                  <CheckCircle className="w-5 h-5 group-hover/btn:scale-110 transition-transform duration-300" />
-                </button>
-              </div>
-            </div>
+        <div className="relative p-10 h-full flex flex-col justify-between">
+          <div>
+        <div className="flex items-center mb-6">
+          <User className="w-8 h-8 text-[#F3E4C0] mr-3" />
+          <span className="text-[#F3E4C0] font-medium">Test de Personnalité</span>
+        </div>
+        <h3 className="text-3xl font-bold leading-tight mb-6">
+          Quel entrepreneur engagé êtes-vous ?
+        </h3>
+          </div>
+          
+          <div>
+        <button className="group/btn bg-white text-[#7A5230] px-8 py-4 rounded-xl font-semibold hover:bg-[#F3E4C0] transition-all duration-300 flex items-center space-x-3 hover:space-x-4">
+          <span>Je fais le test</span>
+          <CheckCircle className="w-5 h-5 group-hover/btn:scale-110 transition-transform duration-300" />
+        </button>
+          </div>
+        </div>
           </div>
         </div>
         
@@ -459,7 +465,6 @@ au sein de l'UTICA
       <>
   <meta charSet="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Our Partenrs</title>
   <style
     dangerouslySetInnerHTML={{
       __html:
@@ -468,7 +473,7 @@ au sein de l'UTICA
   />
   <hr />
   <div className="marque-container h-full w-full flex items-center justify-center bg-[#FFFDE6] text-black">
-  <h2 className="text-3xl font-bold text-center mb-6">Our Partners</h2>
+  <h2 className="text-3xl font-bold text-center mb-6 text-[#2d1800]">Our Partners</h2>
   <div className="Marquee w-full box-border p-4 text-black font-light flex items-center overflow-hidden bg-[#FFFDE6]">
     <div className="Marquee-content flex animate-marquee hover:animate-pause bg-[#FFFDE6]">
 
@@ -520,122 +525,121 @@ au sein de l'UTICA
 </>
 
     </section>
-
-<footer className="bg-gradient-to-br from-amber-900 via-yellow-800 to-amber-800 text-amber-50">
+    <footer className="bg-gradient-to-br from-[#2d1800] via-[#3a2200] to-[#4b2e05] text-amber-50">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           
           {/* Company Info */}
           <div className="space-y-6">
-            <h3 className="text-2xl font-bold text-amber-100 mb-4">
-              Notre Entreprise
-            </h3>
-            <p className="text-amber-200 leading-relaxed">
-              Donnez une nouvelle direction à votre parcours vers de nouveaux horizons. 
-              Clarification stratégique et validation de vos idées.
-            </p>
-            <div className="flex space-x-4">
-              <a href="#" className="bg-amber-700 hover:bg-amber-600 p-3 rounded-full transition-colors duration-300">
-                <FaFacebookF size={20} />
-              </a>
-              <a href="#" className="bg-amber-700 hover:bg-amber-600 p-3 rounded-full transition-colors duration-300">
-                <FaTwitter size={20} />
-              </a>
-              <a href="#" className="bg-amber-700 hover:bg-amber-600 p-3 rounded-full transition-colors duration-300">
-                <FaLinkedin size={20} />
-              </a>
-              <a href="#" className="bg-amber-700 hover:bg-amber-600 p-3 rounded-full transition-colors duration-300">
-                <FaInstagram size={20} />
-              </a>
-            </div>
+        <h3 className="text-2xl font-bold text-amber-100 mb-4">
+          Notre Entreprise
+        </h3>
+        <p className="text-amber-200 leading-relaxed">
+          Donnez une nouvelle direction à votre parcours vers de nouveaux horizons. 
+          Clarification stratégique et validation de vos idées.
+        </p>
+        <div className="flex space-x-4">
+          <a href="#" className="bg-amber-700 hover:bg-amber-600 p-3 rounded-full transition-colors duration-300">
+            <FaFacebookF size={20} />
+          </a>
+          <a href="#" className="bg-amber-700 hover:bg-amber-600 p-3 rounded-full transition-colors duration-300">
+            <FaTwitter size={20} />
+          </a>
+          <a href="#" className="bg-amber-700 hover:bg-amber-600 p-3 rounded-full transition-colors duration-300">
+            <FaLinkedin size={20} />
+          </a>
+          <a href="#" className="bg-amber-700 hover:bg-amber-600 p-3 rounded-full transition-colors duration-300">
+            <FaInstagram size={20} />
+          </a>
+        </div>
           </div>
 
           {/* Services */}
           <div className="space-y-6">
-            <h4 className="text-xl font-semibold text-amber-100 mb-4">
-              Nos Services
-            </h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
-                  <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
-                  Stratégie d'entreprise
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
-                  <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
-                  Nos missions
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
-                  <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
-                  Accompagnement personnalisé
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
-                  <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
-                  Formation et coaching
-                </a>
-              </li>
-            </ul>
+        <h4 className="text-xl font-semibold text-amber-100 mb-4">
+          Nos Services
+        </h4>
+        <ul className="space-y-3">
+          <li>
+            <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
+          <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
+          Stratégie d'entreprise
+            </a>
+          </li>
+          <li>
+            <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
+          <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
+          Nos missions
+            </a>
+          </li>
+          <li>
+            <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
+          <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
+          Accompagnement personnalisé
+            </a>
+          </li>
+          <li>
+            <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
+          <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
+          Formation et coaching
+            </a>
+          </li>
+        </ul>
           </div>
 
           {/* Quick Links */}
           <div className="space-y-6">
-            <h4 className="text-xl font-semibold text-amber-100 mb-4">
-              Liens Rapides
-            </h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
-                  <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
-                  À propos
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
-                  <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
-                  Nos programmes
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
-                  <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
-                  Témoignages
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
-                  <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
-                  Contact
-                </a>
-              </li>
-            </ul>
+        <h4 className="text-xl font-semibold text-amber-100 mb-4">
+          Liens Rapides
+        </h4>
+        <ul className="space-y-3">
+          <li>
+            <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
+          <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
+          À propos
+            </a>
+          </li>
+          <li>
+            <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
+          <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
+          Nos programmes
+            </a>
+          </li>
+          <li>
+            <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
+          <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
+          Témoignages
+            </a>
+          </li>
+          <li>
+            <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
+          <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
+          Contact
+            </a>
+          </li>
+        </ul>
           </div>
 
           {/* Contact Info */}
           <div className="space-y-6">
-            <h4 className="text-xl font-semibold text-amber-100 mb-4">
-              Contact
-            </h4>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-3 text-amber-200">
-                <LuMapPin size={20} className="text-amber-400" />
-                <span>Résidence Bel Azur App. 28<br />1057 Gammarth, Tunisie</span>
-              </div>
-              <div className="flex items-center space-x-3 text-amber-200">
-                <LuPhone size={20} className="text-amber-400" />
-                <span>+216 28 00 82 52</span>
-              </div>
-              <div className="flex items-center space-x-3 text-amber-200">
-                <LuMail size={20} className="text-amber-400" />
-                <span>laurent.hanout@neststep.io</span>
-              </div>
-            </div>
+        <h4 className="text-xl font-semibold text-amber-100 mb-4">
+          Contact
+        </h4>
+        <div className="space-y-4">
+          <div className="flex items-center space-x-3 text-amber-200">
+            <LuMapPin size={20} className="text-amber-400" />
+            <span>Résidence Bel Azur App. 28<br />1057 Gammarth, Tunisie</span>
+          </div>
+          <div className="flex items-center space-x-3 text-amber-200">
+            <LuPhone size={20} className="text-amber-400" />
+            <span>+216 28 00 82 52</span>
+          </div>
+          <div className="flex items-center space-x-3 text-amber-200">
+            <LuMail size={20} className="text-amber-400" />
+            <span>laurent.hanout@neststep.io</span>
+          </div>
+        </div>
           </div>
         </div>
       </div>
@@ -644,20 +648,20 @@ au sein de l'UTICA
       <div className="border-t border-amber-700">
         <div className="max-w-7xl mx-auto px-6 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-amber-300 text-sm">
-              © 2024 Votre Entreprise. Tous droits réservés.
-            </div>
-            <div className="flex space-x-6 text-sm">
-              <a href="#" className="text-amber-300 hover:text-amber-100 transition-colors duration-300">
-                Politique de confidentialité
-              </a>
-              <a href="#" className="text-amber-300 hover:text-amber-100 transition-colors duration-300">
-                Conditions d'utilisation
-              </a>
-              <a href="#" className="text-amber-300 hover:text-amber-100 transition-colors duration-300">
-                Mentions légales
-              </a>
-            </div>
+        <div className="text-amber-300 text-sm">
+          © 2024 Votre Entreprise. Tous droits réservés.
+        </div>
+        <div className="flex space-x-6 text-sm">
+          <a href="#" className="text-amber-300 hover:text-amber-100 transition-colors duration-300">
+            Politique de confidentialité
+          </a>
+          <a href="#" className="text-amber-300 hover:text-amber-100 transition-colors duration-300">
+            Conditions d'utilisation
+          </a>
+          <a href="#" className="text-amber-300 hover:text-amber-100 transition-colors duration-300">
+            Mentions légales
+          </a>
+        </div>
           </div>
         </div>
       </div>
@@ -667,8 +671,7 @@ au sein de l'UTICA
         <div className="absolute top-0 left-0 w-32 h-32 bg-amber-600 rounded-full opacity-10 -translate-x-16 -translate-y-16"></div>
         <div className="absolute bottom-0 right-0 w-48 h-48 bg-yellow-600 rounded-full opacity-5 translate-x-24 translate-y-24"></div>
       </div>
-    </footer>
-    </main>
-  );
-}
-
+        </footer>
+        </main>
+      );
+    }
