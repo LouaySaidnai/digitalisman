@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useRouter } from 'next/navigation'
 import { useEffect } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import './globals.css';
@@ -38,6 +39,7 @@ const produits = [
   }
 ];
 export default function Home() {
+  const router = useRouter();
   useEffect(() => {
     const floatAnimation = document.querySelector(".floating");
     if (floatAnimation) {
@@ -445,7 +447,9 @@ au sein de l'UTICA
           </div>
           
           <div>
-        <button className="group/btn bg-white text-[#7A5230] px-8 py-4 rounded-xl font-semibold hover:bg-[#F3E4C0] transition-all duration-300 flex items-center space-x-3 hover:space-x-4">
+        <button 
+        onClick={() => router.push('/test')}
+         className="group/btn bg-white text-[#7A5230] px-8 py-4 rounded-xl font-semibold hover:bg-[#F3E4C0] transition-all duration-300 flex items-center space-x-3 hover:space-x-4">
           <span>Je fais le test</span>
           <CheckCircle className="w-5 h-5 group-hover/btn:scale-110 transition-transform duration-300" />
         </button>
