@@ -27,12 +27,12 @@ const produits = [
     icon: <FaBoxes className="text-white text-6xl" />,
     title: "Premiers clients, 3+3+3",
     color: "from-[#A8875E] to-[#C8B48E]",
-    desc: "Testez 3 offres sur 3 canaux pour décrocher vos premiers clients en moins d’un mois.",
+    desc: "Testez 3 offres sur 3 canaux pour décrocher vos premiers clients en moins d'un mois.",
     link: "#"
   },
   {
     icon: <FaUserCheck className="text-white text-6xl" />,
-    title: "Le Produit, c’est Vous",
+    title: "Le Produit, c'est Vous",
     color: "from-[#7A5230] to-[#B8A96E]",
     desc: "Transformez votre parcours en catalogue de prestations rentables et faciles à vendre.",
     link: "#"
@@ -78,7 +78,7 @@ Donnez une nouvelle direction à votre parcours
   </span>
 </h1>
 <p className="text-xl mb-8 max-w-lg text-[#5C3A00]">
-Clarification stratégique, validation de votre idée, offres sur-mesure : tout ce qu’il faut pour bâtir une activité cohérente, rentable et fidèle à votre identité!
+Clarification stratégique, validation de votre idée, offres sur-mesure : tout ce qu'il faut pour bâtir une activité cohérente, rentable et fidèle à votre identité!
 </p>
 <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
  <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
@@ -124,7 +124,7 @@ Clarification stratégique, validation de votre idée, offres sur-mesure : tout 
             Aperçu des produits phares
           </span>
           <h2 className="text-4xl font-bold text-[#4B2E05] mt-2 leading-tight">
-            Lancer votre projet, c’est simple quand on a les bons outils
+            Lancer votre projet, c'est simple quand on a les bons outils
           </h2>
           <p className="text-[#5C3A00] mt-4 text-lg">
             Découvrez nos programmes conçus spécialement pour les entrepreneurs expérimentés.
@@ -153,7 +153,7 @@ Clarification stratégique, validation de votre idée, offres sur-mesure : tout 
         {/* Voir tous les produits button */}
         <div className="flex justify-end mt-10">
           <a
-            href="/produits"
+            href="/products"
             className="bg-gradient-to-r from-[#7A5230] to-[#B9986F] text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:from-[#8B603A] hover:to-[#D6C4A2] transition-all flex items-center"
           >
             Voir tous les produits <FaArrowRight className="ml-3" />
@@ -517,11 +517,7 @@ au sein de l'UTICA
           />
         </div>
         <div className="Marquee-tag w-52 mx-2 p-2 inline-flex items-center justify-center transition-all duration-900 ease-in-out hover:scale-110">
-          <img
-            src=""
-            alt=""
-            srcSet=""
-          />
+          {/* Removed empty image to fix warning */}
         </div>
       </div>
     </div>
