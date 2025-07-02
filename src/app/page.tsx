@@ -6,18 +6,10 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import './globals.css';
 import { ArrowRight, CheckCircle, Users, User } from 'lucide-react';
 import {
-  FaBolt,
-  FaPaintBrush,
-  FaShieldAlt,
   FaArrowRight,
-  FaStar,
-  FaStarHalfAlt,
-  FaPaperPlane,
-  FaCrown,
   FaTwitter,
   FaFacebookF,
   FaInstagram,
-  FaYoutube,
   FaLinkedin,
 } from "react-icons/fa";
 import "@/app/globals.css";
