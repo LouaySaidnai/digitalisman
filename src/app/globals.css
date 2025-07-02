@@ -1,26 +1,186 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+@layer components {
+  /* .btn-primary {
+      @apply py-1.5 px-3 text-center bg-blue-700 rounded-md text-white;
+  } */
+}
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Color Values */
+  --color-base-light: rgb(94, 81, 42);
+  --color-base: rgb(77, 66, 34);
+  --color-base-dark: rgb(61, 52, 25);
+  --color-base-darker: rgb(54, 46, 22);
+  --color-base-darkest: rgb(34, 28, 11);
+  --color-base-content: rgb(210, 164, 63);
+  --color-meter-bg: rgb(234, 236, 184);
+  --color-screen: rgb(18, 19, 10);
+  --color-screen-selector-button-label: rgb(216, 212, 83);
+  --color-screen-selector-button: rgb(115, 62, 20);
+  --color-screen-selector-button-rim: rgb(72, 26, 10);
+  --color-screen-selector-button-selected: rgb(253, 253, 64);
+  --color-screen-selector-button-selected-rim: rgb(238, 86, 36);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer components {
+  /* The background plate */
+  .css-boy {
+    @apply relative mt-4 w-[17.5rem] sm:w-[38rem] h-[20rem] rounded-tr-[2.5rem] rounded-tl-[6rem] rounded-br-[0.5rem] rounded-bl-[3.5rem] bg-white/0 sm:bg-[var(--color-base)];
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* Panel behind Rad Meter (gives roundness at top-left) */
+  .panel-tl {
+    @apply absolute left-2 w-[8.5rem] h-[8.5rem] rounded-[3rem] rotate-[35deg] bg-[var(--color-base)] hidden sm:block;
+  }
+
+  /* Panel behind Dial (gives sharp corner at bottom-left) */
+  .panel-bl {
+    @apply absolute left-2 -bottom-6 w-[8rem] h-[8rem] rounded-[0.5rem] rounded-bl-[3rem] rotate-[65deg] bg-[var(--color-base)] hidden sm:block;
+  }
+
+  /* A screw */
+  .screw {
+    @apply absolute w-6 h-6 rounded-full before:absolute before:w-[0.5mm] before:h-4 before:bg-[var(--color-base-darkest)] before:rounded-full before:mt-1 before:ml-[3mm] after:absolute after:w-[0.5mm] after:h-4 after:bg-[var(--color-base-darkest)] after:rounded-full after:mt-1 after:ml-[3mm] after:rotate-90 hidden sm:block;
+    background-image: radial-gradient(in oklab, var(--color-base) 10%, var(--color-base-darker));
+  }
+
+
+  /* The strip that runs across the device with brand/model info */
+  .brand-strip {
+    @apply absolute relative flex flex-col top-[24mm] w-full h-[30mm] bg-[var(--color-base-light)] hidden sm:block;
+  }
+
+  /* The lines in the Brand Strip */
+  .brand-strip-line {
+    @apply absolute w-full h-[1mm] border-b-[0.5mm] bg-[var(--color-base-dark)] border-[var(--color-base)];
+  }
+
+  /* The text found in the Brand Strip */
+  .brand-text {
+    @apply absolute left-10 top-0.5 text-sm font-bold italic text-[var(--color-base-darker)] hidden sm:block;
+
+    /* Can be replaced by `text-shadow-md` class when using Tailwind >4.1 */
+    text-shadow: 0px 1px 1px rgb(0 0 0 / 0.1), 0px 1px 2px rgb(0 0 0 / 0.1), 0px 2px 4px rgb(0 0 0 / 0.1);
+  }
+
+  /* A badge found in the Brand Strip that says the device model */
+  .model-badge {
+    @apply absolute flex-row justify-center items-center left-4 bottom-0 w-24 h-4 rounded-tl-[1.5mm] rounded-tr-[1.5mm] drop-shadow-lg bg-[var(--color-base-darker)] hidden sm:flex;
+  }
+
+  /* The text found in the Model Badge */
+  .model-text {
+    @apply absolute text-[10px] text-[var(--color-base-light)];
+  }
+
+  /* The meter at top-left */
+  .rad-meter {
+    @apply absolute top-[4mm] left-[10mm] w-16 h-16 rounded-full border-[2mm] drop-shadow-sm before:w-1/2 before:h-full before:bg-[var(--color-base-light)] before:rounded-tl-xl before:rounded-bl-xl before:absolute bg-[var(--color-meter-bg)] border-[var(--color-base-light)] hidden sm:block;
+  }
+
+  /* The needle on the Rad Meter */
+  .rad-meter-needle {
+    @apply absolute ml-[6.5mm] mt-[6mm] w-1 h-[4.5mm] bg-[var(--color-base-darker)] rotate-[170deg] rounded-full;
+  }
+
+  /* The handle found ontop of the Dial BG */
+  .dial-handle {
+    @apply absolute w-12 h-12 top-6 left-6 rounded-full bg-[var(--color-base-light)] transition-transform duration-300 before:absolute before:w-8 before:h-8 before:rounded-full before:top-2 before:left-2 before:bg-[var(--color-base-darker)] after:absolute after:left-[4.75mm] after:top-[1.5mm] after:rounded-full after:rounded-tl-xl after:bg-[var(--color-base-darker)] after:rotate-45 after:w-3 after:h-3;
+  }
+  
+  /* The background for the Dial Handle (at bottom-left) */
+  .dial-bg {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 1.5rem;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 9999px;
+    background-color: var(--color-base-light);
+    transform: rotate(45deg);
+    display: none;
+  }
+  @media (min-width: 640px) {
+    .dial-bg {
+      display: block;
+    }
+  }
+  .dial-bg::before {
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    background-color: var(--color-base);
+    border-top-left-radius: 9999px;
+    border-bottom-left-radius: 9999px;
+    left: 0;
+    top: 0;
+  }
+
+  /* Styles for Dial Markings */
+  .dial-marking {
+    @apply absolute top-0 right-11 w-1 h-2 bg-[var(--color-base-dark)] rounded-b-xl;
+  }
+
+  .dial-marking-1 {
+    @apply top-[3.5mm] right-[3.5mm] rotate-45;
+  }
+
+  .dial-marking-2 {
+    @apply top-11 right-0 rotate-90;
+  }
+
+  .dial-marking-3 {
+    @apply top-[20mm] right-[3.5mm] rotate-[135deg];
+  }
+
+  .dial-marking-4 {
+    @apply top-[23.5mm] rotate-180;
+  }
+
+  /* The background for the scrollwheel just to the left of the Screen Frame */
+  .scrollwheel-bg {
+    @apply absolute sm:flex flex-col items-center justify-center right-[118mm] top-[21mm] w-8 h-[36mm] drop-shadow-md bg-[var(--color-base-dark)] hidden;
+  }
+
+  /* The actual scrollwheel */
+  .scrollwheel {
+    @apply w-6 h-[32mm] bg-gradient-to-b from-[var(--color-base-darker)] via-[var(--color-base)] to-[var(--color-base-darker)] drop-shadow-md;
+  }
+
+  /* The frame that goes around/behind our screen */
+  .screen-frame {
+    @apply absolute w-[17.5rem] h-[14rem] sm:w-[26rem] sm:h-[21rem] sm:right-8 -top-4 sm:-top-4 rounded-[1.5rem] sm:rounded-[2rem] border-[6px] sm:border-[8px] drop-shadow-lg border-[var(--color-base)] bg-gradient-to-tr from-[var(--color-base-darker)] to-[var(--color-base-darkest)];
+  }
+
+  /* The screen that contains our CSS-Boy's content */
+  .screen {
+    @apply absolute inset-4 sm:inset-8 bg-[var(--color-screen)] text-[8pt] font-mono sm:text-[12pt] text-[var(--color-base-content)] rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden drop-shadow-lg;
+  }
+
+  /* The glare on the screen */
+  .screen-glare {
+    @apply before:absolute before:left-2 before:right-2 before:top-2 before:bottom-2 before:rounded-2xl sm:before:rounded-3xl before:bg-gradient-to-bl before:from-white/10 before:via-white/0 before:to-white/0 before:pointer-events-none;
+  }
+
+  .screen-selector {
+    @apply absolute px-2 sm:px-4 flex flex-row items-center gap-2 -bottom-8 sm:-bottom-6 left-[2.4rem] sm:left-[5.25rem] w-[12rem] sm:w-[14.5rem] h-[4rem] border-l-[6px] border-r-[6px] border-[var(--color-base-dark)] bg-gradient-to-b from-[var(--color-base)] via-[var(--color-base)] to-[var(--color-base-darker)];
+  }
+
+  .screen-selector-button {
+    @apply appearance-none w-8 h-8 rounded-full border-4 border-[var(--color-base-light)] drop-shadow-md;
+    background-image: radial-gradient(in oklab, var(--color-screen-selector-button) 40%, var(--color-screen-selector-button-rim));
+    &:checked {
+      background-image: radial-gradient(in oklab, var(--color-screen-selector-button-selected) 20%, var(--color-screen-selector-button-selected-rim));
+    }
+  }
+
+  .screen-selector-button-label {
+    @apply w-full flex flex-col items-center text-center mb-1 text-[11px] font-bold text-[var(--color-screen-selector-button-label)];
+
+    /* Can be replaced by `text-shadow-md` class when using Tailwind >4.1 */
+    text-shadow: 0px 1px 1px rgb(0 0 0 / 0.1), 0px 1px 2px rgb(0 0 0 / 0.1), 0px 2px 4px rgb(0 0 0 / 0.1);
+  }
 }
