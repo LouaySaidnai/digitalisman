@@ -127,9 +127,102 @@ const handleAnswer = (value: 'vrai' | 'faux') => {
 
   const getPersonalityType = () => {
     const personalityDescriptions: Record<string, PersonalityType> = {
-      ISTJ: { type: 'ISTJ', description: 'Manques de compétences, temps, trésorerie, différenciation', strengths: [], recommendations: [] },
-      ISFP: { type: 'ISFP', description: 'Manques de confiance, soutien, réseau, sécurité, motivation', strengths: [], recommendations: [] },
-      // ... les autres types à compléter
+      ISTJ: { 
+    type: 'ISTJ', 
+    description: 'Manques de compétences, temps, trésorerie, différenciation', 
+    strengths: [], 
+    recommendations: [] 
+  },
+  ISFP: { 
+    type: 'ISFP', 
+    description: 'Manques de confiance, soutien, réseau, sécurité, motivation', 
+    strengths: [], 
+    recommendations: [] 
+  },
+  ESFP: { 
+    type: 'ESFP', 
+    description: 'Manques de confiance, soutien, réseau, sécurité, visibilité', 
+    strengths: [], 
+    recommendations: [] 
+  },
+  INFJ: { 
+    type: 'INFJ', 
+    description: 'Manques de motivation, partenaires, valeur ajoutée, financement, compétences', 
+    strengths: [], 
+    recommendations: [] 
+  },
+  INFP: { 
+    type: 'INFP', 
+    description: 'Manques de motivation, partenaires, valeur ajoutée, financement, confiance', 
+    strengths: [], 
+    recommendations: [] 
+  },
+  ENFP: { 
+    type: 'ENFP', 
+    description: 'Manques de motivation, partenaires, valeur ajoutée, financement, notoriété', 
+    strengths: [], 
+    recommendations: [] 
+  },
+  ENFJ: { 
+    type: 'ENFJ', 
+    description: 'Manques de motivation, partenaires, valeur ajoutée, financement, visibilité', 
+    strengths: [], 
+    recommendations: [] 
+  },
+  ESTJ: { 
+    type: 'ESTJ', 
+    description: 'Manques de réglementation, compétences, temps, trésorerie, visibilité', 
+    strengths: [], 
+    recommendations: [] 
+  },
+  ESFJ: { 
+    type: 'ESFJ', 
+    description: 'Manques de soutien, réseau, visibilité, sécurité', 
+    strengths: [], 
+    recommendations: [] 
+  },
+  ISFJ: { 
+    type: 'ISFJ', 
+    description: 'Manques de soutien, réseau, visibilité, sécurité, confiance', 
+    strengths: [], 
+    recommendations: [] 
+  },
+  ISTP: { 
+    type: 'ISTP', 
+    description: 'Manques de temps, financement, compétences, visibilité', 
+    strengths: [], 
+    recommendations: [] 
+  },
+  ESTP: { 
+    type: 'ESTP', 
+    description: 'Manques de temps, financement, compétences, visibilité', 
+    strengths: [], 
+    recommendations: [] 
+  },
+  INTJ: { 
+    type: 'INTJ', 
+    description: "Manques d'innovation, d'adaptation, de notoriété, différenciation, trésorerie", 
+    strengths: [], 
+    recommendations: [] 
+  },
+  INTP: { 
+    type: 'INTP', 
+    description: "Manques d'innovation, d'adaptation, notoriété, différenciation, compétences", 
+    strengths: [], 
+    recommendations: [] 
+  },
+  ENTP: { 
+    type: 'ENTP', 
+    description: "Manques d'innovation, d'adaptation, notoriété, différenciation, financement", 
+    strengths: [], 
+    recommendations: [] 
+  },
+  ENTJ: { 
+    type: 'ENTJ', 
+    description: "Manques d'innovation, d'adaptation, notoriété, différenciation, trésorerie", 
+    strengths: [], 
+    recommendations: [] 
+  }
     };
     
     return personalityDescriptions[personalityType] || {
