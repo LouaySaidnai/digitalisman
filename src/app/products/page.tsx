@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { PrismaClient } from "../../generated/prisma";
+import React, { useEffect, useState } from "react";
 import { 
   FaSun, 
   FaBoxOpen, 
@@ -28,8 +27,6 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 import "../../app/globals.css";
-
-const prisma = new PrismaClient();
 
 // Fonction pour choisir une icône selon le nom du produit
 function getIcon(name: string) {
@@ -89,8 +86,50 @@ function getGradient(name: string) {
   return gradients[Math.abs(hash) % gradients.length];
 }
 
-export default async function ProductsPage() {
-  const products = await prisma.produit.findMany();
+type Produit = {
+  id: number;
+  nom: string;
+  slug: string;
+  description: string;
+  livrable: string;
+  prix: string;
+};
+
+export default function ProductsPage() {
+  const [products, setProducts] = useState<Produit[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('/api/produits');
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération des produits');
+        }
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+        setErrorMsg("Impossible de récupérer les produits. Veuillez réessayer plus tard.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-gradient-to-br from-[#f5ecd7] via-[#f3e6c4] to-[#e9dbc0] flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#7A5230] mx-auto"></div>
+          <p className="mt-4 text-[#5C3A00] text-xl">Chargement des produits...</p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-[#f5ecd7] via-[#f3e6c4] to-[#e9dbc0]">
@@ -133,55 +172,62 @@ export default async function ProductsPage() {
       {/* Products Grid */}
       <section className="py-20 relative">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map((p, index) => (
-              <div
-                key={p.id}
-                className="group bg-white rounded-3xl shadow-2xl overflow-hidden transform hover:-translate-y-4 transition-all duration-500 hover:shadow-3xl border border-gray-100"
-                style={{
-                  animationDelay: `${index * 100}ms`
-                }}
-              >
-                {/* Header with darker brown gradient */}
-                <div className={`h-20 bg-gradient-to-br from-[#4B2E05] to-[#7A5230] flex items-center justify-end relative overflow-hidden`}> 
-                  {/* Price badge */}
-                  <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
-                    <span className="text-white font-bold text-sm">{p.prix}</span>
+          {errorMsg ? (
+            <div className="text-center text-red-700 text-xl font-semibold py-20">
+              {errorMsg}
+            </div>
+          ) : products.length === 0 ? (
+            <div className="text-center text-[#7A5230] text-xl font-semibold py-20">
+              Aucun produit à afficher pour le moment.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {products.map((p) => (
+                <div
+                  key={p.id}
+                  className="group bg-white rounded-3xl shadow-2xl overflow-hidden transform hover:-translate-y-4 transition-all duration-500 hover:shadow-3xl border border-gray-100"
+                >
+                  {/* Header with darker brown gradient */}
+                  <div className={`h-20 bg-gradient-to-br from-[#4B2E05] to-[#7A5230] flex items-center justify-end relative overflow-hidden`}> 
+                    {/* Price badge */}
+                    <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
+                      <span className="text-white font-bold text-sm">{p.prix}</span>
+                    </div>
                   </div>
-                </div>
-                
-                {/* Content */}
-                <div className="p-8">
-                  <h3 className="text-2xl font-bold text-[#4B2E05] mb-4 group-hover:text-[#7A5230] transition-colors duration-300">
-                    {p.nom}
-                  </h3>
                   
-                  <p className="text-[#5C3A00] mb-6 leading-relaxed text-gray-700">
-                    {p.description}
-                  </p>
-                  
-                  {/* Livrable section */}
-                  <div className="mb-6">
-                    <h4 className="text-[#7A5230] font-semibold mb-2">
-                      Ce qui est inclus :
-                    </h4>
-                    <p className="text-sm text-gray-600 leading-relaxed">
-                      {p.livrable}
+                  {/* Content */}
+                  <div className="p-8">
+                    <h3 className="text-2xl font-bold text-[#4B2E05] mb-4 group-hover:text-[#7A5230] transition-colors duration-300">
+                      {p.nom}
+                    </h3>
+                    
+                    <p className="text-[#5C3A00] mb-6 leading-relaxed text-gray-700">
+                      {p.description}
                     </p>
+                    
+                    {/* Livrable section */}
+                    <div className="mb-6">
+                      <h4 className="text-[#7A5230] font-semibold mb-2">
+                        Ce qui est inclus :
+                      </h4>
+                      <p className="text-sm text-gray-600 leading-relaxed">
+                        {p.livrable}
+                      </p>
+                    </div>
+                    
+                    {/* CTA Button */}
+                    <Link
+                      href={`/products/${p.slug}`}
+                      className="group/btn w-full bg-gradient-to-r from-[#7A5230] to-[#B9986F] text-white font-semibold py-3 px-6 rounded-xl text-center hover:from-[#8B603A] hover:to-[#D6C4A2] transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center"
+                    >
+                      En savoir plus
+                      <FaArrowRight className="ml-2 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                    </Link>
                   </div>
-                  
-                  {/* CTA Button */}
-                  <Link
-                    href={`/produits/${p.id}`}
-                    className="group/btn w-full bg-gradient-to-r from-[#7A5230] to-[#B9986F] text-white font-semibold py-3 px-6 rounded-xl text-center hover:from-[#8B603A] hover:to-[#D6C4A2] transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center"
-                  >
-                    En savoir plus
-                    <FaArrowRight className="ml-2 group-hover/btn:translate-x-1 transition-transform duration-300" />
-                  </Link>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
           
           {/* Bottom CTA */}
           <div className="text-center mt-16">

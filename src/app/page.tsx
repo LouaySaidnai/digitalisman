@@ -1,7 +1,6 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/navigation'
-import { useEffect } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import './globals.css';
 import { ArrowRight, CheckCircle, Users, User } from 'lucide-react';
@@ -40,8 +39,19 @@ const produits = [
 ];
 export default function Home() {
   const router = useRouter();
+  const floatRef = useRef<HTMLImageElement | null>(null);
+
+  // For floating dots
+  const [dotStyles, setDotStyles] = useState([
+    { left: "50%", top: "50%", animationDelay: "0s" },
+    { left: "60%", top: "60%", animationDelay: "1s" },
+    { left: "70%", top: "70%", animationDelay: "2s" },
+  ]);
+
   useEffect(() => {
-    const floatAnimation = document.querySelector(".floating");
+    if (typeof window === 'undefined') return;
+    // Animate floating image
+    const floatAnimation = floatRef.current;
     if (floatAnimation) {
       floatAnimation.animate(
         [
@@ -56,7 +66,24 @@ export default function Home() {
         }
       );
     }
-
+    // Set random positions for dots (client only)
+    setDotStyles([
+      {
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        animationDelay: `${Math.random() * 3}s`,
+      },
+      {
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        animationDelay: `${Math.random() * 3}s`,
+      },
+      {
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        animationDelay: `${Math.random() * 3}s`,
+      },
+    ]);
   }, []);
 
   return (
@@ -104,6 +131,7 @@ Clarification stratégique, validation de votre idée, offres sur-mesure : tout 
                 <div className="absolute -top-10 -left-10 w-32 h-32 bg-pink-500 rounded-full filter blur-3xl opacity-30" />
                 <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-blue-500 rounded-full filter blur-3xl opacity-30" />
                 <img
+                  ref={floatRef}
                   src="/images/houta.png"
                   alt="Laurent Hanout"
                   width={612}
@@ -462,6 +490,13 @@ au sein de l'UTICA
 
       {/* Floating Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {dotStyles.map((style, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-white/20 rounded-full"
+            style={style}
+          />
+        ))}
         <div className="absolute top-20 left-10 w-4 h-4 bg-amber-400 rounded-full opacity-40 animate-bounce" style={{ animationDelay: '0s' }}></div>
         <div className="absolute top-40 right-20 w-3 h-3 bg-yellow-500 rounded-full opacity-50 animate-bounce" style={{ animationDelay: '1s' }}></div>
         <div className="absolute bottom-40 left-1/4 w-2 h-2 bg-amber-500 rounded-full opacity-60 animate-bounce" style={{ animationDelay: '2s' }}></div>
