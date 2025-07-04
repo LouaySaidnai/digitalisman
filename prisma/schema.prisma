@@ -15,9 +15,53 @@ datasource db {
 }
 
 model Produit {
-  id          Int     @id @default(autoincrement())
-  nom         String  
-  description String  
-  livrable    String  
-  prix        String  
+  id                      Int      @id @default(autoincrement())
+  nom                     String
+  description             String
+  livrable                String
+  prix                    String
+  slug                    String   @unique
+  imageHero               String?
+  videoUrl                String?
+  imageProblemes          String?
+  gifSolution             String?
+  sousTitre               String?
+  conceptFondateur        String?
+  cible                   String?
+  problemeResolu          String?
+  niveauPriorite          Int?
+  contenu                 String?
+  processus               String?
+  duree                   String?
+  prixOriginal            String?
+  optionsTarification     Json?
+  garantie                String?
+  conditionsPaiement      String?
+  preuves                 String?
+  temoignages             String?
+  resultatsAttendus       String?
+  differenciation         String?
+  avantagesCompetitifs    String?
+  integrationEcosysteme   String?
+  entonnoirNaturel        String?
+  argumentsCommerciaux    String?
+  urgence                 String?
+  exemplesConcrets        String?
+  casPratiques            String?
+  livrablesDetailles      String?
+  supportsInclus          String?
+  faq                     Json?
+  objectionsAnticipees    String?
+  statut                  String   @default("actif")
+  dateCreation            DateTime @default(now())
+  dateModification        DateTime
+  
+  @@map("Produit") // This tells Prisma to use the "Produit" table name
 }
+model TestResult {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  answers     Json
+  personality String
+  createdAt   DateTime @default(now())
+}  

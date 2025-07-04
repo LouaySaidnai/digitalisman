@@ -518,7 +518,6 @@ au sein de l'UTICA
         </div>
         <div className="Marquee-tag w-52 mx-2 p-2 inline-flex items-center justify-center transition-all duration-900 ease-in-out hover:scale-110">
           <img
-            src=""
             alt=""
             srcSet=""
           />
