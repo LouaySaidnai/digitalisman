@@ -1,10 +1,20 @@
 {
     "compilerOptions": {
-      "target": "ES2020",
+      "target": "es2020",
       "module": "commonjs",
-      "esModuleInterop": true,
+      "lib": ["es2020"],
+      "outDir": "./",
+      "rootDir": "./",
       "strict": true,
-      "skipLibCheck": true
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "resolveJsonModule": true,
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true
     },
-    "include": ["seed.ts"]
+    "include": ["seed.ts"],
+    "exclude": ["node_modules", "src"]
   }

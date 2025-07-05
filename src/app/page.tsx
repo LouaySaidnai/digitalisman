@@ -1,7 +1,6 @@
 "use client";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from 'next/navigation'
-import { useEffect } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import './globals.css';
 import { ArrowRight, CheckCircle, Users, User } from 'lucide-react';
@@ -27,12 +26,12 @@ const produits = [
     icon: <FaBoxes className="text-white text-6xl" />,
     title: "Premiers clients, 3+3+3",
     color: "from-[#A8875E] to-[#C8B48E]",
-    desc: "Testez 3 offres sur 3 canaux pour décrocher vos premiers clients en moins d’un mois.",
+    desc: "Testez 3 offres sur 3 canaux pour décrocher vos premiers clients en moins d'un mois.",
     link: "#"
   },
   {
     icon: <FaUserCheck className="text-white text-6xl" />,
-    title: "Le Produit, c’est Vous",
+    title: "Le Produit, c'est Vous",
     color: "from-[#7A5230] to-[#B8A96E]",
     desc: "Transformez votre parcours en catalogue de prestations rentables et faciles à vendre.",
     link: "#"
@@ -40,8 +39,19 @@ const produits = [
 ];
 export default function Home() {
   const router = useRouter();
+  const floatRef = useRef<HTMLImageElement | null>(null);
+
+  // For floating dots
+  const [dotStyles, setDotStyles] = useState([
+    { left: "50%", top: "50%", animationDelay: "0s" },
+    { left: "60%", top: "60%", animationDelay: "1s" },
+    { left: "70%", top: "70%", animationDelay: "2s" },
+  ]);
+
   useEffect(() => {
-    const floatAnimation = document.querySelector(".floating");
+    if (typeof window === 'undefined') return;
+    // Animate floating image
+    const floatAnimation = floatRef.current;
     if (floatAnimation) {
       floatAnimation.animate(
         [
@@ -56,7 +66,24 @@ export default function Home() {
         }
       );
     }
-
+    // Set random positions for dots (client only)
+    setDotStyles([
+      {
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        animationDelay: `${Math.random() * 3}s`,
+      },
+      {
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        animationDelay: `${Math.random() * 3}s`,
+      },
+      {
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+        animationDelay: `${Math.random() * 3}s`,
+      },
+    ]);
   }, []);
 
   return (
@@ -78,7 +105,7 @@ Donnez une nouvelle direction à votre parcours
   </span>
 </h1>
 <p className="text-xl mb-8 max-w-lg text-[#5C3A00]">
-Clarification stratégique, validation de votre idée, offres sur-mesure : tout ce qu’il faut pour bâtir une activité cohérente, rentable et fidèle à votre identité!
+Clarification stratégique, validation de votre idée, offres sur-mesure : tout ce qu'il faut pour bâtir une activité cohérente, rentable et fidèle à votre identité!
 </p>
 <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
  <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
@@ -104,6 +131,7 @@ Clarification stratégique, validation de votre idée, offres sur-mesure : tout 
                 <div className="absolute -top-10 -left-10 w-32 h-32 bg-pink-500 rounded-full filter blur-3xl opacity-30" />
                 <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-blue-500 rounded-full filter blur-3xl opacity-30" />
                 <img
+                  ref={floatRef}
                   src="/images/houta.png"
                   alt="Laurent Hanout"
                   width={612}
@@ -124,7 +152,7 @@ Clarification stratégique, validation de votre idée, offres sur-mesure : tout 
             Aperçu des produits phares
           </span>
           <h2 className="text-4xl font-bold text-[#4B2E05] mt-2 leading-tight">
-            Lancer votre projet, c’est simple quand on a les bons outils
+            Lancer votre projet, c'est simple quand on a les bons outils
           </h2>
           <p className="text-[#5C3A00] mt-4 text-lg">
             Découvrez nos programmes conçus spécialement pour les entrepreneurs expérimentés.
@@ -153,7 +181,7 @@ Clarification stratégique, validation de votre idée, offres sur-mesure : tout 
         {/* Voir tous les produits button */}
         <div className="flex justify-end mt-10">
           <a
-            href="/produits"
+            href="/products"
             className="bg-gradient-to-r from-[#7A5230] to-[#B9986F] text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:from-[#8B603A] hover:to-[#D6C4A2] transition-all flex items-center"
           >
             Voir tous les produits <FaArrowRight className="ml-3" />
@@ -462,6 +490,13 @@ au sein de l'UTICA
 
       {/* Floating Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {dotStyles.map((style, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-white/20 rounded-full"
+            style={style}
+          />
+        ))}
         <div className="absolute top-20 left-10 w-4 h-4 bg-amber-400 rounded-full opacity-40 animate-bounce" style={{ animationDelay: '0s' }}></div>
         <div className="absolute top-40 right-20 w-3 h-3 bg-yellow-500 rounded-full opacity-50 animate-bounce" style={{ animationDelay: '1s' }}></div>
         <div className="absolute bottom-40 left-1/4 w-2 h-2 bg-amber-500 rounded-full opacity-60 animate-bounce" style={{ animationDelay: '2s' }}></div>
@@ -517,10 +552,7 @@ au sein de l'UTICA
           />
         </div>
         <div className="Marquee-tag w-52 mx-2 p-2 inline-flex items-center justify-center transition-all duration-900 ease-in-out hover:scale-110">
-          <img
-            alt=""
-            srcSet=""
-          />
+          {/* Removed empty image to fix warning */}
         </div>
       </div>
     </div>

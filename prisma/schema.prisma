@@ -13,50 +13,72 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
-
 model Produit {
-  id                      Int      @id @default(autoincrement())
-  nom                     String
-  description             String
-  livrable                String
-  prix                    String
-  slug                    String   @unique
-  imageHero               String?
-  videoUrl                String?
-  imageProblemes          String?
-  gifSolution             String?
-  sousTitre               String?
-  conceptFondateur        String?
-  cible                   String?
-  problemeResolu          String?
-  niveauPriorite          Int?
-  contenu                 String?
-  processus               String?
-  duree                   String?
-  prixOriginal            String?
-  optionsTarification     Json?
-  garantie                String?
-  conditionsPaiement      String?
-  preuves                 String?
-  temoignages             String?
-  resultatsAttendus       String?
-  differenciation         String?
-  avantagesCompetitifs    String?
-  integrationEcosysteme   String?
-  entonnoirNaturel        String?
-  argumentsCommerciaux    String?
-  urgence                 String?
-  exemplesConcrets        String?
-  casPratiques            String?
-  livrablesDetailles      String?
-  supportsInclus          String?
-  faq                     Json?
-  objectionsAnticipees    String?
-  statut                  String   @default("actif")
-  dateCreation            DateTime @default(now())
-  dateModification        DateTime
-  
-  @@map("Produit") // This tells Prisma to use the "Produit" table name
+  id                    Int      @id @default(autoincrement())
+  nom                   String
+  description           String
+  livrable              String
+  prix                  String   // prix affiché (ex: "1990€")
+
+  // Médias (Hero Section)
+  slug                  String   @unique
+  imageHero             String?  // Image affichée sur la page (ex: "/images/expert.jpg")
+  videoUrl              String?  // Lien vidéo témoignage (ex: "/videos/temoignage-pierre.mp4")
+  imageProblemes        String?  // Image pour la section "Problème Douloureux"
+  gifSolution           String?  // GIF animé pour la section "Solution"
+
+  sousTitre             String?  // Ex: "Transformer un parcours professionnel en catalogue de prestations vendables"
+  conceptFondateur      String? // Problème central + solution
+
+  // Ciblage et positionnement
+  cible                 String?
+  problemeResolu        String?
+  niveauPriorite        Int?     // ex: 1 (urgent), 2 (moyen), 3 (complémentaire)
+
+  // Contenu et processus
+  contenu               String? // Contenu détaillé du programme
+  processus             String? // Étapes du processus (sous forme de tableau ou JSON)
+  duree                 String?  // "3 semaines", "60 minutes", etc.
+
+  // Tarification et garanties
+  prixOriginal          String?  // Prix barré s’il y a une promo
+  optionsTarification   Json?    // → meilleur type que Text (ex: { "Cartographie": "495€", ... })
+  garantie              String?  // "Satisfait ou remboursé 30 jours"
+  conditionsPaiement    String?  // "3x sans frais"
+
+  // Preuves sociales et résultats
+  preuves               String?
+  temoignages           String?
+  resultatsAttendus     String?
+
+  // Différenciation
+  differenciation       String? // Tableau comparatif ou texte
+  avantagesCompetitifs  String?
+
+  // Intégration dans l'écosystème
+  integrationEcosysteme String?
+  entonnoirNaturel      String?  // Nom du produit précédent dans l'entonnoir
+
+  // Arguments de vente
+  argumentsCommerciaux  String?
+  urgence               String?  // ex: "Offre limitée à 10 places/mois"
+
+  // Exemples sectoriels
+  exemplesConcrets      String?
+  casPratiques          String?
+
+  // Livrables
+  livrablesDetailles    String?
+  supportsInclus        String?
+
+  // FAQ
+  faq                   Json?    // Format structuré (question-réponse)
+  objectionsAnticipees  String?
+
+  // Métadonnées
+  statut                String   @default("actif")
+  dateCreation          DateTime @default(now())
+  dateModification      DateTime @updatedAt
 }
 model TestResult {
   id          Int      @id @default(autoincrement())
