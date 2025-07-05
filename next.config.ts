@@ -1,11 +1,10 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint :{
-    ignoreDuringBuilds: true,
+  experimental: {
+    // Supprimer serverComponentsExternalPackages
+    // serverComponentsExternalPackages: ['@prisma/client']
   },
-  images: {
-    domains: ['media.istockphoto.com'],  // ajoute ce domaine ici
-  },
+  serverExternalPackages: ['@prisma/client'] // ← Nouvelle syntaxe
 }
-export default nextConfig;
-module.exports = nextConfig;
+
+module.exports = nextConfig

@@ -124,6 +124,24 @@ const handleAnswer = (value: 'vrai' | 'faux') => {
     setShowResults(true);
     setPersonalityType(resultType);
   };
+const handleSubmit = async () => {
+  const userId = 123; // tu peux générer un ID unique ou lier à l’utilisateur connecté
+  const response = await fetch('/api/save', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      userId,
+      answers,
+      personality: personalityType,
+    }),
+  });
+
+  const data = await response.json();
+  console.log(data);
+};
+
 
   const getPersonalityType = () => {
     const personalityDescriptions: Record<string, PersonalityType> = {
@@ -358,18 +376,26 @@ interface PersonalityType {
             </div>
 
             <div className="text-center">
-              <button
-                onClick={() => {
-                  setCurrentStep('intro');
-                  setCurrentQuestion(0);
-                  setAnswers({});
-                  setShowResults(false);
-                }}
-                className="bg-gradient-to-r from-yellow-400 to-orange-500 text-green-900 px-8 py-4 rounded-xl font-bold text-lg hover:from-yellow-300 hover:to-orange-400 transform hover:scale-105 transition-all duration-200 shadow-lg"
-              >
-                Refaire le Test
-              </button>
-            </div>
+  <button
+    onClick={handleSubmit}
+    className="bg-yellow-400 text-purple-900 px-6 py-3 rounded font-bold mb-4"
+  >
+    Enregistrer mes réponses
+  </button>
+
+  <button
+    onClick={() => {
+      setCurrentStep('intro');
+      setCurrentQuestion(0);
+      setAnswers({});
+      setShowResults(false);
+    }}
+    className="bg-gradient-to-r from-yellow-400 to-orange-500 text-green-900 px-8 py-4 rounded-xl font-bold text-lg hover:from-yellow-300 hover:to-orange-400 transform hover:scale-105 transition-all duration-200 shadow-lg"
+  >
+    Refaire le Test
+  </button>
+</div>
+
           </div>
         </div>
       </div>
