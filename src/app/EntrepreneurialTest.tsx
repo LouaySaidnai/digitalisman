@@ -148,98 +148,286 @@ const handleSubmit = async () => {
       ISTJ: { 
     type: 'ISTJ', 
     description: 'Manques de compétences, temps, trésorerie, différenciation', 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      'Méthodique et organisé - vous excellez dans la planification et l\'exécution',
+      'Fiable et responsable - vos clients peuvent compter sur vous',
+      'Pragmatique - vous préférez les solutions concrètes et testées',
+      'Analytique - vous prenez des décisions basées sur les faits',
+      'Persévérant - vous terminez ce que vous commencez',
+      'Détail-orienté - vous ne laissez rien au hasard'
+    ], 
+    recommendations: [
+      '**1 heure de ping-pong** - Coaching express pour identifier vos blocages et obtenir un plan d\'action concret (gain de temps et clarté)',
+      '**Kit IA gratuit** - Automatisez vos tâches répétitives pour gagner du temps sans investissement',
+      '**Audit 720°** - Analyse complète pour identifier vos forces et faiblesses (vision claire de vos atouts)',
+      '**Le Produit, C\'est Vous** - Structuration méthodique de votre expertise en business model stable'
+    ]
   },
   ISFP: { 
     type: 'ISFP', 
     description: 'Manques de confiance, soutien, réseau, sécurité, motivation', 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      'Créatif et artistique - vous avez un sens esthétique unique',
+      'Sensible aux besoins des autres - vous comprenez intuitivement vos clients',
+      'Flexible et adaptable - vous vous ajustez facilement aux changements',
+      'Pratique et concret - vous préférez l\'action à la théorie',
+      'Loyal et dévoué - vous vous engagez profondément dans vos projets',
+      'Observateur - vous remarquez les détails que d\'autres manquent'
+    ], 
+    recommendations: [
+      '**Le Produit, C\'est Vous** - Transformez votre créativité en services vendables avec votre sens esthétique unique',
+      '**Devenir Mentor en Afrique** - Développez votre réseau et partagez votre expertise créative',
+      '**1 heure de ping-pong** - Clarifiez votre vision et identifiez vos blocages créatifs',
+      '**Audit 720°** - Découvrez comment monétiser vos talents artistiques et créatifs'
+    ]
   },
   ESFP: { 
     type: 'ESFP', 
     description: 'Manques de confiance, soutien, réseau, sécurité, visibilité', 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      'Sociable et charismatique - vous créez facilement des connexions',
+      'Optimiste et énergique - vous motivez naturellement les autres',
+      'Pragmatique et adaptable - vous trouvez des solutions créatives',
+      'Sensible aux autres - vous comprenez les besoins de vos clients',
+      'Spontané et flexible - vous vous adaptez rapidement aux situations',
+      'Créatif et artistique - vous apportez une touche unique à vos projets'
+    ], 
+    recommendations: [
+      '**Devenir Mentor en Afrique** - Exploitez votre charisme naturel pour développer votre réseau et votre visibilité',
+      '**1 heure de ping-pong** - Clarifiez votre vision et identifiez vos blocages avec votre énergie positive',
+      '**Audit 720°** - Découvrez comment maximiser votre impact social et créatif',
+      '**Kit IA gratuit** - Automatisez vos tâches pour vous concentrer sur vos relations clients'
+    ]
   },
   INFJ: { 
     type: 'INFJ', 
     description: 'Manques de motivation, partenaires, valeur ajoutée, financement, compétences', 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      'Visionnaire et intuitif - vous voyez les possibilités cachées',
+      'Empathique et compréhensif - vous connectez profondément avec les autres',
+      'Idealiste et inspirant - vous motivez les autres par votre vision',
+      'Analytique et perspicace - vous comprenez les dynamiques complexes',
+      'Créatif et innovant - vous trouvez des solutions uniques',
+      'Déterminé et persévérant - vous poursuivez vos idéaux avec passion'
+    ], 
+    recommendations: [
+      '**Devenir Mentor en Afrique** - Partagez votre vision et inspirez les autres avec votre empathie naturelle',
+      '**Le Produit, C\'est Vous** - Transformez votre vision en business model qui impacte positivement',
+      '**1 heure de ping-pong** - Clarifiez votre mission et identifiez vos blocages avec votre intuition',
+      '**Audit 720°** - Découvrez comment aligner votre business avec vos valeurs profondes'
+    ]
   },
   INFP: { 
     type: 'INFP', 
     description: 'Manques de motivation, partenaires, valeur ajoutée, financement, confiance', 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      'Créatif et imaginatif - vous avez une vision artistique unique',
+      'Idealiste et authentique - vous restez fidèle à vos valeurs',
+      'Empathique et compréhensif - vous connectez profondément avec les autres',
+      'Flexible et adaptable - vous vous ajustez aux changements avec grâce',
+      'Passionné et dévoué - vous vous engagez pleinement dans ce qui vous inspire',
+      'Intuitif et perspicace - vous comprenez les motivations profondes'
+    ], 
+    recommendations: [
+      '**Le Produit, C\'est Vous** - Transformez votre créativité et vos valeurs en business authentique',
+      '**Devenir Mentor en Afrique** - Partagez votre passion et inspirez les autres avec votre authenticité',
+      '**1 heure de ping-pong** - Clarifiez votre mission et renforcez votre confiance en vous',
+      '**Audit 720°** - Découvrez comment aligner votre business avec vos valeurs profondes'
+    ]
   },
   ENFP: { 
     type: 'ENFP', 
     description: 'Manques de motivation, partenaires, valeur ajoutée, financement, notoriété', 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      'Enthousiaste et inspirant - vous motivez naturellement les autres',
+      'Créatif et innovant - vous voyez des possibilités partout',
+      'Sociable et charismatique - vous créez facilement des connexions',
+      'Adaptable et flexible - vous vous ajustez rapidement aux changements',
+      'Passionné et authentique - vous inspirez par votre enthousiasme',
+      'Intuitif et perspicace - vous comprenez les motivations des autres'
+    ], 
+    recommendations: [
+      '**Devenir Mentor en Afrique** - Exploitez votre charisme naturel pour développer votre notoriété et votre réseau',
+      '**Le Produit, C\'est Vous** - Transformez votre créativité et votre enthousiasme en business innovant',
+      '**1 heure de ping-pong** - Clarifiez votre vision et canalisez votre énergie créative',
+      '**Audit 720°** - Découvrez comment maximiser votre impact et votre visibilité'
+    ]
   },
   ENFJ: { 
     type: 'ENFJ', 
     description: 'Manques de motivation, partenaires, valeur ajoutée, financement, visibilité', 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      'Leadership naturel et inspirant - vous motivez les autres à exceller',
+      'Empathique et compréhensif - vous connectez profondément avec les autres',
+      'Organisé et responsable - vous créez des structures qui fonctionnent',
+      'Charismatique et persuasif - vous influencez positivement les autres',
+      'Altruiste et dévoué - vous vous engagez pour le bien-être des autres',
+      'Visionnaire et stratégique - vous voyez le potentiel chez les autres'
+    ], 
+    recommendations: [
+      '**Devenir Mentor en Afrique** - Exploitez votre leadership naturel pour développer votre visibilité et votre réseau',
+      '**Le Produit, C\'est Vous** - Transformez votre capacité à inspirer en business model impactant',
+      '**1 heure de ping-pong** - Clarifiez votre mission et identifiez vos blocages de leadership',
+      '**Audit 720°** - Découvrez comment maximiser votre impact et votre influence'
+    ]
   },
   ESTJ: { 
     type: 'ESTJ', 
     description: 'Manques de réglementation, compétences, temps, trésorerie, visibilité', 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      "Leadership naturel",
+      "Efficacité organisationnelle",
+      "Pragmatisme et réalisme"
+    ], 
+    recommendations: [
+      "Se former sur les réglementations spécifiques à votre secteur",
+      "Déléguer certaines tâches pour gagner du temps",
+      "Investir dans la visibilité de votre entreprise"
+    ] 
   },
   ESFJ: { 
     type: 'ESFJ', 
     description: 'Manques de soutien, réseau, visibilité, sécurité', 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      'Sociable et coopératif - vous créez facilement des relations harmonieuses',
+      'Responsable et fiable - vous tenez vos engagements',
+      'Organisé et pratique - vous créez des structures qui fonctionnent',
+      'Empathique et attentionné - vous prenez soin des besoins des autres',
+      'Loyal et dévoué - vous vous engagez pleinement dans vos relations',
+      'Traditionnel et stable - vous apportez de la sécurité aux autres'
+    ], 
+    recommendations: [
+      '**Devenir Mentor en Afrique** - Développez votre réseau et partagez votre expertise avec votre approche coopérative',
+      '**Audit 720°** - Analysez votre situation pour créer un business model stable et sécurisé',
+      '**1 heure de ping-pong** - Clarifiez votre vision et identifiez vos besoins de soutien',
+      '**Le Produit, C\'est Vous** - Structurez votre expertise en services fiables et durables'
+    ]
   },
   ISFJ: { 
     type: 'ISFJ', 
     description: 'Manques de soutien, réseau, visibilité, sécurité, confiance', 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      'Fiable et dévoué - vous tenez vos engagements avec loyauté',
+      'Pratique et organisé - vous créez des systèmes qui fonctionnent',
+      'Empathique et attentionné - vous comprenez les besoins des autres',
+      'Patient et persévérant - vous travaillez dur pour atteindre vos objectifs',
+      'Observateur et détail-orienté - vous ne manquez rien d\'important',
+      'Stable et traditionnel - vous apportez de la sécurité et de la cohérence'
+    ], 
+    recommendations: [
+      '**Audit 720°** - Analysez votre situation pour renforcer votre confiance et créer un business stable',
+      '**1 heure de ping-pong** - Clarifiez votre vision et identifiez vos blocages de confiance',
+      '**Le Produit, C\'est Vous** - Structurez votre expertise en services fiables et durables',
+      '**Devenir Mentor en Afrique** - Développez votre réseau progressivement avec votre approche patiente'
+    ]
   },
   ISTP: { 
     type: 'ISTP', 
     description: 'Manques de temps, financement, compétences, visibilité', 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      'Pragmatique et logique - vous trouvez des solutions pratiques',
+      'Flexible et adaptable - vous vous ajustez rapidement aux changements',
+      'Observateur et analytique - vous analysez les situations avec précision',
+      'Indépendant et autonome - vous travaillez efficacement seul',
+      'Calme et rationnel - vous gardez votre sang-froid sous pression',
+      'Technique et compétent - vous maîtrisez rapidement les outils'
+    ], 
+    recommendations: [
+      '**Kit IA gratuit** - Automatisez vos tâches pour gagner du temps et vous concentrer sur vos compétences techniques',
+      '**1 heure de ping-pong** - Identifiez rapidement vos blocages et obtenez un plan d\'action concret',
+      '**Audit 720°** - Analysez votre situation pour optimiser votre efficacité et votre visibilité',
+      '**Le Produit, C\'est Vous** - Structurez vos compétences techniques en services vendables'
+    ]
   },
   ESTP: { 
     type: 'ESTP', 
     description: 'Manques de temps, financement, compétences, visibilité', 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      'Energique et dynamique - vous agissez rapidement et efficacement',
+      'Pragmatique et réaliste - vous trouvez des solutions concrètes',
+      'Sociable et charismatique - vous créez facilement des connexions',
+      'Flexible et adaptable - vous vous ajustez rapidement aux situations',
+      'Observateur et perspicace - vous lisez rapidement les situations',
+      'Spontané et audacieux - vous prenez des risques calculés'
+    ], 
+    recommendations: [
+      '**1 heure de ping-pong** - Identifiez rapidement vos blocages et obtenez un plan d\'action immédiat',
+      '**Kit IA gratuit** - Automatisez vos tâches pour maximiser votre efficacité et votre dynamisme',
+      '**Audit 720°** - Analysez votre situation pour optimiser votre visibilité et votre impact',
+      '**Le Produit, C\'est Vous** - Structurez votre dynamisme en business model performant'
+    ]
   },
   INTJ: { 
     type: 'INTJ', 
     description: "Manques d'innovation, d'adaptation, de notoriété, différenciation, trésorerie", 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      'Stratégique et visionnaire - vous planifiez à long terme avec précision',
+      'Analytique et logique - vous analysez les situations avec rigueur',
+      'Indépendant et autonome - vous travaillez efficacement seul',
+      'Innovateur et créatif - vous trouvez des solutions uniques',
+      'Déterminé et persévérant - vous poursuivez vos objectifs avec ténacité',
+      'Intellectuel et curieux - vous cherchez constamment à apprendre'
+    ], 
+    recommendations: [
+      '**Audit 720°** - Analysez votre situation stratégique pour identifier vos opportunités d\'innovation',
+      '**Le Produit, C\'est Vous** - Structurez votre expertise intellectuelle en business model innovant',
+      '**1 heure de ping-pong** - Clarifiez votre vision stratégique et identifiez vos blocages d\'adaptation',
+      '**Devenir Mentor en Afrique** - Développez votre notoriété en partageant votre expertise stratégique'
+    ]
   },
   INTP: { 
     type: 'INTP', 
     description: "Manques d'innovation, d'adaptation, notoriété, différenciation, compétences", 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      'Analytique et logique - vous analysez les problèmes avec précision',
+      'Innovateur et créatif - vous trouvez des solutions uniques',
+      'Intellectuel et curieux - vous cherchez constamment à comprendre',
+      'Indépendant et autonome - vous travaillez efficacement seul',
+      'Flexible et adaptable - vous vous ajustez aux nouvelles idées',
+      'Objectif et impartial - vous évaluez les situations sans préjugés'
+    ], 
+    recommendations: [
+      '**Audit 720°** - Analysez votre situation pour identifier vos opportunités d\'innovation et de différenciation',
+      '**Le Produit, C\'est Vous** - Structurez votre expertise intellectuelle en business model innovant',
+      '**1 heure de ping-pong** - Clarifiez votre vision et identifiez vos blocages d\'adaptation',
+      '**Devenir Mentor en Afrique** - Développez votre notoriété en partageant votre expertise analytique'
+    ]
   },
   ENTP: { 
     type: 'ENTP', 
     description: "Manques d'innovation, d'adaptation, notoriété, différenciation, financement", 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      'Innovateur et créatif - vous voyez des possibilités partout',
+      'Analytique et logique - vous analysez les situations avec rigueur',
+      'Sociable et charismatique - vous créez facilement des connexions',
+      'Flexible et adaptable - vous vous ajustez rapidement aux changements',
+      'Energique et dynamique - vous inspirez les autres par votre enthousiasme',
+      'Stratégique et visionnaire - vous planifiez à long terme'
+    ], 
+    recommendations: [
+      '**Audit 720°** - Analysez votre situation pour identifier vos opportunités d\'innovation et de différenciation',
+      '**Le Produit, C\'est Vous** - Structurez votre créativité en business model innovant',
+      '**Devenir Mentor en Afrique** - Développez votre notoriété en partageant votre expertise innovante',
+      '**1 heure de ping-pong** - Clarifiez votre vision et canalisez votre énergie créative'
+    ]
   },
   ENTJ: { 
     type: 'ENTJ', 
     description: "Manques d'innovation, d'adaptation, notoriété, différenciation, trésorerie", 
-    strengths: [], 
-    recommendations: [] 
+    strengths: [
+      'Leadership naturel et charismatique - vous inspirez et motivez les autres',
+      'Stratégique et visionnaire - vous planifiez à long terme avec précision',
+      'Analytique et logique - vous prenez des décisions basées sur les faits',
+      'Déterminé et persévérant - vous poursuivez vos objectifs avec ténacité',
+      'Organisé et efficace - vous créez des systèmes qui fonctionnent',
+      'Confiant et direct - vous communiquez clairement vos attentes'
+    ], 
+    recommendations: [
+      '**Audit 720°** - Analysez votre situation stratégique pour identifier vos opportunités d\'innovation',
+      '**Le Produit, C\'est Vous** - Structurez votre leadership en business model performant',
+      '**Devenir Mentor en Afrique** - Développez votre notoriété en partageant votre expertise de leadership',
+      '**1 heure de ping-pong** - Clarifiez votre vision stratégique et identifiez vos blocages d\'adaptation'
+    ]
   }
     };
     
@@ -325,49 +513,48 @@ interface PersonalityType {
       </div>
     );
   }
-
   if (showResults) {
     const personality = getPersonalityType();
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-900 via-emerald-900 to-teal-900 text-white">
+      <div className="min-h-screen bg-[#f5f5dc] text-gray-800"> {/* Changement de couleur en beige */}
         <div className="container mx-auto px-6 py-12">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
-              <div className="w-24 h-24 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Trophy className="w-12 h-12 text-green-900" />
+              <div className="w-24 h-24 bg-amber-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Trophy className="w-12 h-12 text-white" />
               </div>
-              <h1 className="text-4xl font-bold mb-4">Votre Profil Entrepreneurial</h1>
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20">
-                <h2 className="text-3xl font-bold text-yellow-400 mb-4">{personality.type}</h2>
-                <p className="text-xl text-green-100">{personality.description}</p>
+              <h1 className="text-4xl font-bold mb-4 text-gray-800">Votre Profil Entrepreneurial</h1>
+              <div className="bg-white rounded-xl p-8 border border-amber-200 shadow-md">
+                <h2 className="text-3xl font-bold text-amber-600 mb-4">{personality.type}</h2>
+                <p className="text-xl text-gray-700">{personality.description}</p>
               </div>
             </div>
 
             <div className="grid md:grid-cols-2 gap-8 mb-12">
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                <h3 className="text-xl font-bold mb-4 flex items-center">
-                  <TrendingUp className="w-6 h-6 mr-2 text-yellow-400" />
+              <div className="bg-white rounded-xl p-6 border border-amber-200 shadow-md">
+                <h3 className="text-xl font-bold mb-4 flex items-center text-gray-800">
+                  <TrendingUp className="w-6 h-6 mr-2 text-amber-600" />
                   Vos Forces Principales
                 </h3>
                 <ul className="space-y-2">
                   {personality.strengths.map((strength, index) => (
-                    <li key={index} className="flex items-center">
-                      <CheckCircle className="w-5 h-5 text-yellow-400 mr-2" />
+                    <li key={index} className="flex items-center text-gray-700">
+                      <CheckCircle className="w-5 h-5 text-amber-600 mr-2" />
                       {strength}
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                <h3 className="text-xl font-bold mb-4 flex items-center">
-                  <Lightbulb className="w-6 h-6 mr-2 text-yellow-400" />
+              <div className="bg-white rounded-xl p-6 border border-amber-200 shadow-md">
+                <h3 className="text-xl font-bold mb-4 flex items-center text-gray-800">
+                  <Lightbulb className="w-6 h-6 mr-2 text-amber-600" />
                   Recommandations
                 </h3>
                 <ul className="space-y-2">
                   {personality.recommendations.map((rec, index) => (
-                    <li key={index} className="flex items-start">
-                      <Zap className="w-5 h-5 text-yellow-400 mr-2 mt-0.5" />
+                    <li key={index} className="flex items-start text-gray-700">
+                      <Zap className="w-5 h-5 text-amber-600 mr-2 mt-0.5" />
                       {rec}
                     </li>
                   ))}
@@ -376,26 +563,25 @@ interface PersonalityType {
             </div>
 
             <div className="text-center">
-  <button
-    onClick={handleSubmit}
-    className="bg-yellow-400 text-purple-900 px-6 py-3 rounded font-bold mb-4"
-  >
-    Enregistrer mes réponses
-  </button>
+              <button
+                onClick={handleSubmit}
+                className="bg-amber-600 text-white px-6 py-3 rounded font-bold mb-4 hover:bg-amber-700 transition-colors"
+              >
+                Enregistrer mes réponses
+              </button>
 
-  <button
-    onClick={() => {
-      setCurrentStep('intro');
-      setCurrentQuestion(0);
-      setAnswers({});
-      setShowResults(false);
-    }}
-    className="bg-gradient-to-r from-yellow-400 to-orange-500 text-green-900 px-8 py-4 rounded-xl font-bold text-lg hover:from-yellow-300 hover:to-orange-400 transform hover:scale-105 transition-all duration-200 shadow-lg"
-  >
-    Refaire le Test
-  </button>
-</div>
-
+              <button
+                onClick={() => {
+                  setCurrentStep('intro');
+                  setCurrentQuestion(0);
+                  setAnswers({});
+                  setShowResults(false);
+                }}
+                className="bg-gradient-to-r from-amber-500 to-amber-700 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-amber-400 hover:to-amber-600 transform hover:scale-105 transition-all duration-200 shadow-lg"
+              >
+                Refaire le Test
+              </button>
+            </div>
           </div>
         </div>
       </div>

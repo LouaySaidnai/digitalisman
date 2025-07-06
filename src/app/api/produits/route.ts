@@ -11,9 +11,10 @@ export async function GET(request: NextRequest) {
         id: true,
         nom: true,
         slug: true,
-        description: true,
-        livrable: true,
-        prix: true
+        sousTitre: true,
+        prix: true,
+        contenu: true,
+        livrablesDetailles: true
       }
     })
 

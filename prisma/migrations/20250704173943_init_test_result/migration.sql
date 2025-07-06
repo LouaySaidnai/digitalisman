@@ -5,6 +5,8 @@ Warnings:
 
 */
 -- DropTable
+DROP TABLE IF EXISTS `Produit`;
+
 CREATE TABLE `Produit` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nom` VARCHAR(191) NOT NULL,
