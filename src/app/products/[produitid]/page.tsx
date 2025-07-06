@@ -1,9 +1,55 @@
 'use client'
 
-import { useEffect, useState, use } from 'react'
-import { PrismaClient } from '@/generated/prisma'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { FaArrowLeft, FaCheckCircle, FaStar, FaArrowRight, FaPlay, FaClock, FaUsers, FaShieldAlt, FaImage, FaVideo, FaGift, FaExclamationTriangle, FaPlus } from 'react-icons/fa'
+
+// Fonction pour formater le prix
+function formatPrix(prix: any): string {
+  if (!prix) return 'Prix sur demande';
+  
+  // Si c'est une string, on essaie de la parser comme JSON
+  if (typeof prix === 'string') {
+    try {
+      const parsedPrix = JSON.parse(prix);
+      // Maintenant on traite l'objet parsé
+      if (parsedPrix.format) return parsedPrix.format;
+      if (parsedPrix.original) return parsedPrix.original;
+      if (parsedPrix.montant && parsedPrix.devise) {
+        return `${parsedPrix.montant} ${parsedPrix.devise}`;
+      }
+      if (parsedPrix.montant) {
+        return `${parsedPrix.montant}€`;
+      }
+      // Si on a des clés comme "Atelier", "Programme", etc.
+      const keys = Object.keys(parsedPrix);
+      if (keys.length > 0) {
+        return parsedPrix[keys[0]]; // Retourne la première valeur
+      }
+    } catch (e) {
+      // Si ce n'est pas du JSON valide, on retourne la string telle quelle
+      return prix;
+    }
+  }
+  
+  // Si c'est un objet (cas rare mais possible)
+  if (typeof prix === 'object') {
+    if (prix.format) return prix.format;
+    if (prix.original) return prix.original;
+    if (prix.montant && prix.devise) {
+      return `${prix.montant} ${prix.devise}`;
+    }
+    if (prix.montant) {
+      return `${prix.montant}€`;
+    }
+    const keys = Object.keys(prix);
+    if (keys.length > 0) {
+      return prix[keys[0]];
+    }
+  }
+  
+  return 'Prix sur demande';
+}
 
 interface Produit {
   id: number
@@ -49,13 +95,20 @@ interface Produit {
   gifSolution?: string
 }
 
-export default function ProduitDetail({ params }: { params: Promise<{ produitid: string }> }) {
-  const { produitid } = use(params)
+export default function ProduitDetail({ params }: { params: { produitid: string } }) {
+  const { produitid } = params
   const [produit, setProduit] = useState<Produit | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
     const fetchProduit = async () => {
       try {
         const response = await fetch(`/api/produits/${produitid}`)
@@ -72,7 +125,18 @@ export default function ProduitDetail({ params }: { params: Promise<{ produitid:
     }
 
     fetchProduit()
-  }, [produitid])
+  }, [produitid, mounted])
+
+  if (!mounted) {
+    return (
+      <main className="min-h-screen bg-gradient-to-br from-[#f5ecd7] via-[#f3e6c4] to-[#e9dbc0] flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#7A5230] mx-auto"></div>
+          <p className="mt-4 text-[#5C3A00] text-xl">Chargement...</p>
+        </div>
+      </main>
+    )
+  }
 
   if (loading) {
     return (
@@ -389,7 +453,7 @@ export default function ProduitDetail({ params }: { params: Promise<{ produitid:
             ) : (
               <div className="bg-gradient-to-br from-[#f5ecd7] to-[#f3e6c4] rounded-3xl shadow-xl p-8 text-center">
                 <h3 className="text-2xl font-bold text-[#4B2E05] mb-4">Tarification</h3>
-                <p className="text-4xl font-bold text-[#7A5230]">{produit.prix}</p>
+                <p className="text-4xl font-bold text-[#7A5230]">{formatPrix(produit.prix)}</p>
               </div>
             )}
           </div>

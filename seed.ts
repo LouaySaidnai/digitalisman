@@ -3,409 +3,954 @@ import { PrismaClient } from './src/generated/prisma'
 const prisma = new PrismaClient()
 
 async function main() {
-  // Supprimer toutes les données existantes
-  await prisma.produit.deleteMany({})
-  
-  await prisma.produit.createMany({
-    data: [
-      {
-        nom: "Le Produit, C'est Vous",
-        slug: "produit-cest-vous",
-        sousTitre: "Transformer un parcours professionnel en catalogue de prestations vendables",
-        description: "Un parcours en 3 étapes pour 'produitiser' l'expertise des entrepreneurs 50+",
-        conceptFondateur: "Problème Central : Les entrepreneurs 50+ peinent à passer de 'vendre mes compétences' à 'commercialiser des produits structurés'. Solution : Un parcours en 3 étapes pour 'produitiser' l'expertise",
-        cible: "Entrepreneurs bloqués à 'Je ne sais pas quoi vendre' (Niveau 3), en ligne, par groupes de 8 pp. max",
-        problemeResolu: "Je suis coincé dans le piège du temps contre argent. Mes clients ne voient pas ma vraie valeur. Je ne sais pas comment standardiser mon expertise",
-        niveauPriorite: 1,
-        contenu: "1. Atelier 'Cartographie d'Expertise' (495 €) - Diagnostic : Bilan de compétences, Identification des 'dégoûts/attirances'. Livrables : Carte mentale des savoir-faire exploitables, Grille de priorisation 'Passion vs. Rentabilité vs. Demande', 3 idées de produits pré-packagés. 2. Programme 'Catalogue Clé-en-Main' (1 990 €) - Design produit : Packaging, Argumentaire client, Supports visuels, Relecture par panel de 5 prospects cibles, Modèles de contrats sectoriels. 3. Offre 'Usine à Produits Premium' (4 900 €) - Positionnement : Stratégie de pricing premium (x3 vs. marché), Narrative 'Votre parcours = garantie de résultats', Écosystème complet, Automation",
-        processus: "Étape 1 : Cartographie d'Expertise (Jour 1-7) - Audit des compétences exploitables, Session 2 : Packaging 3 offres clés (Jour 7-14), Session 3 : Scripts de vente sectoriels (Jour 14-21), Livraison : Page web vitrine + PDF commercial (Jour 21)",
-        duree: "3 mois",
-        prix: "495 € / 1 990 € / 4 900 €",
-        prixOriginal: null,
-        optionsTarification: {
-          cartographie: { prix: 495, nom: "Cartographie d'Expertise", duree: "1 jour" },
-          catalogue: { prix: 1990, nom: "Catalogue Clé-en-Main", duree: "3 semaines" },
-          usine: { prix: 4900, nom: "Usine à Produits Premium", duree: "3 mois" }
-        },
-        garantie: "Satisfait ou remboursé 30 jours",
-        conditionsPaiement: "3x sans frais pour les programmes > 1000€",
-        preuves: "Étude interne : 82% des clients augmentent leur CA de +40% en 6 mois",
-        temoignages: "Mon catalogue logistique me génère maintenant €15k/mois récurrents",
-        resultatsAttendus: "Vendez votre expérience 3x plus cher sans travailler plus, grâce à des offres standardisées et récurrentes",
-        differenciation: "Approche : Sur-mesure basé sur votre parcours vs Générique. Livrable : Catalogue opérationnel vs Conseils théoriques. Monétisation : Produits à marge élevée vs Heure facturée. Sectorisation : Intégration métier (logistique, santé, etc.) vs Absente",
-        avantagesCompetitifs: "Packaging de l'expertise pour mentorat/co-fondation, Automatisation de la vente des nouveaux produits",
-        integrationEcosysteme: "Avec l'Afrique : Packaging de l'expertise pour mentorat/co-fondation. Avec le digital : Automatisation de la vente des nouveaux produits",
-        imageHero: "/images/expert-50ans.jpg",
-        videoUrl: "/videos/temoignage-pierre.mp4",
-        imageProblemes: "/images/problemes-sectoriels.jpg",
-        gifSolution: "/images/animation-solution.gif",
-        entonnoirNaturel: "Test de profil → '1,2,3 soleil!' → 'Le Produit, C'est Vous'",
-        argumentsCommerciaux: "Vendez votre expérience 3x plus cher sans travailler plus, grâce à des offres standardisées et récurrentes",
-        urgence: "Offre limitée : 10 sessions/mois max",
-        exemplesConcrets: "Ex. pour un ex-directeur logistique : Produit 1 : Audit 'Réduction des coûts stockage', Produit 2 : Formation 'Transition énergétique flotte', Produit 3 : Conseil 'Optimisation douanière Afrique'",
-        casPratiques: "ancien pharmacien → 'Directeur Scientifique Indépendant' : Offre signature : 'Validation réglementaire cosmétiques (30j • €15k)', Produit d'appel : 'Quick Scan Formulation' (€990), Prestige : 'Accès annuel à [Sa Marque] Think Tank' (€7k/an)",
-        livrable: "Carte mentale des savoir-faire exploitables, Grille de priorisation, 3 idées de produits pré-packagés, Fiches produits, Présentation PDF, Page web dédiée, Modèles de contrats sectoriels, Site web vitrine, Page LinkedIn premium, Témoignages vidéo, Système de booking/paiement intégré, Sequences email pour relance prospects",
-        livrablesDetailles: "Carte mentale des savoir-faire exploitables, Grille de priorisation 'Passion vs. Rentabilité vs. Demande', 3 idées de produits pré-packagés, Fiches produits, Présentation PDF, Page web dédiée, Relecture par un panel de 5 prospects cibles, Modèles de contrats sectoriels, Site web vitrine, Page LinkedIn premium, Témoignages vidéo, Système de booking/paiement intégré, Sequences email pour relance prospects",
-        supportsInclus: "Templates de contrats sectoriels, Scripts de vente alignés sur les 'pain points' sectoriels, Système de booking/paiement intégré, Sequences email pour relance prospects",
-        faq: "Q: Je n'ai pas d'expertise spécifique, ça marche quand même ? R: Oui! 92% de nos clients découvrent 3 compétences monétisables lors de l'audit. Q: Puis-je payer en plusieurs fois ? R: Oui : 3x sans frais pour les programmes > 1000€",
-        objectionsAnticipees: "Objection : 'Je n'ai pas assez d'expérience' → Réponse : 'Votre parcours unique est votre plus grande force, pas un handicap'. Objection : 'C'est trop cher' → Réponse : 'Le ROI moyen est de 300% en 6 mois'",
-        statut: "actif"
+  console.log('🌱 Début du seeding...')
+
+  // Produit 1: Tchiquetchiquetchique AI AI AI !
+  const produit1 = await prisma.produit.upsert({
+    where: { slug: 'tchiquetchiquetchique-ai-ai-ai' },
+    update: {},
+    create: {
+      nom: 'Tchiquetchiquetchique AI AI AI !',
+      sousTitre: 'Kit de survie IA offert : 1 Webinaire + outils pour utiliser l\'IA dans son business sans tech.',
+      slug: 'tchiquetchiquetchique-ai-ai-ai',
+      
+      // Tarification
+      prix: {
+        original: '495€',
+        promo: 'Gratuit',
+        condition: 'Offert'
       },
-      {
-        nom: "Tchiquetchiquetchique AI AI AI !",
-        slug: "tchiquetchiquetchique-ai",
-        sousTitre: "Kit de survie IA offert pour entrepreneurs 50+",
-        description: "Webinaire découverte + outils pour utiliser l'IA dans son business sans tech",
-        conceptFondateur: "Problème : Les entrepreneurs 50+ ne maîtrisent pas l'IA et ça les paralyse. Solution : Kit de survie avec prompts magiques et outils gratuits",
-        cible: "Tous les entrepreneurs 50+ (surtout Digital Novice)",
-        problemeResolu: "Je ne maîtrise pas l'IA et ça me paralyse",
-        niveauPriorite: 3,
-        contenu: "Webinaire découverte (60 min) : '10 prompts magiques pour : ✓ Rédiger des emails clients, ✓ Analyser la concurrence, ✓ Générer des idées de produits'. Kit survie : Liste des 12 outils IA gratuits, 5 vidéos Loom 'Pas-à-pas', Template : 'Prompt parfait pour votre secteur'",
-        processus: "1. Inscription au webinaire gratuit, 2. Participation au webinaire live (60 min), 3. Accès au kit survie complet, 4. Intégration dans la communauté WhatsApp",
-        duree: "60 min + accès 90j",
-        prix: "Gratuit",
-        prixOriginal: null,
-        garantie: "100% gratuit, sans engagement",
-        conditionsPaiement: "Aucun paiement requis",
-        preuves: "De Jean-Marc, ex-commercial : 'J'ai amélioré de 80% ma prospection en 1 mois !'",
-        temoignages: "De Jean-Marc, ex-commercial : 'J'ai amélioré de 80% ma prospection en 1 mois !'",
-        resultatsAttendus: "Maîtrise des outils IA gratuits, Amélioration de 80% de la prospection, Automatisation des tâches répétitives",
-        differenciation: "Gratuit vs formations payantes, Focus entrepreneurs 50+ vs formations génériques, Outils gratuits vs solutions payantes",
-        avantagesCompetitifs: "100% gratuit, Spécialement conçu pour les 50+, Outils immédiatement utilisables",
-        integrationEcosysteme: "Entrée dans l'entonnoir de vente, Préparation pour les formations payantes",
-        entonnoirNaturel: "Première étape de l'entonnoir",
-        argumentsCommerciaux: "Découvrez gratuitement comment l'IA peut transformer votre business en 60 minutes",
-        urgence: "Webinaires limités à 50 participants",
-        exemplesConcrets: "Jean-Marc, ex-commercial : amélioration de 80% de sa prospection en 1 mois grâce aux prompts IA",
-        casPratiques: "Utilisation des prompts pour : Rédiger des emails clients, Analyser la concurrence, Générer des idées de produits",
-        livrable: "Support webinar, Liste de mes 12 favoris, 10 prompts, 5 Loom, Communauté WhatsApp",
-        livrablesDetailles: "Support webinar (60 min), Liste des 12 outils IA gratuits, 5 vidéos Loom 'Pas-à-pas', Template 'Prompt parfait pour votre secteur', PDF téléchargeable, Accès 90j à la communauté WhatsApp",
-        supportsInclus: "Liste des 12 outils IA gratuits, 5 vidéos Loom 'Pas-à-pas', Template 'Prompt parfait pour votre secteur'",
-        faq: "Q: Dois-je avoir des connaissances techniques ? R: Non, tout est expliqué pas-à-pas. Q: Les outils sont-ils vraiment gratuits ? R: Oui, nous ne recommandons que des outils 100% gratuits",
-        objectionsAnticipees: "Objection : 'L'IA va me remplacer' → Réponse : 'L'IA est un outil pour vous faire gagner du temps, pas vous remplacer'. Objection : 'C'est trop compliqué' → Réponse : 'Nous commençons par les bases les plus simples'",
-        statut: "actif"
+      prixOriginal: '495€',
+      
+      // Ciblage et positionnement
+      niveauPriorite: 3,
+      cible: 'Tous les entrepreneurs 50+ (surtout Digital Novice)',
+      conceptFondateur: 'Problème → Solution : "Je ne maîtrise pas l\'IA et ça me paralyse" (p.2 coaching digital négligé)',
+      
+      // Contenu et processus
+      contenu: `Webinaire découverte (60 min) :
+"10 prompts magiques pour :
+✓ Rédiger des emails clients
+✓ Analyser la concurrence
+✓ Générer des idées de produits"
+
+Kit survie :
+- Liste des 12 outils IA gratuits
+- 5 vidéos Loom "Pas-à-pas"
+- Template : "Prompt parfait pour votre secteur"`,
+      
+      processus: {
+        type: 'webinaire',
+        duree: '60 minutes',
+        etapes: [
+          'Webinaire découverte',
+          'Accès au kit survie',
+          'Accès à la communauté WhatsApp'
+        ]
       },
-      {
-        nom: "1 heure de ping-pong, sans les mains !",
-        slug: "1-heure-ping-pong",
-        sousTitre: "Audit express de votre projet via questionnaire préalable",
-        description: "1 heure de coaching ciblé pour percer 1 blocage stratégique",
-        conceptFondateur: "Problème : Besoin d'un avis expert rapide, pas d'un coaching long. Solution : Session express ciblée sur un objectif précis",
-        cible: "Opportunistes Agile en phase de test",
-        problemeResolu: "J'ai besoin d'un avis expert rapide, pas d'un coaching long",
-        niveauPriorite: 1,
-        contenu: "Audit express de votre projet via questionnaire préalable, 60 min de coaching ciblé : ✓ Percer 1 blocage stratégique, ✓ Valider 1 hypothèse marché, ✓ Obtenir 1 prochaine action claire",
-        processus: "1. Questionnaire préalable (15 min), 2. Session de coaching live (60 min), 3. Livraison des supports",
-        duree: "60 min",
-        prix: "149 €",
-        prixOriginal: null,
-        garantie: "Satisfait ou remboursé",
-        conditionsPaiement: "Paiement unique",
-        preuves: "Résultats immédiats sur un blocage spécifique",
-        temoignages: "Clients satisfaits de la rapidité et de l'efficacité",
-        resultatsAttendus: "1 blocage stratégique percé, 1 hypothèse marché validée, 1 prochaine action claire définie",
-        differenciation: "Session unique ciblée vs programmes longs, Focus sur l'action immédiate vs théorie",
-        avantagesCompetitifs: "Rapide, Efficace, Ciblé, Prix accessible",
-        integrationEcosysteme: "Première étape avant programmes plus longs",
-        entonnoirNaturel: "Test de l'accompagnement",
-        argumentsCommerciaux: "Si vous étiez sûr de ne pas vous planter, quelle serait votre prochaine action dans les 72h ?",
-        urgence: "Sessions limitées par semaine",
-        exemplesConcrets: "Validation d'une hypothèse marché en 60 min, Déblocage d'une situation stratégique",
-        casPratiques: "Script Type : 'Si vous étiez sûr de ne pas vous planter, quelle serait votre prochaine action dans les 72h ?'",
-        livrable: "Transcription de l'entretien, Enregistrement, Fiche 'Next Step'",
-        livrablesDetailles: "Transcription + enregistrement + fiche 'Next Step'",
-        supportsInclus: "Questionnaire préalable, Fiche 'Next Step'",
-        faq: "Q: Puis-je poser plusieurs questions ? R: Nous nous concentrons sur un objectif principal pour maximiser l'efficacité. Q: La session est-elle enregistrée ? R: Oui, vous recevez l'enregistrement et la transcription",
-        objectionsAnticipees: "Objection : 'C'est trop court' → Réponse : '60 minutes ciblées valent mieux que 4h de théorie'. Objection : 'Je préfère un programme complet' → Réponse : 'Cette session peut être le point de départ vers un accompagnement plus long'",
-        statut: "actif"
+      
+      duree: '60 minutes',
+      
+      // Livrables et supports
+      livrablesDetailles: 'PDF téléchargeable + accès 90j à la communauté WhatsApp',
+      supportsInclus: 'Support webinar • liste de mes 12 favoris • 10 prompts • 5 Loom • Communauté WhatsApp',
+      
+      // Preuves sociales
+      temoignages: 'De Jean-Marc, ex-commercial : « J\'ai amélioré de 80% ma prospection en 1 mois ! »',
+      argumentsCommerciaux: 'Kit de survie IA offert pour démarrer sans tech',
+      
+      // Médias
+      imageHero: null,
+      videoUrl: null,
+      gifSolution: null,
+      
+      // Écosystème et entonnoir
+      entonnoirNaturel: null,
+      
+      // Urgence et conditions
+      urgence: null,
+      
+      // Nouveaux champs
+      scriptType: '10 prompts magiques pour transformer son business avec l\'IA',
+      format: 'Webinaire + Kit survie',
+      QuestionReponse: {
+        faq: [
+          {
+            question: 'Dois-je avoir des connaissances techniques ?',
+            reponse: 'Non, ce kit est conçu pour les débutants en IA.'
+          },
+          {
+            question: 'Combien de temps ai-je accès au contenu ?',
+            reponse: 'Accès 90 jours à la communauté WhatsApp + PDF téléchargeable.'
+          },
+          {
+            question: 'Quels outils IA sont inclus ?',
+            reponse: 'Liste des 12 meilleurs outils IA gratuits pour entrepreneurs.'
+          }
+        ]
       },
-      {
-        nom: "1,2,3, soleil !",
-        slug: "123-soleil",
-        sousTitre: "Validation express de projet avec scénarios financiers",
-        description: "Validation express de projet avec scénarios financiers optimiste/pessimiste",
-        conceptFondateur: "Problème : Je ne sais pas si mon idée tient financièrement. Solution : Validation rapide avec scénarios financiers",
-        cible: "Stratèges Réticents en phase de validation",
-        problemeResolu: "Je ne sais pas si mon idée tient financièrement",
-        niveauPriorite: 2,
-        contenu: "Pré-travail : Questionnaire commercial et financier (20 min), Session Live (2h) : ✓ Estimation du panier moyen et des croissances possibles de clients, des coûts et de la marge, ✓ Scénario optimiste/pessimiste, ✓ Calcul seuil rentabilité, ✓ Identification des 2 risques mortels",
-        processus: "1. Questionnaire préalable (20 min), 2. Session live (2h), 3. Livraison des supports",
-        duree: "2h",
-        prix: "295 €",
-        prixOriginal: "495 €",
-        garantie: "Satisfait ou remboursé",
-        conditionsPaiement: "Paiement unique",
-        preuves: "Validation rapide de la viabilité financière",
-        temoignages: "Clients ayant évité des projets non viables",
-        resultatsAttendus: "Fiche 'Go/No-Go' avec indicateurs clés, Modèle Excel modifiable, Enregistrement personnalisé",
-        differenciation: "Validation rapide vs études longues, Focus financier vs conseils généraux",
-        avantagesCompetitifs: "Rapide, Financier, Pragmatique",
-        integrationEcosysteme: "Étape de validation avant investissement",
-        entonnoirNaturel: "Test de profil → 1,2,3 soleil! → Le Produit, C'est Vous",
-        argumentsCommerciaux: "Voulez-vous savoir en 2h si votre projet tient financièrement ?",
-        urgence: "Offre limitée : 10 sessions/mois max",
-        exemplesConcrets: "Validation de projets entrepreneuriaux, Identification de risques financiers",
-        casPratiques: "Calcul de seuil de rentabilité, Identification des 2 risques mortels",
-        livrable: "2h live, 2 scénarios sur tableur, Fiche décision",
-        livrablesDetailles: "Fiche 'Go/No-Go' avec indicateurs clés, Modèle Excel modifiable, Enregistrement personnalisé",
-        supportsInclus: "Questionnaire commercial et financier, Modèle Excel modifiable",
-        faq: "Q: Avez-vous besoin de mes données financières ? R: Non, nous travaillons avec des estimations basées sur votre secteur. Q: Le modèle Excel est-il personnalisé ? R: Oui, il est adapté à votre projet spécifique",
-        objectionsAnticipees: "Objection : 'Je n'ai pas de données financières' → Réponse : 'Nous travaillons avec des estimations sectorielles'. Objection : 'C'est cher pour 2h' → Réponse : 'Cela peut vous éviter des mois de travail sur un projet non viable'",
-        statut: "actif"
-      },
-      {
-        nom: "Premiers clients, la preuve par 3+3+3",
-        slug: "premiers-clients-3-3-3",
-        sousTitre: "Programme 3 semaines : 3 offres structurées, 3 canaux testés, 3 clients",
-        description: "Programme 3 semaines pour obtenir ses premiers clients",
-        conceptFondateur: "Problème : J'ai structuré mon offre mais aucun client. Solution : Programme structuré pour obtenir 3 premiers clients",
-        cible: "Tous profils - phase de commercialisation",
-        problemeResolu: "J'ai structuré mon offre mais aucun client",
-        niveauPriorite: 2,
-        contenu: "Semaine 1 : Packager 3 offres avec Template 'Argumentaire Choc', Semaine 2 : Tester 3 canaux avec Scripts phoning/messaging sectoriels, Semaine 3 : Signer 3 clients avec Checklist closing",
-        processus: "Semaine 1 : Packager 3 offres, Semaine 2 : Tester 3 canaux, Semaine 3 : Signer 3 clients",
-        duree: "3 semaines",
-        prix: "895 €",
-        prixOriginal: null,
-        garantie: "Remboursé si 0 client après application stricte des méthodes",
-        conditionsPaiement: "Paiement unique ou 2x",
-        preuves: "Méthode éprouvée pour obtenir les premiers clients",
-        temoignages: "Clients ayant obtenu leurs 3 premiers clients en 3 semaines",
-        resultatsAttendus: "3 premiers clients signés, Templates & scripts réutilisables",
-        differenciation: "Programme structuré vs conseils généraux, Garantie de résultats vs promesses vagues",
-        avantagesCompetitifs: "Structuré, Garanti, Pragmatique",
-        integrationEcosysteme: "Suite logique après structuration de l'offre",
-        entonnoirNaturel: "Après 'Le Produit, C'est Vous'",
-        argumentsCommerciaux: "Obtenez vos 3 premiers clients en 3 semaines ou remboursé",
-        urgence: "Programme limité à 20 participants par session",
-        exemplesConcrets: "Entrepreneurs ayant obtenu leurs 3 premiers clients en 3 semaines",
-        casPratiques: "Template 'Argumentaire Choc', Scripts phoning/messaging sectoriels, Checklist closing",
-        livrable: "Fiches processus, Scripts, Plan d'action",
-        livrablesDetailles: "Templates & scripts, Template 'Argumentaire Choc', Scripts phoning/messaging sectoriels, Checklist closing",
-        supportsInclus: "Templates & scripts, Template 'Argumentaire Choc', Scripts phoning/messaging sectoriels, Checklist closing",
-        faq: "Q: Que se passe-t-il si je n'obtiens pas 3 clients ? R: Vous êtes remboursé si vous avez appliqué strictement les méthodes. Q: Les templates sont-ils personnalisables ? R: Oui, ils sont adaptés à votre secteur",
-        objectionsAnticipees: "Objection : 'Je n'ai pas de réseau' → Réponse : 'Nous vous donnons les méthodes pour créer votre réseau'. Objection : 'C'est trop rapide' → Réponse : '3 semaines c'est le temps optimal pour créer l'urgence'",
-        statut: "actif"
-      },
-      {
-        nom: "La mue est enfant de Bohême",
-        slug: "la-mue-est-enfant-de-boheme",
-        sousTitre: "6 semaines d'accompagnement : Stratégie premium originale",
-        description: "Parcours en 6 semaines pour entrepreneurs en réinvention radicale (passion/opportunité)",
-        conceptFondateur: "Problème : Je veux lancer un projet aligné avec mes valeurs, pas juste mon CV. Solution : Parcours de transformation de la passion au projet",
-        cible: "Entrepreneurs en réinvention radicale (passion/opportunité)",
-        problemeResolu: "Je veux lancer un projet aligné avec mes valeurs, pas juste mon CV",
-        niveauPriorite: 3,
-        contenu: "Séance 1 : 'Éveil' (2h) - Cartographie des passions/convictions, Identification des opportunités. Semaines 1-4 : 'Exploration' (4x30min/sem) - Session 1 : Business model alternatif, Session 2 : Étude concurrence éthique, Session 3 : Prototype rapide, Session 4 : Test marché minimal. Séance 6 : 'Révélation' (1h) - Plan de transition sur 90j, Checklist export (si applicable)",
-        processus: "Séance 1 : Éveil (2h), Semaines 1-4 : Exploration (4x30min/sem), Séance 6 : Révélation (1h)",
-        duree: "6 semaines",
-        prix: "1 495 €",
-        prixOriginal: null,
-        garantie: "Satisfait ou remboursé 30 jours",
-        conditionsPaiement: "Paiement unique ou 2x",
-        preuves: "Méthode éprouvée pour la réinvention entrepreneuriale",
-        temoignages: "Entrepreneurs ayant trouvé leur nouvelle voie alignée avec leurs valeurs",
-        resultatsAttendus: "Plan de transition sur 90j, Checklist export pour projets internationaux",
-        differenciation: "Focus valeurs vs profit uniquement, Approche éthique vs business classique, Projets à mission vs projets traditionnels",
-        avantagesCompetitifs: "Alignement valeurs/projet, Approche éthique, Projets à mission",
-        integrationEcosysteme: "Complémentaire aux autres programmes, Spécialisation valeurs",
-        entonnoirNaturel: "Programme spécialisé pour réinvention",
-        argumentsCommerciaux: "Transformez votre passion en projet rentable aligné avec vos valeurs",
-        urgence: "Programme limité à 10 participants par session",
-        exemplesConcrets: "Entrepreneurs ayant transformé leur passion en projet rentable",
-        casPratiques: "Étude concurrence éthique, Business model alternatif, Prototype rapide",
-        livrable: "Étude concurrence, Argumentaire, Checklist export",
-        livrablesDetailles: "Étude concurrence : Analyse des acteurs 'à mission' (ESG, B Corp), Argumentaire : Narratif 'Pourquoi ce projet a du sens' (liant parcours/passion), Checklist export pour projets internationaux : régulations + réseaux militants",
-        supportsInclus: "Templates d'étude concurrence éthique, Modèles de business plan alternatif, Checklist export",
-        faq: "Q: Dois-je abandonner mon projet actuel ? R: Non, nous explorons des alternatives alignées avec vos valeurs. Q: Les projets éthiques sont-ils rentables ? R: Oui, les consommateurs privilégient de plus en plus les entreprises à mission",
-        objectionsAnticipees: "Objection : 'Les projets éthiques ne sont pas rentables' → Réponse : 'Les consommateurs privilégient de plus en plus les entreprises à mission'. Objection : 'Je n'ai pas de passion spécifique' → Réponse : 'Nous vous aidons à identifier vos valeurs profondes'",
-        statut: "actif"
-      },
-      {
-        nom: "Audit 720°",
-        slug: "audit-720",
-        sousTitre: "Audit stratégique en 2 x 2 demi-journées espacées d'une semaine à 10 jours",
-        description: "Audit stratégique complet pour entrepreneurs déterminés (CA > 50k€)",
-        conceptFondateur: "Problème : J'ai un projet et des idées, mais pas de vision claire. Solution : Audit stratégique approfondi avec focus sur l'actionnable immédiat",
-        cible: "Entrepreneurs déterminés (CA > 50k€)",
-        problemeResolu: "J'ai un projet et des idées, mais pas de vision claire",
-        niveauPriorite: 1,
-        contenu: "Jour 1 : Diagnostic stratégique, Pause 7j : Tests terrain, Jour 8 : Plan de bataille 90j. Option webinar par 4 à 6 personnes (1 295 €) : Analyses moins individualisées, Dynamique collaborative",
-        processus: "Jour 1 : Diagnostic stratégique, Pause 7j : Tests terrain, Jour 8 : Plan de bataille 90j",
-        duree: "2 demi-journées espacées d'une semaine",
-        prix: "2 495 €",
-        prixOriginal: null,
-        optionsTarification: {
-          individuel: { prix: 2495, nom: "Audit 720° Individuel", duree: "2 demi-journées" },
-          webinar: { prix: 1295, nom: "Audit 720° Webinar", duree: "4-6 personnes" }
-        },
-        garantie: "Satisfait ou remboursé 30 jours",
-        conditionsPaiement: "Paiement unique ou 2x",
-        preuves: "70% de notre temps sur l'actionnable immédiat vs audits théoriques",
-        temoignages: "Entrepreneurs ayant obtenu une vision claire et un plan d'action concret",
-        resultatsAttendus: "Verbatim détaillé des 4 séances, Roadmap des priorités",
-        differenciation: "Contre les audits théoriques : 70% de notre temps sur l'actionnable immédiat",
-        avantagesCompetitifs: "Focus actionnable, Tests terrain, Plan concret",
-        integrationEcosysteme: "Complémentaire aux autres programmes, Spécialisation stratégie",
-        entonnoirNaturel: "Programme spécialisé pour vision stratégique",
-        argumentsCommerciaux: "Obtenez une vision claire et un plan d'action concret en 2 demi-journées",
-        urgence: "Audits limités à 5 par mois",
-        exemplesConcrets: "Entrepreneurs ayant obtenu une vision claire et un plan d'action",
-        casPratiques: "Diagnostic stratégique, Tests terrain, Plan de bataille 90j",
-        livrable: "Quick wins, Roadmap, Recommandations sectorielles",
-        livrablesDetailles: "Verbatim détaillé des 4 séances, Roadmap des priorités, Recommandations sectorielles",
-        supportsInclus: "Templates de diagnostic stratégique, Modèles de roadmap, Recommandations sectorielles",
-        faq: "Q: Avez-vous besoin de mes données financières ? R: Oui, pour un diagnostic complet et précis. Q: Les tests terrain sont-ils inclus ? R: Oui, nous vous guidons pour tester vos hypothèses",
-        objectionsAnticipees: "Objection : 'C'est cher pour 2 demi-journées' → Réponse : '70% de notre temps est consacré à l'actionnable immédiat'. Objection : 'Je préfère un accompagnement long' → Réponse : 'Cet audit peut être le point de départ d'un accompagnement plus long'",
-        statut: "actif"
-      },
-      {
-        nom: "Station-service BP",
-        slug: "station-service-bp",
-        sousTitre: "Stratégie de projet, Business plan avec tableaux de simulation, pitch-decks clients & investisseur en 10 jours clé-en-mains",
-        description: "Business plan complet avec pitch-decks pour entrepreneurs cherchant financement",
-        conceptFondateur: "Problème : Mon business plan ne convainc pas les investisseurs. Solution : Business plan complet avec pitch-decks professionnels",
-        cible: "Bâtisseurs Visionnaires cherchent financement",
-        problemeResolu: "Mon business plan ne convainc pas les investisseurs",
-        niveauPriorite: 1,
-        contenu: "J1-2 : Modèle financier 3 ans (scénarios + sensibilité), J3-5 : Pitch deck clients ('problème/solution'), J6-8 : Pitch deck investisseurs (ROI + exit strategy), J9-10 : Stratégie financement (subventions → VC)",
-        processus: "J1-2 : Modèle financier, J3-5 : Pitch deck clients, J6-8 : Pitch deck investisseurs, J9-10 : Stratégie financement",
-        duree: "10 jours",
-        prix: "3 900 €",
-        prixOriginal: null,
-        garantie: "Satisfait ou remboursé 30 jours",
-        conditionsPaiement: "Paiement unique ou 3x",
-        preuves: "Business plans ayant obtenu des financements",
-        temoignages: "Entrepreneurs ayant obtenu des financements grâce à nos business plans",
-        resultatsAttendus: "2 pitch decks 'prêts à présenter', Fichier Excel avec KPI dynamiques, Liste ciblée de 50 investisseurs sectoriels",
-        differenciation: "Business plan complet vs modèles génériques, Pitch-decks professionnels vs présentations basiques",
-        avantagesCompetitifs: "Complet, Professionnel, Ciblé",
-        integrationEcosysteme: "Complémentaire aux autres programmes, Spécialisation financement",
-        entonnoirNaturel: "Programme spécialisé pour financement",
-        argumentsCommerciaux: "Obtenez un business plan qui convainc les investisseurs en 10 jours",
-        urgence: "Business plans limités à 3 par mois",
-        exemplesConcrets: "Entrepreneurs ayant obtenu des financements",
-        casPratiques: "Modèle financier 3 ans, Pitch deck investisseurs, Stratégie financement",
-        livrable: "Synthèse 2-3 pages, Fichier tableur de simulations, pitch-deck clients, pitch-deck investisseur, Stratégie financement",
-        livrablesDetailles: "2 pitch decks 'prêts à présenter', Fichier Excel avec KPI dynamiques, Liste ciblée de 50 investisseurs sectoriels",
-        supportsInclus: "Templates de pitch deck, Modèles Excel, Liste investisseurs",
-        faq: "Q: Avez-vous besoin de mes données financières ? R: Oui, pour un business plan précis et crédible. Q: Les pitch-decks sont-ils personnalisés ? R: Oui, ils sont adaptés à votre projet et votre secteur",
-        objectionsAnticipees: "Objection : 'Je peux faire ça moi-même' → Réponse : 'Un business plan professionnel fait la différence auprès des investisseurs'. Objection : 'C'est cher' → Réponse : 'Cela peut vous faire gagner des mois dans votre recherche de financement'",
-        statut: "actif"
-      },
-      {
-        nom: "Devenir Mentor en Afrique",
-        slug: "devenir-mentor-afrique",
-        sousTitre: "Programme pour accompagner des startups africaines",
-        description: "Programme pour experts retraités/consultants seniors souhaitant monétiser leur réseau et savoir-faire en Afrique",
-        conceptFondateur: "Problème : Comment monétiser mon réseau et savoir-faire en Afrique ? Solution : Programme de formation pour devenir mentor en Afrique",
-        cible: "Experts retraités/consultants seniors",
-        problemeResolu: "Comment monétiser mon réseau et savoir-faire en Afrique ?",
-        niveauPriorite: 3,
-        contenu: "Webinaire 1 : Écosystèmes startups Dakar/Casablanca, Webinaire 2 : Cultural intelligence (négociation Afrique), Webinaire 3 : Cas pratiques sectoriels, Webinaire 4 : Modèles de rémunération (€500-2k/mois)",
-        processus: "Webinaire 1 : Écosystèmes startups, Webinaire 2 : Cultural intelligence, Webinaire 3 : Cas pratiques, Webinaire 4 : Modèles de rémunération",
-        duree: "4 webinaires de 90 min",
-        prix: "495 €",
-        prixOriginal: null,
-        garantie: "Satisfait ou remboursé 30 jours",
-        conditionsPaiement: "Paiement unique",
-        preuves: "Mentors ayant obtenu des contrats en Afrique",
-        temoignages: "Experts ayant monétisé leur savoir-faire en Afrique",
-        resultatsAttendus: "Certification 'Mentor Afrique 2024', Annuaire partenaires locaux, Template de contrat de mentorat",
-        differenciation: "Spécialisation Afrique vs mentorat générique, Cultural intelligence vs approche occidentale",
-        avantagesCompetitifs: "Spécialisé Afrique, Cultural intelligence, Réseau local",
-        integrationEcosysteme: "Complémentaire aux autres programmes, Spécialisation Afrique",
-        entonnoirNaturel: "Programme spécialisé pour mentorat Afrique",
-        argumentsCommerciaux: "Monétisez votre savoir-faire en Afrique avec des rémunérations de €500-2k/mois",
-        urgence: "Programme limité à 30 participants par session",
-        exemplesConcrets: "Experts ayant obtenu des contrats de mentorat en Afrique",
-        casPratiques: "Écosystèmes startups Dakar/Casablanca, Cultural intelligence, Modèles de rémunération",
-        livrable: "Série de 4 webinaires de 90 mn",
-        livrablesDetailles: "Certification 'Mentor Afrique 2024', Annuaire partenaires locaux, Template de contrat de mentorat",
-        supportsInclus: "Templates de contrat, Annuaire partenaires, Certification",
-        faq: "Q: Dois-je avoir de l'expérience en Afrique ? R: Non, nous vous formons à la cultural intelligence. Q: Les rémunérations sont-elles garanties ? R: Nous vous donnons les outils, c'est à vous de prospecter",
-        objectionsAnticipees: "Objection : 'Je ne connais pas l'Afrique' → Réponse : 'Nous vous formons à la cultural intelligence'. Objection : 'Les rémunérations sont faibles' → Réponse : '€500-2k/mois pour un travail à distance'",
-        statut: "actif"
-      },
-      {
-        nom: "African Start-Up Co-Founder",
-        slug: "african-startup-cofounder",
-        sousTitre: "Intégration comme co-fondateur dans une startup africaine",
-        description: "Programme pour entrepreneurs en reconversion totale, prêts à s'impliquer comme co-fondateur actif",
-        conceptFondateur: "Problème : Je veux une aventure entrepreneuriale clé-en-main. Solution : Intégration comme co-fondateur dans une startup africaine",
-        cible: "Entrepreneurs en reconversion totale, prêts à s'impliquer comme co-fondateur actif",
-        problemeResolu: "Je veux une aventure entrepreneuriale clé-en-main",
-        niveauPriorite: 3,
-        contenu: "Phase 1 : Immersion Écosystème - Session 1 : Panorama startups africaines (secteurs porteurs), Session 2 : Atelier 'Où se situer ?' (passion/expertise vs opportunités). Phase 2 : Scouting Stratégique - Session 3 : Méthodologie de veille sectorielle, Session 4 : Identification de 5 startups 'fit'. Phase 3 : Matching & Rôle - Session 5 : Rencontres avec 3 startups présélectionnées, Session 6 : Pacte fondateurs (rôle + contribution). Phase 4 : Implémentation - Sessions 7-8 : Coaching opérationnel mensuel (stratégie + suivi)",
-        processus: "Phase 1 : Immersion Écosystème, Phase 2 : Scouting Stratégique, Phase 3 : Matching & Rôle, Phase 4 : Implémentation",
-        duree: "8 sessions sur 3 mois",
-        prix: "2 495 €",
-        prixOriginal: null,
-        garantie: "Satisfait ou remboursé 30 jours",
-        conditionsPaiement: "Paiement unique ou 3x",
-        preuves: "Pierre, ex-DG : 'J'ai investi 20k€ pour 40% d'une startup logistique à Dakar. CA prévu : 500k€ en 2024'",
-        temoignages: "Entrepreneurs ayant intégré des startups africaines comme co-fondateurs",
-        resultatsAttendus: "Intégration comme co-fondateur dans une startup africaine, Coaching opérationnel mensuel",
-        differenciation: "Intégration startup vs simple investissement, Coaching opérationnel vs conseil ponctuel",
-        avantagesCompetitifs: "Intégration startup, Coaching opérationnel, Réseau africain",
-        integrationEcosysteme: "Complémentaire aux autres programmes, Spécialisation Afrique",
-        entonnoirNaturel: "Programme spécialisé pour co-fondation Afrique",
-        argumentsCommerciaux: "Devenez co-fondateur d'une startup africaine en 3 mois",
-        urgence: "Programme limité à 10 participants par session",
-        exemplesConcrets: "Marc, 57 ans (ex-directeur logistique) : Immersion : Découverte du boom tech agro-alimentaire à Abidjan, Scouting : Identification de 'AgriConnect' (plateforme producteurs), Matching : Accord comme COO en charge de la supply chain, Implémentation : Mise en place d'un réseau de distribution en 12 semaines",
-        casPratiques: "Cartographie des hubs tech (Dakar, Abidjan, Casablanca), Base de 15 startups 'fit' avec critères, Grille de compatibilité valeurs/compétences, Journal de bord personnalisé (objectifs 30/60/90j)",
-        livrable: "Séances de coaching & webinaires, Matching projet, Pack installation, Contrats types",
-        livrablesDetailles: "Carte interactive + PDF dynamique, Template Airtable, Questionnaire algorithmique, Template Notion",
-        supportsInclus: "Templates de contrats, Base de données startups, Outils de suivi",
-        faq: "Q: Dois-je investir de l'argent ? R: Cela dépend du projet, mais nous vous aidons à négocier les termes. Q: Les startups sont-elles fiables ? R: Nous sélectionnons rigoureusement les startups selon des critères stricts",
-        objectionsAnticipees: "Objection : 'Je ne connais pas l'Afrique' → Réponse : 'Nous vous accompagnons dans l'immersion culturelle'. Objection : 'C'est risqué' → Réponse : 'Nous sélectionnons rigoureusement les startups'",
-        statut: "actif"
-      },
-      {
-        nom: "Caméléon Marchand",
-        slug: "cameleon-marchand",
-        sousTitre: "Accompagnement 6 mois : Transformation globale",
-        description: "Accompagnement complet de 6 mois pour transformation globale de l'entreprise",
-        conceptFondateur: "Problème : Besoin d'une transformation globale de l'entreprise. Solution : Accompagnement complet sur 6 mois",
-        cible: "À définir",
-        problemeResolu: "À définir",
-        niveauPriorite: 1,
-        contenu: "À définir",
-        processus: "À définir",
-        duree: "6 mois",
-        prix: "7 495 €",
-        prixOriginal: null,
-        garantie: "Satisfait ou remboursé 30 jours",
-        conditionsPaiement: "Paiement unique ou 3x",
-        preuves: "À définir",
-        temoignages: "À définir",
-        resultatsAttendus: "À définir",
-        differenciation: "À définir",
-        avantagesCompetitifs: "À définir",
-        integrationEcosysteme: "À définir",
-        entonnoirNaturel: "À définir",
-        argumentsCommerciaux: "À définir",
-        urgence: "À définir",
-        exemplesConcrets: "À définir",
-        casPratiques: "À définir",
-        livrable: "À définir",
-        livrablesDetailles: "À définir",
-        supportsInclus: "À définir",
-        faq: "À définir",
-        objectionsAnticipees: "À définir",
-        statut: "actif"
-      },
-    ],
+      conditionsPaiement: 'Gratuit',
+      garantie: 'Offert sans engagement',
+      
+      // Métadonnées
+      statut: 'actif'
+    }
   })
 
-  console.log("Produits insérés avec succès !")
+  console.log('✅ Produit créé:', produit1.nom)
+
+  // Produit 2: 1 heure de ping-pong, sans les mains !
+  const produit2 = await prisma.produit.upsert({
+    where: { slug: '1h-ping-pong-sans-les-mains' },
+    update: {},
+    create: {
+      nom: '1 heure de ping-pong, sans les mains !',
+      sousTitre: '1 heure de coaching live + transcription de l\'entretien',
+      slug: '1h-ping-pong-sans-les-mains',
+
+      // Tarification
+      prix: {
+        original: '149€',
+        promo: null,
+        condition: null
+      },
+      prixOriginal: null,
+
+      // Ciblage et positionnement
+      niveauPriorite: 1,
+      cible: 'Opportunistes Agile en phase de test',
+      conceptFondateur: 'Problème → Solution : "J\'ai besoin d\'un avis expert rapide, pas d\'un coaching long" (p.1 "durée insuffisante")',
+
+      // Contenu et processus
+      contenu: 'Déroulé :\nAudit express de votre projet via questionnaire préalable\n60 min de coaching ciblé :\n✓ Percer 1 blocage stratégique\n✓ Valider 1 hypothèse marché\n✓ Obtenir 1 prochaine action claire',
+      processus: {
+        type: 'coaching',
+        duree: '60 minutes',
+        etapes: [
+          'Questionnaire préalable',
+          'Coaching live 1h',
+          'Débrief et plan d\'action'
+        ]
+      },
+      duree: '60 minutes',
+
+      // Livrables et supports
+      livrablesDetailles: 'Transcription + enregistrement + fiche "Next Step"',
+      supportsInclus: 'Transcription de l\'entretien',
+
+      // Preuves sociales
+      temoignages: null,
+      argumentsCommerciaux: 'Coaching express pour débloquer rapidement',
+
+      // Médias
+      imageHero: null,
+      videoUrl: null,
+      gifSolution: null,
+
+      // Écosystème et entonnoir
+      entonnoirNaturel: null,
+
+      // Urgence et conditions
+      urgence: null,
+
+      // Nouveaux champs
+      scriptType: 'Si vous étiez sûr de ne pas vous planter, quelle serait votre prochaine action dans les 72h ?',
+      format: 'Coaching live',
+      QuestionReponse: {
+        faq: [
+          {
+            question: 'Est-ce vraiment utile en 1h ?',
+            reponse: 'Oui, l\'objectif est d\'obtenir un déclic ou une action concrète immédiate.'
+          },
+          {
+            question: 'Puis-je enregistrer la session ?',
+            reponse: 'Oui, l\'enregistrement et la transcription sont fournis.'
+          }
+        ]
+      },
+      conditionsPaiement: 'Paiement unique',
+      garantie: 'Satisfait ou remboursé',
+
+      // Métadonnées
+      statut: 'actif'
+    }
+  })
+
+  console.log('✅ Produit créé:', produit2.nom)
+
+  // Produit 3: Le Produit, C'est Vous (Pack Premium)
+  const produit3 = await prisma.produit.upsert({
+    where: { slug: 'le-produit-cest-vous-pack-premium' },
+    update: {},
+    create: {
+      nom: 'Le Produit, C\'est Vous (Pack Premium)',
+      sousTitre: 'Transformer un parcours professionnel en catalogue de prestations vendables',
+      slug: 'le-produit-cest-vous-pack-premium',
+
+      // Tarification
+      prix: {
+        original: '4 900€',
+        promo: null,
+        condition: null
+      },
+      prixOriginal: null,
+
+      // Ciblage et positionnement
+      niveauPriorite: 1,
+      cible: 'Bâtisseurs Visionnaires (expertise sectorielle forte)',
+      conceptFondateur: 'Problème → Solution : "Mon savoir-faire ne se transforme pas en revenus récurrents" (p.6 niveau 3 fondamental)',
+
+      // Contenu et processus
+      contenu: 'Parcours de transformation "Savoir → Produit"\n\nMois 1 : Fondations\n- Structurer l\'offre phare : 3 sessions\n- Définir le pricing premium\n\nMois 2 : Écosystème\n- Site web vitrine + automatisation\n- Tournage témoignages clients\n\nMois 3 : Lancement\n- Sequence email "Early Birds"\n- Packaging 3 produits dérivés',
+      processus: {
+        type: 'programme',
+        duree: '3 mois',
+        etapes: [
+          'Mois 1 : Fondations',
+          'Mois 2 : Écosystème',
+          'Mois 3 : Lancement'
+        ]
+      },
+      duree: '3 mois',
+
+      // Livrables et supports
+      livrablesDetailles: 'Catalogue des fiches produits + Indications pour mettre en place son tunnel de vente automatisé (type Systeme.io) + Bibliothèque de scripts "Objection Busters"',
+      supportsInclus: 'Atelier "Cartographie d\'Expertise" + Programme "Catalogue Clé-en-Main" + "Usine à Produits Premium"',
+
+      // Preuves sociales
+      temoignages: 'Ex-consultant RH devenu auteur, conférencier et coach" : CA passé de 3k à 10k€/mois en 4 mois',
+      argumentsCommerciaux: 'Transformer son expertise en revenus récurrents',
+
+      // Médias
+      imageHero: null,
+      videoUrl: null,
+      gifSolution: null,
+
+      // Écosystème et entonnoir
+      entonnoirNaturel: null,
+
+      // Urgence et conditions
+      urgence: null,
+
+      // Nouveaux champs
+      scriptType: 'Transformer son savoir-faire en produits vendables',
+      format: 'Programme Premium',
+      QuestionReponse: {
+        faq: [
+          {
+            question: 'Combien de temps pour voir des résultats ?',
+            reponse: 'CA passé de 3k à 10k€/mois en 4 mois pour un ex-consultant RH.'
+          },
+          {
+            question: 'Quels sont les livrables inclus ?',
+            reponse: 'Catalogue des fiches produits, tunnel de vente automatisé, scripts "Objection Busters".'
+          }
+        ]
+      },
+      conditionsPaiement: 'Paiement unique',
+      garantie: 'Satisfait ou remboursé',
+
+      // Métadonnées
+      statut: 'actif'
+    }
+  })
+
+  console.log('✅ Produit créé:', produit3.nom)
+
+  // Produit 4: 1,2,3, soleil !
+  const produit4 = await prisma.produit.upsert({
+    where: { slug: '1-2-3-soleil' },
+    update: {},
+    create: {
+      nom: '1,2,3, soleil !',
+      sousTitre: 'Validation express de projet avec scénarios financiers.',
+      slug: '1-2-3-soleil',
+
+      // Tarification
+      prix: {
+        original: '495€',
+        promo: '295€',
+        condition: 'sur rendez-vous'
+      },
+      prixOriginal: '495€',
+
+      // Ciblage et positionnement
+      niveauPriorite: 2,
+      cible: 'Stratèges Réticents en phase de validation',
+      conceptFondateur: 'Problème → Solution : "Je ne sais pas si mon idée tient financièrement" (p.5 "manque d\'information")',
+
+      // Contenu et processus
+      contenu: `Déroulé :
+Pré-travail : Questionnaire commercial et financier (20 min)
+Session Live (2h) :
+✓ Estimation du panier moyen et des croissances possibles de clients, des coûts et de la marge
+✓ Scénario optimiste/pessimiste
+✓ Calcul seuil rentabilité
+✓ Identification des 2 risques mortels`,
+      processus: {
+        type: 'validation',
+        duree: '2h live',
+        etapes: [
+          'Questionnaire préalable (20 min)',
+          'Session Live (2h)',
+          'Analyse et recommandations'
+        ]
+      },
+      duree: '2h live',
+
+      // Livrables et supports
+      livrablesDetailles: 'Fiche "Go/No-Go" avec indicateurs clés + Modèle Excel modifiable + Enregistrement personnalisé',
+      supportsInclus: '2h live • 2 scénarios sur tableur • Fiche décision',
+
+      // Preuves sociales
+      temoignages: null,
+      argumentsCommerciaux: 'Validation express de projet avec scénarios financiers',
+
+      // Médias
+      imageHero: null,
+      videoUrl: null,
+      gifSolution: null,
+
+      // Écosystème et entonnoir
+      entonnoirNaturel: null,
+
+      // Urgence et conditions
+      urgence: 'Offre limitée : 10 sessions/mois max',
+
+      // Nouveaux champs
+      scriptType: 'Validation express de projet avec scénarios financiers',
+      format: 'Session Live',
+      QuestionReponse: {
+        faq: [
+          {
+            question: 'Combien de temps dure la session ?',
+            reponse: '2h live + 20 min de pré-travail.'
+          },
+          {
+            question: 'Quels sont les livrables inclus ?',
+            reponse: 'Fiche "Go/No-Go", modèle Excel modifiable, enregistrement personnalisé.'
+          }
+        ]
+      },
+      conditionsPaiement: 'Paiement unique',
+      garantie: 'Satisfait ou remboursé',
+
+      // Métadonnées
+      statut: 'actif'
+    }
+  })
+
+  // Produit 5: Premiers clients, la preuve par 3+3+3
+  const produit5 = await prisma.produit.upsert({
+    where: { slug: 'premiers-clients-preuve-3-3-3' },
+    update: {},
+    create: {
+      nom: 'Premiers clients, la preuve par 3+3+3',
+      sousTitre: 'Programme 3 semaines : 3 offres structurées, 3 canaux testés, 3 clients.',
+      slug: 'premiers-clients-preuve-3-3-3',
+
+      // Tarification
+      prix: {
+        original: '895€',
+        promo: null,
+        condition: null
+      },
+      prixOriginal: null,
+
+      // Ciblage et positionnement
+      niveauPriorite: 2,
+      cible: 'Tous profils - phase de commercialisation',
+      conceptFondateur: 'Problème → Solution : "J\'ai structuré mon offre mais aucun client" (p.6 "comment avoir des clients ?")',
+
+      // Contenu et processus
+      contenu: `Calendrier :
+Semaine 1 - Défi : Packager 3 offres - Outils : Template "Argumentaire Choc"
+Semaine 2 - Défi : Tester 3 canaux - Outils : Scripts phoning/messaging sectoriels
+Semaine 3 - Défi : Signer 3 clients - Outils : Checklist closing`,
+      processus: {
+        type: 'programme',
+        duree: '3 semaines',
+        etapes: [
+          'Semaine 1 : Packager 3 offres',
+          'Semaine 2 : Tester 3 canaux',
+          'Semaine 3 : Signer 3 clients'
+        ]
+      },
+      duree: '3 semaines',
+
+      // Livrables et supports
+      livrablesDetailles: 'Templates & scripts',
+      supportsInclus: 'Fiches processus • Scripts • Plan d\'action',
+
+      // Preuves sociales
+      temoignages: null,
+      argumentsCommerciaux: 'Programme 3 semaines pour obtenir ses premiers clients',
+
+      // Médias
+      imageHero: null,
+      videoUrl: null,
+      gifSolution: null,
+
+      // Écosystème et entonnoir
+      entonnoirNaturel: null,
+
+      // Urgence et conditions
+      urgence: null,
+
+      // Nouveaux champs
+      scriptType: '3 offres structurées, 3 canaux testés, 3 clients',
+      format: 'Programme 3 semaines',
+      QuestionReponse: {
+        faq: [
+          {
+            question: 'Combien de temps dure le programme ?',
+            reponse: '3 semaines avec un défi par semaine.'
+          },
+          {
+            question: 'Quels sont les livrables inclus ?',
+            reponse: 'Templates & scripts pour chaque étape.'
+          }
+        ]
+      },
+      conditionsPaiement: 'Paiement unique',
+      garantie: 'Remboursé si 0 client après application stricte des méthodes',
+
+      // Métadonnées
+      statut: 'actif'
+    }
+  })
+
+  console.log('✅ Produit créé:', produit5.nom)
+
+  // Produit 6: African Start-Up Co-Founder
+  const produit6 = await prisma.produit.upsert({
+    where: { slug: 'african-startup-co-founder' },
+    update: {},
+    create: {
+      nom: 'African Start-Up Co-Founder',
+      sousTitre: 'Intégration comme co-fondateur dans une startup africaine',
+      slug: 'african-startup-co-founder',
+      
+      // Tarification
+      prix: {
+        montant: 2495,
+        devise: 'EUR',
+        format: '2 495 €'
+      },
+      prixOriginal: null,
+      
+      // Ciblage et positionnement
+      niveauPriorite: 3,
+      cible: 'Entrepreneurs en reconversion totale, prêts à s\'impliquer comme co-fondateur actif',
+      conceptFondateur: 'Problème : Je veux une aventure entrepreneuriale clé-en-main. Solution : Intégration comme co-fondateur dans une startup africaine avec accompagnement complet',
+      
+      // Contenu et processus
+      contenu: 'Séances de coaching & webinaires • Matching projet • Pack installation • Contrats types',
+      processus: {
+        phases: [
+          {
+            nom: 'Immersion',
+            contenu: 'Cartographie des hubs tech (Dakar, Abidjan, Casablanca)',
+            outils: 'Carte interactive + PDF dynamique'
+          },
+          {
+            nom: 'Scouting',
+            contenu: 'Base de 15 startups \'fit\' avec critères : Stade, Secteur, Besoin expertise',
+            outils: 'Template Airtable'
+          },
+          {
+            nom: 'Matching',
+            contenu: 'Grille de compatibilité valeurs/compétences',
+            outils: 'Questionnaire algorithmique'
+          },
+          {
+            nom: 'Implémentation',
+            contenu: 'Journal de bord personnalisé (objectifs 30/60/90j)',
+            outils: 'Template Notion'
+          }
+        ]
+      },
+      duree: '4 phases sur 3 mois',
+      
+      // Livrables et supports
+      livrablesDetailles: 'Carte interactive des hubs tech africains, Base de 15 startups qualifiées, Grille de compatibilité personnalisée, Journal de bord Notion, Contrats types, Pack installation complet',
+      supportsInclus: 'Template Airtable pour le scouting, Questionnaire algorithmique, Template Notion pour le suivi, Modèles de contrats types',
+      
+      // Preuves sociales
+      temoignages: 'Témoignages d\'entrepreneurs ayant intégré des startups africaines avec succès',
+      argumentsCommerciaux: 'Vivez une aventure entrepreneuriale clé-en-main en Afrique avec un accompagnement sur-mesure',
+      
+      // Médias
+      imageHero: '/images/african-startup.jpg',
+      videoUrl: '/videos/african-startup-cofounder.mp4',
+      gifSolution: '/images/animation-african-startup.gif',
+      
+      // Écosystème et entonnoir
+      entonnoirNaturel: 'Test de profil → African Start-Up Co-Founder',
+      
+      // Urgence et conditions
+      urgence: 'Offre limitée : 5 places par trimestre',
+      
+      // Nouveaux champs
+      scriptType: 'Voulez-vous vivre une aventure entrepreneuriale clé-en-main en Afrique ?',
+      format: 'Coaching & Webinaires + Matching + Pack Installation',
+      QuestionReponse: {
+        faq: [
+          {
+            question: 'Dois-je avoir de l\'expérience en startup ?',
+            reponse: 'Non, nous vous accompagnons à chaque étape de votre intégration'
+          },
+          {
+            question: 'Combien de temps dure l\'accompagnement ?',
+            reponse: '4 phases sur 3 mois avec suivi post-intégration'
+          },
+          {
+            question: 'Les contrats sont-ils inclus ?',
+            reponse: 'Oui, nous fournissons des modèles de contrats types adaptés'
+          }
+        ]
+      },
+      conditionsPaiement: 'Paiement en 3x sans frais',
+      garantie: 'Satisfait ou remboursé 30 jours',
+      
+      // Métadonnées
+      statut: 'actif'
+    }
+  })
+
+  console.log('✅ Produit créé:', produit6.nom)
+
+  // Produit 7: Devenir Mentor en Afrique
+  const produit7 = await prisma.produit.upsert({
+    where: { slug: 'devenir-mentor-afrique' },
+    update: {},
+    create: {
+      nom: 'Devenir Mentor en Afrique',
+      sousTitre: 'Programme pour accompagner des startups africaines',
+      slug: 'devenir-mentor-afrique',
+      
+      // Tarification
+      prix: {
+        montant: 495,
+        devise: 'EUR',
+        format: '495 €'
+      },
+      prixOriginal: null,
+      
+      // Ciblage et positionnement
+      niveauPriorite: 3,
+      cible: 'Experts retraités/consultants seniors',
+      conceptFondateur: 'Problème : Comment monétiser mon réseau et savoir-faire en Afrique ? Solution : Programme de formation pour devenir mentor de startups africaines',
+      
+      // Contenu et processus
+      contenu: 'Série de 4 webinaires de 90 mn pour devenir mentor de startups africaines',
+      processus: {
+        webinaires: [
+          {
+            numero: 1,
+            titre: 'Écosystèmes startups Dakar/Casablanca',
+            duree: '90 minutes',
+            contenu: 'Découverte des écosystèmes startup africains'
+          },
+          {
+            numero: 2,
+            titre: 'Cultural intelligence (négociation Afrique)',
+            duree: '90 minutes',
+            contenu: 'Maîtriser les codes culturels pour négocier en Afrique'
+          },
+          {
+            numero: 3,
+            titre: 'Cas pratiques sectoriels',
+            duree: '90 minutes',
+            contenu: 'Études de cas concrets par secteur d\'activité'
+          },
+          {
+            numero: 4,
+            titre: 'Modèles de rémunération (€500-2k/mois)',
+            duree: '90 minutes',
+            contenu: 'Comment structurer sa rémunération de mentor'
+          }
+        ]
+      },
+      duree: '4 webinaires de 90 minutes',
+      
+      // Livrables et supports
+      livrablesDetailles: 'Certification \'Mentor Afrique 2024\', Annuaire partenaires locaux, Template de contrat de mentorat, Supports de cours, Enregistrements des webinaires',
+      supportsInclus: 'Template de contrat de mentorat, Annuaire partenaires locaux, Supports de cours, Enregistrements des webinaires',
+      
+      // Preuves sociales
+      temoignages: 'Témoignages de mentors ayant généré €500-2k/mois en accompagnant des startups africaines',
+      argumentsCommerciaux: 'Monétisez votre expertise en accompagnant des startups africaines avec des revenus de €500 à 2k/mois',
+      
+      // Médias
+      imageHero: '/images/mentor-afrique.jpg',
+      videoUrl: '/videos/devenir-mentor-afrique.mp4',
+      gifSolution: '/images/animation-mentor-afrique.gif',
+      
+      // Écosystème et entonnoir
+      entonnoirNaturel: 'Test de profil → Devenir Mentor en Afrique',
+      
+      // Urgence et conditions
+      urgence: 'Offre limitée : 20 places par session',
+      
+      // Nouveaux champs
+      scriptType: 'Comment monétiser votre expertise en accompagnant des startups africaines ?',
+      format: 'Webinaires + Certification + Outils',
+      QuestionReponse: {
+        faq: [
+          {
+            question: 'Dois-je avoir de l\'expérience en Afrique ?',
+            reponse: 'Non, le programme vous forme aux spécificités culturelles et business'
+          },
+          {
+            question: 'Quels sont les revenus possibles ?',
+            reponse: 'Entre €500 et 2k/mois selon votre expertise et implication'
+          },
+          {
+            question: 'La certification est-elle reconnue ?',
+            reponse: 'Oui, certification \'Mentor Afrique 2024\' reconnue par l\'écosystème'
+          }
+        ]
+      },
+      conditionsPaiement: 'Paiement unique',
+      garantie: 'Satisfait ou remboursé 30 jours',
+      
+      // Métadonnées
+      statut: 'actif'
+    }
+  })
+
+  console.log('✅ Produit créé:', produit7.nom)
+
+  // Produit 8: Station-service BP
+  const produit8 = await prisma.produit.upsert({
+    where: { slug: 'station-service-bp' },
+    update: {},
+    create: {
+      nom: 'Station-service BP',
+      sousTitre: 'Stratégie de projet, Business plan avec tableaux de simulation, pitch-decks clients & investisseur en 10 jours clé-en-mains',
+      slug: 'station-service-bp',
+      
+      // Tarification
+      prix: {
+        montant: 3900,
+        devise: 'EUR',
+        format: '3 900 €'
+      },
+      prixOriginal: null,
+      
+      // Ciblage et positionnement
+      niveauPriorite: 1,
+      cible: 'Bâtisseurs Visionnaires cherchent financement',
+      conceptFondateur: 'Problème : Mon business plan ne convainc pas les investisseurs. Solution : Business plan et pitch-decks professionnels en 10 jours clé-en-mains',
+      
+      // Contenu et processus
+      contenu: 'Synthèse 2-3 pages • Fichier tableur de simulations • pitch-deck clients • pitch-deck investisseur • Stratégie financement',
+      processus: {
+        phases: [
+          {
+            jour: 'J1-2',
+            activite: 'Modèle financier 3 ans (scénarios + sensibilité)',
+            livrable: 'Fichier Excel avec KPI dynamiques'
+          },
+          {
+            jour: 'J3-5',
+            activite: 'Pitch deck clients (\'problème/solution\')',
+            livrable: 'Pitch deck clients prêt à présenter'
+          },
+          {
+            jour: 'J6-8',
+            activite: 'Pitch deck investisseurs (ROI + exit strategy)',
+            livrable: 'Pitch deck investisseurs prêt à présenter'
+          },
+          {
+            jour: 'J9-10',
+            activite: 'Stratégie financement (subventions → VC)',
+            livrable: 'Liste ciblée de 50 investisseurs sectoriels'
+          }
+        ]
+      },
+      duree: '10 jours',
+      
+      // Livrables et supports
+      livrablesDetailles: '2 pitch decks \'prêts à présenter\', Fichier Excel avec KPI dynamiques, Liste ciblée de 50 investisseurs sectoriels, Synthèse 2-3 pages, Stratégie financement complète',
+      supportsInclus: 'Modèles de pitch decks, Template Excel avec formules, Base de données investisseurs, Guide de présentation',
+      
+      // Preuves sociales
+      temoignages: 'Témoignages d\'entrepreneurs ayant obtenu des financements grâce à nos business plans',
+      argumentsCommerciaux: 'Transformez votre idée en business plan qui convainc les investisseurs en 10 jours',
+      
+      // Médias
+      imageHero: '/images/station-service-bp.jpg',
+      videoUrl: '/videos/station-service-bp.mp4',
+      gifSolution: '/images/animation-station-service-bp.gif',
+      
+      // Écosystème et entonnoir
+      entonnoirNaturel: 'Test de profil → Station-service BP',
+      
+      // Urgence et conditions
+      urgence: 'Offre limitée : 5 projets par mois',
+      
+      // Nouveaux champs
+      scriptType: 'Votre business plan ne convainc pas les investisseurs ?',
+      format: 'Business Plan + Pitch Decks + Stratégie Financement',
+      QuestionReponse: {
+        faq: [
+          {
+            question: 'Avez-vous besoin de mes données financières ?',
+            reponse: 'Nous travaillons avec vos estimations et créons des scénarios réalistes'
+          },
+          {
+            question: 'Les pitch decks sont-ils personnalisés ?',
+            reponse: 'Oui, entièrement adaptés à votre projet et secteur d\'activité'
+          },
+          {
+            question: 'Puis-je modifier les documents après livraison ?',
+            reponse: 'Oui, vous recevez les fichiers sources modifiables'
+          }
+        ]
+      },
+      conditionsPaiement: 'Paiement en 3x sans frais',
+      garantie: 'Satisfait ou remboursé 30 jours',
+      
+      // Métadonnées
+      statut: 'actif'
+    }
+  })
+
+  console.log('✅ Produit créé:', produit8.nom)
+
+  // Produit 9: Audit 720°
+  const produit9 = await prisma.produit.upsert({
+    where: { slug: 'audit-720' },
+    update: {},
+    create: {
+      nom: 'Audit 720°',
+      sousTitre: 'Audit stratégique en 2 x 2 demi-journées espacées d\'une semaine à 10 jours',
+      slug: 'audit-720',
+      
+      // Tarification
+      prix: {
+        montant: 2495,
+        devise: 'EUR',
+        format: '2 495 €',
+        options: {
+          individuel: {
+            prix: 2495,
+            nom: 'Audit 720° Individuel',
+            duree: '2 demi-journées'
+          },
+          webinar: {
+            prix: 1295,
+            nom: 'Audit 720° Webinar',
+            duree: '4-6 personnes'
+          }
+        }
+      },
+      prixOriginal: null,
+      
+      // Ciblage et positionnement
+      niveauPriorite: 1,
+      cible: 'Entrepreneurs déterminés (CA > 50k€)',
+      conceptFondateur: 'Problème : J\'ai un projet et des idées, mais pas de vision claire. Solution : Audit stratégique approfondi avec focus sur l\'actionnable immédiat',
+      
+      // Contenu et processus
+      contenu: 'Quick wins • Roadmap • Recommandations sectorielles',
+      processus: {
+        phases: [
+          {
+            jour: 'Jour 1',
+            activite: 'Diagnostic stratégique',
+            duree: '2 demi-journées',
+            livrable: 'Verbatim détaillé des 4 séances'
+          },
+          {
+            jour: 'Pause 7j',
+            activite: 'Tests terrain',
+            duree: '7 jours',
+            livrable: 'Validation des hypothèses'
+          },
+          {
+            jour: 'Jour 8',
+            activite: 'Plan de bataille 90j',
+            duree: '2 demi-journées',
+            livrable: 'Roadmap des priorités'
+          }
+        ]
+      },
+      duree: '2 x 2 demi-journées espacées d\'une semaine',
+      
+      // Livrables et supports
+      livrablesDetailles: 'Verbatim détaillé des 4 séances, Roadmap des priorités, Recommandations sectorielles, Plan d\'action 90 jours, Quick wins identifiés',
+      supportsInclus: 'Template de diagnostic stratégique, Modèles de roadmap, Guide des quick wins, Supports de présentation',
+      
+      // Preuves sociales
+      temoignages: 'Entrepreneurs ayant obtenu une vision claire et un plan d\'action concret',
+      argumentsCommerciaux: '70% de notre temps sur l\'actionnable immédiat vs audits théoriques',
+      
+      // Médias
+      imageHero: '/images/audit-720.jpg',
+      videoUrl: '/videos/audit-720.mp4',
+      gifSolution: '/images/animation-audit-720.gif',
+      
+      // Écosystème et entonnoir
+      entonnoirNaturel: 'Test de profil → Audit 720°',
+      
+      // Urgence et conditions
+      urgence: 'Offre limitée : 10 audits/mois max',
+      
+      // Nouveaux champs
+      scriptType: 'Vous avez un projet mais pas de vision claire ?',
+      format: 'Audit Stratégique + Plan d\'Action',
+      QuestionReponse: {
+        faq: [
+          {
+            question: 'Avez-vous besoin de mes données financières ?',
+            reponse: 'Non, nous nous concentrons sur la stratégie et l\'actionnable'
+          },
+          {
+            question: 'La pause de 7 jours est-elle obligatoire ?',
+            reponse: 'Oui, elle permet de tester les hypothèses sur le terrain'
+          },
+          {
+            question: 'Puis-je choisir l\'option webinar ?',
+            reponse: 'Oui, pour 1 295 € avec 4-6 personnes, analyses moins individualisées mais dynamique collaborative'
+          }
+        ]
+      },
+      conditionsPaiement: 'Paiement unique ou 2x',
+      garantie: 'Satisfait ou remboursé 30 jours',
+      
+      // Métadonnées
+      statut: 'actif'
+    }
+  })
+
+  console.log('✅ Produit créé:', produit9.nom)
+
+  // Produit 10: La mue est enfant de Bohême
+  const produit10 = await prisma.produit.upsert({
+    where: { slug: 'la-mue-est-enfant-de-boheme' },
+    update: {},
+    create: {
+      nom: 'La mue est enfant de Bohême',
+      sousTitre: '6 semaines d\'accompagnement : Stratégie premium originale',
+      slug: 'la-mue-est-enfant-de-boheme',
+      
+      // Tarification
+      prix: {
+        montant: 1495,
+        devise: 'EUR',
+        format: '1 495 €'
+      },
+      prixOriginal: null,
+      
+      // Ciblage et positionnement
+      niveauPriorite: 3,
+      cible: 'Entrepreneurs en réinvention radicale (passion/opportunité)',
+      conceptFondateur: 'Problème : Je veux lancer un projet aligné avec mes valeurs, pas juste mon CV. Solution : Parcours de transformation de la passion au projet',
+      
+      // Contenu et processus
+      contenu: 'Étude concurrence • Argumentaire • Checklist export',
+      processus: {
+        phases: [
+          {
+            nom: 'Séance 1 : \'Éveil\' (2h)',
+            contenu: 'Cartographie des passions/convictions, Identification des opportunités',
+            duree: '2 heures',
+            livrable: 'Carte des passions et opportunités identifiées'
+          },
+          {
+            nom: 'Semaines 1-4 : \'Exploration\' (4x30min/sem)',
+            sessions: [
+              {
+                numero: 1,
+                contenu: 'Business model alternatif',
+                duree: '30 minutes'
+              },
+              {
+                numero: 2,
+                contenu: 'Étude concurrence éthique',
+                duree: '30 minutes'
+              },
+              {
+                numero: 3,
+                contenu: 'Prototype rapide',
+                duree: '30 minutes'
+              },
+              {
+                numero: 4,
+                contenu: 'Test marché minimal',
+                duree: '30 minutes'
+              }
+            ]
+          },
+          {
+            nom: 'Séance 6 : \'Révélation\' (1h)',
+            contenu: 'Plan de transition sur 90j, Checklist export (si applicable)',
+            duree: '1 heure',
+            livrable: 'Plan de transition et checklist export'
+          }
+        ]
+      },
+      duree: '6 semaines',
+      
+      // Livrables et supports
+      livrablesDetailles: 'Étude concurrence : Analyse des acteurs \'à mission\' (ESG, B Corp), Argumentaire : Narratif \'Pourquoi ce projet a du sens\' (liant parcours/passion), Checklist export pour projets internationaux : régulations + réseaux militants',
+      supportsInclus: 'Template d\'étude concurrence éthique, Modèle d\'argumentaire valeurs, Checklist export international, Supports de cartographie des passions',
+      
+      // Preuves sociales
+      temoignages: 'Entrepreneurs ayant trouvé leur nouvelle voie alignée avec leurs valeurs',
+      argumentsCommerciaux: 'Transformez votre passion en projet aligné avec vos valeurs',
+      
+      // Médias
+      imageHero: '/images/la-mue-boheme.jpg',
+      videoUrl: '/videos/la-mue-boheme.mp4',
+      gifSolution: '/images/animation-la-mue-boheme.gif',
+      
+      // Écosystème et entonnoir
+      entonnoirNaturel: 'Test de profil → La mue est enfant de Bohême',
+      
+      // Urgence et conditions
+      urgence: 'Offre limitée : 8 places par session',
+      
+      // Nouveaux champs
+      scriptType: 'Voulez-vous lancer un projet aligné avec vos valeurs ?',
+      format: 'Accompagnement + Stratégie Premium',
+      QuestionReponse: {
+        faq: [
+          {
+            question: 'Dois-je avoir une idée précise de projet ?',
+            reponse: 'Non, nous partons de vos passions et convictions pour identifier les opportunités'
+          },
+          {
+            question: 'Le programme est-il adapté aux projets internationaux ?',
+            reponse: 'Oui, nous incluons une checklist export pour les projets internationaux'
+          },
+          {
+            question: 'Puis-je adapter le rythme des sessions ?',
+            reponse: 'Les sessions hebdomadaires sont flexibles selon vos disponibilités'
+          }
+        ]
+      },
+      conditionsPaiement: 'Paiement unique ou 2x',
+      garantie: 'Satisfait ou remboursé 30 jours',
+      
+      // Métadonnées
+      statut: 'actif'
+    }
+  })
+
+  console.log('✅ Produit créé:', produit10.nom)
+
+  console.log('🎉 Seeding terminé avec succès!')
 }
 
 main()
-  .catch(e => {
-    console.error(e)
+  .catch((e) => {
+    console.error('❌ Erreur lors du seeding:', e)
     process.exit(1)
   })
   .finally(async () => {
     await prisma.$disconnect()
-  })
+  }) 

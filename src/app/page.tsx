@@ -41,11 +41,11 @@ export default function Home() {
   const router = useRouter();
   const floatRef = useRef<HTMLImageElement | null>(null);
 
-  // For floating dots
+  // For floating dots - use fixed positions to avoid hydration issues
   const [dotStyles, setDotStyles] = useState([
-    { left: "50%", top: "50%", animationDelay: "0s" },
-    { left: "60%", top: "60%", animationDelay: "1s" },
-    { left: "70%", top: "70%", animationDelay: "2s" },
+    { left: "20%", top: "30%", animationDelay: "0s" },
+    { left: "80%", top: "60%", animationDelay: "1s" },
+    { left: "40%", top: "80%", animationDelay: "2s" },
   ]);
 
   useEffect(() => {
@@ -66,24 +66,28 @@ export default function Home() {
         }
       );
     }
-    // Set random positions for dots (client only)
-    setDotStyles([
-      {
-        left: `${Math.random() * 100}%`,
-        top: `${Math.random() * 100}%`,
-        animationDelay: `${Math.random() * 3}s`,
-      },
-      {
-        left: `${Math.random() * 100}%`,
-        top: `${Math.random() * 100}%`,
-        animationDelay: `${Math.random() * 3}s`,
-      },
-      {
-        left: `${Math.random() * 100}%`,
-        top: `${Math.random() * 100}%`,
-        animationDelay: `${Math.random() * 3}s`,
-      },
-    ]);
+    // Set random positions for dots (client only) - but only after initial render
+    const timer = setTimeout(() => {
+      setDotStyles([
+        {
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+          animationDelay: `${Math.random() * 3}s`,
+        },
+        {
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+          animationDelay: `${Math.random() * 3}s`,
+        },
+        {
+          left: `${Math.random() * 100}%`,
+          top: `${Math.random() * 100}%`,
+          animationDelay: `${Math.random() * 3}s`,
+        },
+      ]);
+    }, 100); // Small delay to ensure hydration is complete
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -424,9 +428,9 @@ au sein de l'UTICA
           key={i}
           className="absolute w-1 h-1 bg-white/20 rounded-full"
           style={{
-        left: `${Math.random() * 100}%`,
-        top: `${Math.random() * 100}%`,
-        animationDelay: `${Math.random() * 3}s`
+        left: `${(i * 7) % 100}%`,
+        top: `${(i * 11) % 100}%`,
+        animationDelay: `${(i % 3)}s`
           }}
         />
           ))}
