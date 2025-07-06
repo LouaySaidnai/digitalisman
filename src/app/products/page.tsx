@@ -161,15 +161,22 @@ export default function ProductsPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        console.log('🔄 Tentative de récupération des produits...');
         const response = await fetch('/api/produits');
+        console.log('📡 Statut de la réponse:', response.status);
+        
         if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des produits');
+          const errorData = await response.json().catch(() => ({}));
+          console.error('❌ Erreur API:', errorData);
+          throw new Error(`Erreur ${response.status}: ${errorData.details || errorData.error || 'Erreur lors de la récupération des produits'}`);
         }
+        
         const data = await response.json();
+        console.log('✅ Produits récupérés:', data.length, 'produits');
         setProducts(data);
       } catch (error) {
-        console.error("Failed to fetch products:", error);
-        setErrorMsg("Impossible de récupérer les produits. Veuillez réessayer plus tard.");
+        console.error("❌ Failed to fetch products:", error);
+        setErrorMsg(`Impossible de récupérer les produits: ${error instanceof Error ? error.message : 'Erreur inconnue'}`);
       } finally {
         setLoading(false);
       }

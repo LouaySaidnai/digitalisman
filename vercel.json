@@ -1,0 +1,15 @@
+{
+  "buildCommand": "npm run vercel-build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "installCommand": "npm install",
+  "env": {
+    "NEXT_DISABLE_ESLINT": "true",
+    "DISABLE_ESLINT_PLUGIN": "true"
+  },
+  "functions": {
+    "src/app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  }
+} 
