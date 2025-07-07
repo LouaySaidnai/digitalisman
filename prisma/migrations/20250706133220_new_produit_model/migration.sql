@@ -1,4 +1,16 @@
+<<<<<<< HEAD:prisma/migrations/20250706133220_new_produit_model/migration.sql
 -- CreateTable
+=======
+/*
+Warnings:
+
+- You are about to drop the `produit` table. If the table is not empty, all the data it contains will be lost.
+
+*/
+-- DropTable
+DROP TABLE IF EXISTS `Produit`;
+
+>>>>>>> 243ed5af6e61d9ca150a0b2b53a1079bc96e3672:prisma/migrations/20250704173943_init_test_result/migration.sql
 CREATE TABLE `Produit` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nom` VARCHAR(191) NOT NULL,

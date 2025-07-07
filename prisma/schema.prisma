@@ -63,9 +63,12 @@ model Produit {
   garantie              String?  // "Satisfait ou remboursé 30 jours"
   
   // Métadonnées
-  statut                String   @default("actif")
-  dateCreation          DateTime @default(now())
-  dateModification      DateTime @updatedAt
+  statut           String   @default("actif")
+  dateCreation     DateTime @default(now())
+  dateModification DateTime @updatedAt
+
+  // Relationship with TestResult
+  testResults TestResult[]
 }
 
 model TestResult {
@@ -74,4 +77,8 @@ model TestResult {
   answers     Json
   personality String
   createdAt   DateTime @default(now())
-}  
+
+  // Relationship with Produit
+  produitId Int?
+  produit   Produit? @relation(fields: [produitId], references: [id])
+}

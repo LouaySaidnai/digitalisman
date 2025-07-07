@@ -4,6 +4,53 @@ import { useEffect, useState, use } from 'react'
 import Link from 'next/link'
 import { FaArrowLeft, FaCheckCircle, FaStar, FaArrowRight, FaPlay, FaClock, FaUsers, FaShieldAlt, FaImage, FaVideo, FaGift, FaExclamationTriangle, FaPlus, FaCompass, FaGraduationCap, FaHandshake, FaLightbulb, FaSeedling, FaChartLine } from 'react-icons/fa'
 
+// Fonction pour formater le prix
+function formatPrix(prix: any): string {
+  if (!prix) return 'Prix sur demande';
+  
+  // Si c'est une string, on essaie de la parser comme JSON
+  if (typeof prix === 'string') {
+    try {
+      const parsedPrix = JSON.parse(prix);
+      // Maintenant on traite l'objet parsé
+      if (parsedPrix.format) return parsedPrix.format;
+      if (parsedPrix.original) return parsedPrix.original;
+      if (parsedPrix.montant && parsedPrix.devise) {
+        return `${parsedPrix.montant} ${parsedPrix.devise}`;
+      }
+      if (parsedPrix.montant) {
+        return `${parsedPrix.montant}€`;
+      }
+      // Si on a des clés comme "Atelier", "Programme", etc.
+      const keys = Object.keys(parsedPrix);
+      if (keys.length > 0) {
+        return parsedPrix[keys[0]]; // Retourne la première valeur
+      }
+    } catch (e) {
+      // Si ce n'est pas du JSON valide, on retourne la string telle quelle
+      return prix;
+    }
+  }
+  
+  // Si c'est un objet (cas rare mais possible)
+  if (typeof prix === 'object') {
+    if (prix.format) return prix.format;
+    if (prix.original) return prix.original;
+    if (prix.montant && prix.devise) {
+      return `${prix.montant} ${prix.devise}`;
+    }
+    if (prix.montant) {
+      return `${prix.montant}€`;
+    }
+    const keys = Object.keys(prix);
+    if (keys.length > 0) {
+      return prix[keys[0]];
+    }
+  }
+  
+  return 'Prix sur demande';
+}
+
 interface Produit {
   id: number
   nom: string
@@ -69,8 +116,15 @@ export default function ProduitDetail({ params }: { params: Promise<{ produitid:
   const [produit, setProduit] = useState<Produit | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
     const fetchProduit = async () => {
       try {
         const response = await fetch(`/api/produits/${produitid}`)
@@ -87,7 +141,18 @@ export default function ProduitDetail({ params }: { params: Promise<{ produitid:
     }
 
     fetchProduit()
-  }, [produitid])
+  }, [produitid, mounted])
+
+  if (!mounted) {
+    return (
+      <main className="min-h-screen bg-gradient-to-br from-[#f5ecd7] via-[#f3e6c4] to-[#e9dbc0] flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#7A5230] mx-auto"></div>
+          <p className="mt-4 text-[#5C3A00] text-xl">Chargement...</p>
+        </div>
+      </main>
+    )
+  }
 
   if (loading) {
     return (
@@ -586,7 +651,15 @@ export default function ProduitDetail({ params }: { params: Promise<{ produitid:
       {/* 8. FAQ : Objections anticipées */}
       <section className="py-20 px-6 bg-[#f0e6d0]">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-[#4B2E05] mb-12 text-center">Questions fréquentes</h2>
+          <h2 className="text-4xl font-bold text-[#4B2E05] mb-12 text-center flex items-center justify-center">
+            <svg className="w-10 h-10 text-[#7A5230] mr-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+            </svg>
+            Questions fréquentes
+            <svg className="w-10 h-10 text-[#7A5230] ml-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+            </svg>
+          </h2>
           <div className="max-h-96 overflow-y-auto space-y-6 pr-2">
             {produit.QuestionReponse && typeof produit.QuestionReponse === 'object' && produit.QuestionReponse.faq ? (
               produit.QuestionReponse.faq.slice(0, 3).map((faq: any, index: number) => (

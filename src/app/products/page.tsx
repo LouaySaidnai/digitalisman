@@ -67,6 +67,53 @@ function getIcon(name: string) {
   return <FaChartLine className="text-white text-6xl" />;
 }
 
+// Fonction pour formater le prix
+function formatPrix(prix: any): string {
+  if (!prix) return 'Prix sur demande';
+  
+  // Si c'est une string, on essaie de la parser comme JSON
+  if (typeof prix === 'string') {
+    try {
+      const parsedPrix = JSON.parse(prix);
+      // Maintenant on traite l'objet parsé
+      if (parsedPrix.format) return parsedPrix.format;
+      if (parsedPrix.original) return parsedPrix.original;
+      if (parsedPrix.montant && parsedPrix.devise) {
+        return `${parsedPrix.montant} ${parsedPrix.devise}`;
+      }
+      if (parsedPrix.montant) {
+        return `${parsedPrix.montant}€`;
+      }
+      // Si on a des clés comme "Atelier", "Programme", etc.
+      const keys = Object.keys(parsedPrix);
+      if (keys.length > 0) {
+        return parsedPrix[keys[0]]; // Retourne la première valeur
+      }
+    } catch (e) {
+      // Si ce n'est pas du JSON valide, on retourne la string telle quelle
+      return prix;
+    }
+  }
+  
+  // Si c'est un objet (cas rare mais possible)
+  if (typeof prix === 'object') {
+    if (prix.format) return prix.format;
+    if (prix.original) return prix.original;
+    if (prix.montant && prix.devise) {
+      return `${prix.montant} ${prix.devise}`;
+    }
+    if (prix.montant) {
+      return `${prix.montant}€`;
+    }
+    const keys = Object.keys(prix);
+    if (keys.length > 0) {
+      return prix[keys[0]];
+    }
+  }
+  
+  return 'Prix sur demande';
+}
+
 // Fonction pour choisir un gradient selon le nom du produit
 function getGradient(name: string) {
   const gradients = [
@@ -114,15 +161,22 @@ export default function ProductsPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        console.log('🔄 Tentative de récupération des produits...');
         const response = await fetch('/api/produits');
+        console.log('📡 Statut de la réponse:', response.status);
+        
         if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des produits');
+          const errorData = await response.json().catch(() => ({}));
+          console.error('❌ Erreur API:', errorData);
+          throw new Error(`Erreur ${response.status}: ${errorData.details || errorData.error || 'Erreur lors de la récupération des produits'}`);
         }
+        
         const data = await response.json();
+        console.log('✅ Produits récupérés:', data.length, 'produits');
         setProducts(data);
       } catch (error) {
-        console.error("Failed to fetch products:", error);
-        setErrorMsg("Impossible de récupérer les produits. Veuillez réessayer plus tard.");
+        console.error("❌ Failed to fetch products:", error);
+        setErrorMsg(`Impossible de récupérer les produits: ${error instanceof Error ? error.message : 'Erreur inconnue'}`);
       } finally {
         setLoading(false);
       }
