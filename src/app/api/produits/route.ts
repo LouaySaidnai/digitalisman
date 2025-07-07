@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const produits = await prisma.produit.findMany({
       where: {
@@ -11,9 +11,20 @@ export async function GET(request: NextRequest) {
         id: true,
         nom: true,
         slug: true,
-        description: true,
-        livrable: true,
-        prix: true
+        sousTitre: true,
+        livrablesDetailles: true,
+        prix: true,
+        niveauPriorite: true,
+        cible: true,
+        contenu: true,
+        duree: true,
+        supportsInclus: true,
+        temoignages: true,
+        argumentsCommerciaux: true,
+        scriptType: true,
+        format: true,
+        conditionsPaiement: true,
+        garantie: true
       }
     })
 

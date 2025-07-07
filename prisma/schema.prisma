@@ -13,73 +13,61 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
 model Produit {
   id                    Int      @id @default(autoincrement())
+  
+  // Informations de base
   nom                   String
-  description           String
-  livrable              String
-  prix                  String   // prix affiché (ex: "1990€")
-
-  // Médias (Hero Section)
+  sousTitre             String?
   slug                  String   @unique
-  imageHero             String?  // Image affichée sur la page (ex: "/images/expert.jpg")
-  videoUrl              String?  // Lien vidéo témoignage (ex: "/videos/temoignage-pierre.mp4")
-  imageProblemes        String?  // Image pour la section "Problème Douloureux"
-  gifSolution           String?  // GIF animé pour la section "Solution"
-
-  sousTitre             String?  // Ex: "Transformer un parcours professionnel en catalogue de prestations vendables"
-  conceptFondateur      String? // Problème central + solution
-
+  
+  // Tarification (JSON structuré)
+  prix                  Json     // Format: "495€" ou { "Atelier": "495€", "Programme": "1990€" } ou { "original": "495€", "promo": "295€", "condition": "sur rendez-vous" }
+  prixOriginal          String?  // Prix barré pour les promos
+  
   // Ciblage et positionnement
+  niveauPriorite        Int?     // 1 (urgent), 2 (moyen), 3 (complémentaire)
   cible                 String?
-  problemeResolu        String?
-  niveauPriorite        Int?     // ex: 1 (urgent), 2 (moyen), 3 (complémentaire)
-
+  conceptFondateur      Json?    // Format: { "probleme": "...", "solution": "..." } 
+  
   // Contenu et processus
-  contenu               String? // Contenu détaillé du programme
-  processus             String? // Étapes du processus (sous forme de tableau ou JSON)
+  contenu               String?  @db.Text
+  processus             String?  @db.Text  // Description du processus en texte libre, sans limite de taille
   duree                 String?  // "3 semaines", "60 minutes", etc.
-
-  // Tarification et garanties
-  prixOriginal          String?  // Prix barré s’il y a une promo
-  optionsTarification   Json?    // → meilleur type que Text (ex: { "Cartographie": "495€", ... })
-  garantie              String?  // "Satisfait ou remboursé 30 jours"
-  conditionsPaiement    String?  // "3x sans frais"
-
-  // Preuves sociales et résultats
-  preuves               String?
-  temoignages           String?
-  resultatsAttendus     String?
-
-  // Différenciation
-  differenciation       String? // Tableau comparatif ou texte
-  avantagesCompetitifs  String?
-
-  // Intégration dans l'écosystème
-  integrationEcosysteme String?
-  entonnoirNaturel      String?  // Nom du produit précédent dans l'entonnoir
-
-  // Arguments de vente
-  argumentsCommerciaux  String?
-  urgence               String?  // ex: "Offre limitée à 10 places/mois"
-
-  // Exemples sectoriels
-  exemplesConcrets      String?
-  casPratiques          String?
-
-  // Livrables
-  livrablesDetailles    String?
+  
+  // Livrables et supports
+  livrablesDetailles    String?  @db.Text
   supportsInclus        String?
-
-  // FAQ
-  faq                   Json?    // Format structuré (question-réponse)
-  objectionsAnticipees  String?
-
+  
+  // Preuves sociales
+  temoignages           String?
+  argumentsCommerciaux  String?
+  
+  // Médias
+  imageHero             String?
+  videoUrl              String?
+  gifSolution           String?
+  
+  // Écosystème et entonnoir
+  entonnoirNaturel      String?  // Nom du produit précédent dans l'entonnoir
+  
+  // Urgence et conditions
+  urgence               String?  // Message d'urgence (ex: concurrence sur un produit)
+  
+  // Nouveaux champs
+  scriptType            String?  // La "question magique" qui fait que ce coaching fonctionne
+  format                String?  // Type de service: "Coaching live", "Formation", "Webinaire", etc.
+  QuestionReponse       Json?    // FAQ structurée en JSON
+  conditionsPaiement    String?  // "3x sans frais"
+  garantie              String?  // "Satisfait ou remboursé 30 jours"
+  
   // Métadonnées
   statut                String   @default("actif")
   dateCreation          DateTime @default(now())
   dateModification      DateTime @updatedAt
 }
+
 model TestResult {
   id          Int      @id @default(autoincrement())
   userId      Int

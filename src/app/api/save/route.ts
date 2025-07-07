@@ -1,5 +1,5 @@
 // src/app/api/save/route.ts
-import { prisma } from '../../../../lib/prisma'; // Adjust path as needed
+import { prisma } from '@/lib/prisma'
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {

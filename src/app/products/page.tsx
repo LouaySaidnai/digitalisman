@@ -90,9 +90,20 @@ type Produit = {
   id: number;
   nom: string;
   slug: string;
-  description: string;
-  livrable: string;
-  prix: string;
+  sousTitre: string | null;
+  livrablesDetailles: string | null;
+  prix: any; // JSON object
+  niveauPriorite: number | null;
+  cible: string | null;
+  contenu: string | null;
+  duree: string | null;
+  supportsInclus: string | null;
+  temoignages: string | null;
+  argumentsCommerciaux: string | null;
+  scriptType: string | null;
+  format: string | null;
+  conditionsPaiement: string | null;
+  garantie: string | null;
 };
 
 export default function ProductsPage() {
@@ -191,7 +202,11 @@ export default function ProductsPage() {
                   <div className={`h-20 bg-gradient-to-br from-[#4B2E05] to-[#7A5230] flex items-center justify-end relative overflow-hidden`}> 
                     {/* Price badge */}
                     <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
-                      <span className="text-white font-bold text-sm">{p.prix}</span>
+                      <span className="text-white font-bold text-sm">
+                        {typeof p.prix === 'object' && p.prix.format ? p.prix.format : 
+                         typeof p.prix === 'object' && p.prix.original ? p.prix.original :
+                         typeof p.prix === 'string' ? p.prix : 'Prix sur demande'}
+                      </span>
                     </div>
                   </div>
                   
@@ -202,7 +217,7 @@ export default function ProductsPage() {
                     </h3>
                     
                     <p className="text-[#5C3A00] mb-6 leading-relaxed text-gray-700">
-                      {p.description}
+                      {p.sousTitre || p.contenu || 'Description non disponible'}
                     </p>
                     
                     {/* Livrable section */}
@@ -211,7 +226,7 @@ export default function ProductsPage() {
                         Ce qui est inclus :
                       </h4>
                       <p className="text-sm text-gray-600 leading-relaxed">
-                        {p.livrable}
+                        {p.livrablesDetailles || p.supportsInclus || 'Livrables non disponibles'}
                       </p>
                     </div>
                     
