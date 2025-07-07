@@ -6,62 +6,62 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 model Produit {
-  id Int @id @default(autoincrement())
-
+  id                    Int      @id @default(autoincrement())
+  
   // Informations de base
-  nom       String
-  sousTitre String?
-  slug      String  @unique
-
+  nom                   String
+  sousTitre             String?
+  slug                  String   @unique
+  
   // Tarification (JSON structuré)
-  prix         Json // Format: "495€" ou { "Atelier": "495€", "Programme": "1990€" } ou { "original": "495€", "promo": "295€", "condition": "sur rendez-vous" }
-  prixOriginal String? // Prix barré pour les promos
-
+  prix                  Json     // Format: "495€" ou { "Atelier": "495€", "Programme": "1990€" } ou { "original": "495€", "promo": "295€", "condition": "sur rendez-vous" }
+  prixOriginal          String?  // Prix barré pour les promos
+  
   // Ciblage et positionnement
-  niveauPriorite   Int? // 1 (urgent), 2 (moyen), 3 (complémentaire)
-  cible            String?
-  conceptFondateur String? // "Problème → Solution" 
-
+  niveauPriorite        Int?     // 1 (urgent), 2 (moyen), 3 (complémentaire)
+  cible                 String?
+  conceptFondateur      Json?    // Format: { "probleme": "...", "solution": "..." } 
+  
   // Contenu et processus
-  contenu   String?
-  processus Json? // Structuré par mois/semaines/étapes/phases selon le format spécifié
-  duree     String? // "3 semaines", "60 minutes", etc.
-
+  contenu               String?  @db.Text
+  processus             String?  @db.Text  // Description du processus en texte libre, sans limite de taille
+  duree                 String?  // "3 semaines", "60 minutes", etc.
+  
   // Livrables et supports
-  livrablesDetailles String?
-  supportsInclus     String?
-
+  livrablesDetailles    String?  @db.Text
+  supportsInclus        String?
+  
   // Preuves sociales
-  temoignages          String?
-  argumentsCommerciaux String?
-
+  temoignages           String?
+  argumentsCommerciaux  String?
+  
   // Médias
-  imageHero   String?
-  videoUrl    String?
-  gifSolution String?
-
+  imageHero             String?
+  videoUrl              String?
+  gifSolution           String?
+  
   // Écosystème et entonnoir
-  entonnoirNaturel String? // Nom du produit précédent dans l'entonnoir
-
+  entonnoirNaturel      String?  // Nom du produit précédent dans l'entonnoir
+  
   // Urgence et conditions
-  urgence String? // Message d'urgence (ex: concurrence sur un produit)
-
+  urgence               String?  // Message d'urgence (ex: concurrence sur un produit)
+  
   // Nouveaux champs
-  scriptType         String? // La "question magique" qui fait que ce coaching fonctionne
-  format             String? // Type de service: "Coaching live", "Formation", "Webinaire", etc.
-  QuestionReponse    Json? // FAQ structurée en JSON
-  conditionsPaiement String? // "3x sans frais"
-  garantie           String? // "Satisfait ou remboursé 30 jours"
-
-  // Test et personnalisation
-  testQuestions         Json? // Questions du test de personnalité pour ce produit
-  testPersonalityMatch  String? // Type de personnalité idéale pour ce produit
-  testResultsAggregated Json? // Résultats agrégés des tests pour ce produit
-
+  scriptType            String?  // La "question magique" qui fait que ce coaching fonctionne
+  format                String?  // Type de service: "Coaching live", "Formation", "Webinaire", etc.
+  QuestionReponse       Json?    // FAQ structurée en JSON
+  conditionsPaiement    String?  // "3x sans frais"
+  garantie              String?  // "Satisfait ou remboursé 30 jours"
+  
   // Métadonnées
   statut           String   @default("actif")
   dateCreation     DateTime @default(now())
@@ -69,11 +69,6 @@ model Produit {
 
   // Relationship with TestResult
   testResults TestResult[]
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model TestResult {

@@ -256,10 +256,12 @@ export default function ProductsPage() {
                   <div className={`h-20 bg-gradient-to-br from-[#4B2E05] to-[#7A5230] flex items-center justify-end relative overflow-hidden`}> 
                     {/* Price badge */}
                     <div className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">
-  <span className="text-white font-bold text-sm">
-    {formatPrix(p.prix)}
-  </span>
-</div>
+                      <span className="text-white font-bold text-sm">
+                        {typeof p.prix === 'object' && p.prix.format ? p.prix.format : 
+                         typeof p.prix === 'object' && p.prix.original ? p.prix.original :
+                         typeof p.prix === 'string' ? p.prix : 'Prix sur demande'}
+                      </span>
+                    </div>
                   </div>
                   
                   {/* Content */}

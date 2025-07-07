@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     console.log('🔍 Tentative de connexion à la base de données...')
     console.log('📊 DATABASE_URL:', process.env.DATABASE_URL ? 'Configurée' : 'Non configurée')
@@ -15,9 +15,19 @@ export async function GET(request: NextRequest) {
         nom: true,
         slug: true,
         sousTitre: true,
+        livrablesDetailles: true,
         prix: true,
+        niveauPriorite: true,
+        cible: true,
         contenu: true,
-        livrablesDetailles: true
+        duree: true,
+        supportsInclus: true,
+        temoignages: true,
+        argumentsCommerciaux: true,
+        scriptType: true,
+        format: true,
+        conditionsPaiement: true,
+        garantie: true
       }
     })
 
