@@ -3,19 +3,12 @@
   "outputDirectory": ".next",
   "framework": "nextjs",
   "installCommand": "npm install",
-<<<<<<< HEAD
-  "devCommand": "npm run dev",
-  "regions": ["iad1"],
-  "functions": {
-    "app/api/**/*.ts": {
-=======
   "env": {
     "NEXT_DISABLE_ESLINT": "true",
     "DISABLE_ESLINT_PLUGIN": "true"
   },
   "functions": {
     "src/app/api/**/*.ts": {
->>>>>>> 243ed5af6e61d9ca150a0b2b53a1079bc96e3672
       "maxDuration": 30
     }
   }

@@ -364,7 +364,7 @@ export default function ProduitDetail({ params }: { params: Promise<{ produitid:
           {produit.conceptFondateur && (
             <div className="bg-white border-2 border-[#4B2E05] rounded-3xl p-8">
               <div className="space-y-6">
-                {produit.conceptFondateur.probleme.split('.').filter(probleme => probleme.trim()).map((probleme, index) => (
+                {(produit.conceptFondateur.probleme || '').split('.').filter(probleme => probleme.trim()).map((probleme, index) => (
                   <div key={index} className="flex items-start space-x-4">
                     <div className="flex-shrink-0 w-3 h-3 bg-[#7A5230] rounded-full mt-2"></div>
                     <p className="text-xl font-medium text-[#4B2E05] leading-relaxed">
@@ -395,7 +395,7 @@ export default function ProduitDetail({ params }: { params: Promise<{ produitid:
           {produit.conceptFondateur && (
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-[#4B2E05] rounded-3xl p-8 mb-12">
               <div className="space-y-6">
-                {produit.conceptFondateur.solution.split('.').filter(solution => solution.trim()).map((solution, index) => (
+                {(produit.conceptFondateur.solution || '').split('.').filter(solution => solution.trim()).map((solution, index) => (
                   <div key={index} className="flex items-start space-x-4">
                     <div className="flex-shrink-0 w-3 h-3 bg-[#7A5230] rounded-full mt-2"></div>
                     <p className="text-xl font-medium text-[#4B2E05] leading-relaxed">
@@ -442,7 +442,7 @@ export default function ProduitDetail({ params }: { params: Promise<{ produitid:
           </h2>
           
           {/* Processus simplifié */}
-          {produit.processus ? (
+          {produit.processus && (
             <div className="bg-gradient-to-br from-[#f5ecd7] to-[#f3e6c4] rounded-3xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300">
               <div className="flex items-start space-x-6">
                 <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#7A5230] to-[#B9986F] rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
@@ -464,40 +464,11 @@ export default function ProduitDetail({ params }: { params: Promise<{ produitid:
                   <div className="bg-white/60 rounded-2xl p-6 border-l-4 border-[#7A5230]">
                     <div className="prose prose-lg max-w-none">
                       <div className="whitespace-pre-line text-[#5C3A00] leading-relaxed">
-                        {produit.processus}
+                        {(produit.processus || '').split('\n').map((line, index) => (
+                          <p key={index}>{line.trim()}</p>
+                        ))}
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="bg-gradient-to-br from-[#f5ecd7] to-[#f3e6c4] rounded-3xl shadow-xl p-8 transform hover:scale-105 transition-all duration-300">
-              <div className="flex items-start space-x-6">
-                <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-[#7A5230] to-[#B9986F] rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
-                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-2xl font-bold text-[#4B2E05]">Processus personnalisé</h3>
-                    {produit.duree && (
-                      <span className="bg-[#7A5230] text-white px-4 py-2 rounded-full text-sm font-semibold">
-                        {produit.duree}
-                      </span>
-                    )}
-                  </div>
-                  
-                  <div className="bg-white/60 rounded-2xl p-6 border-l-4 border-[#7A5230]">
-                    <h4 className="text-lg font-semibold text-[#4B2E05] mb-3 flex items-center">
-                      <svg className="w-5 h-5 text-[#7A5230] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      Livrable
-                    </h4>
-                    <p className="text-[#5C3A00] leading-relaxed">{produit.livrablesDetailles || 'Processus personnalisé selon vos besoins'}</p>
                   </div>
                 </div>
               </div>
@@ -642,7 +613,11 @@ export default function ProduitDetail({ params }: { params: Promise<{ produitid:
                 <FaCheckCircle className="text-white text-2xl" />
               </div>
               <h3 className="font-bold text-[#4B2E05] mb-4">Livrables</h3>
-              <p className="text-lg italic text-[#5C3A00]">"{produit.livrablesDetailles || 'Livrables à ajouter'}"</p>
+              <p className="text-lg italic text-[#5C3A00]">"{Array.isArray(produit.livrablesDetailles)
+                ? produit.livrablesDetailles.map((livrable: string) => livrable.trim()).join('\n')
+                : (typeof produit.livrablesDetailles === 'string'
+                    ? produit.livrablesDetailles.split('\n').map((livrable: string) => livrable.trim()).join('\n')
+                    : null)}"</p>
             </div>
           </div>
         </div>

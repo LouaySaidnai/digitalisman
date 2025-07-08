@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronRight, CheckCircle, User, Target, Lightbulb, Zap, BarChart3, TrendingUp, Award, Rocket, Trophy } from 'lucide-react';
 
 const EntrepreneurialTest = () => {
@@ -8,6 +8,9 @@ const EntrepreneurialTest = () => {
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [personalityType, setPersonalityType] = useState<string>('');
+  const [showPause, setShowPause] = useState(false);
+  const [pauseTimer, setPauseTimer] = useState(5);
+  const [pauseIndex, setPauseIndex] = useState(0);
 
   // Questions basées sur votre QCM
   const questions = [
@@ -89,16 +92,36 @@ interface AnswersMap {
     P: [8, 16, 24, 32, 36, 44]
   };
  
+const funFacts = [
+  "It's about the person that pushes the product, not the product.",
+  "Fun Fact: 90% of startups fail, but learning from failure is a key to success!",
+  "The best way to predict the future is to create it.",
+  "Entrepreneurs are lifelong learners. Keep growing!",
+  "Every big business started as someone's small idea."
+];
+
 const handleAnswer = (value: 'vrai' | 'faux') => {
     const newAnswers: AnswersMap = { ...answers, [currentQuestion]: value };
     setAnswers(newAnswers);
-
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
+    const nextQuestion = currentQuestion + 1;
+    // Show pause/fact after every 10 questions, but not after the last question
+    if (nextQuestion < questions.length && nextQuestion % 10 === 0) {
+      setShowPause(true);
+      setPauseTimer(5);
+      setPauseIndex(Math.floor(nextQuestion / 10) - 1);
+    } else if (nextQuestion < questions.length) {
+      setCurrentQuestion(nextQuestion);
     } else {
       calculateResults(newAnswers);
     }
   };
+
+  useEffect(() => {
+    if (showPause && pauseTimer > 0) {
+      const timer = setTimeout(() => setPauseTimer(pauseTimer - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [showPause, pauseTimer]);
 
   const calculateResults = (finalAnswers: AnswersMap) => {
     const scores: Record<MBTILetter, number> = {
@@ -125,7 +148,7 @@ const handleAnswer = (value: 'vrai' | 'faux') => {
     setPersonalityType(resultType);
   };
 const handleSubmit = async () => {
-  const userId = 123; // tu peux générer un ID unique ou lier à l’utilisateur connecté
+  const userId = 123; // tu peux générer un ID unique ou lier à l'utilisateur connecté
   const response = await fetch('/api/save', {
     method: 'POST',
     headers: {
@@ -583,6 +606,31 @@ interface PersonalityType {
               </button>
             </div>
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (showPause) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-yellow-800 via-amber-900 to-yellow-900 text-white">
+        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 border border-white/20 mb-8 text-center">
+          <h2 className="text-2xl font-bold mb-4">Pause</h2>
+          <p className="mb-6 text-lg">{funFacts[pauseIndex % funFacts.length]}</p>
+          <div className="mb-6">
+            <div className="text-amber-200 text-xl mb-2">Take a breath, next part coming up…</div>
+            <div className="w-full bg-white/20 rounded-full h-2 mb-2">
+              <div className="bg-gradient-to-r from-yellow-400 to-orange-500 h-2 rounded-full transition-all duration-300" style={{ width: `${((5-pauseTimer)/5)*100}%` }}></div>
+            </div>
+            <div className="text-sm">{pauseTimer > 0 ? `${pauseTimer} seconds` : 'Ready!'}</div>
+          </div>
+          <button
+            className="bg-gradient-to-r from-yellow-400 to-orange-500 text-purple-900 px-8 py-4 rounded-xl font-bold text-lg hover:from-yellow-300 hover:to-orange-400 transform hover:scale-105 transition-all duration-200 shadow-lg disabled:opacity-50"
+            onClick={() => { setShowPause(false); setCurrentQuestion(currentQuestion + 1); }}
+            disabled={pauseTimer > 0}
+          >
+            Start Next Section
+          </button>
         </div>
       </div>
     );
