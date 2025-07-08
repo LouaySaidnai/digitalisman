@@ -10,7 +10,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider="postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -33,7 +33,7 @@ model Produit {
   
   // Contenu et processus
   contenu               String?  @db.Text
-  processus             String?  @db.Text  // Description du processus en texte libre, sans limite de taille
+  processus             Json?  // Description du processus en texte libre, sans limite de taille
   duree                 String?  // "3 semaines", "60 minutes", etc.
   
   // Livrables et supports
