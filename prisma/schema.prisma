@@ -66,6 +66,12 @@ model Produit {
   statut           String   @default("actif")
   dateCreation     DateTime @default(now())
   dateModification DateTime @updatedAt
+  
+  // Calendrier des événements
+  meeting          Json?    // Format: { "nom_event": [{ "date": "2024-12-20", "type": "webinaire" }, { "date": "2024-12-23", "type": "individuel" }] }
+  
+  // Disponibilité du produit
+  disponibilite    String?  // "disponible", "non  disponible" sinon "iconnu"
 
   // Relationship with TestResult
   testResults TestResult[]

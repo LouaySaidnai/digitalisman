@@ -199,15 +199,15 @@ Débrief et plan d'action (15 min) :
     where: { slug: 'le-produit-cest-vous-pack-premium' },
     update: {},
     create: {
-      nom: 'Le Produit, C\'est Vous (Pack Premium)',
-      sousTitre: 'Transformer un parcours professionnel en catalogue de prestations vendables',
+      nom: 'Le Produit, C\'est Vous',
+      sousTitre: 'Transformer un parcours professionnel en catalogue de prestations vendables - 3 options disponibles',
       slug: 'le-produit-cest-vous-pack-premium',
 
       // Tarification
       prix: {
-        original: '4 900€',
-        promo: null,
-        condition: null
+        "Atelier \"Cartographie d'Expertise\"": "495 €",
+        "Programme \"Catalogue Clé-en-Main\"": "1 990 €",
+        "\"Usine à Produits Premium\"": "4 900 €"
       },
       prixOriginal: null,
 

@@ -41,7 +41,6 @@ export default function Home() {
   const router = useRouter();
   const floatRef = useRef<HTMLImageElement | null>(null);
 
-  // For floating dots - use fixed positions to avoid hydration issues
   const [dotStyles, setDotStyles] = useState([
     { left: "20%", top: "30%", animationDelay: "0s" },
     { left: "80%", top: "60%", animationDelay: "1s" },
@@ -66,7 +65,6 @@ export default function Home() {
         }
       );
     }
-    // Set random positions for dots (client only) - but only after initial render
     const timer = setTimeout(() => {
       setDotStyles([
         {
@@ -175,9 +173,7 @@ Clarification stratégique, validation de votre idée, offres sur-mesure : tout 
               <div className="p-8">
           <h3 className="text-2xl font-bold text-[#4B2E05] mb-3">{p.title}</h3>
           <p className="text-[#5C3A00] mb-4">{p.desc}</p>
-          <a href={p.link} className="text-[#7A5230] font-semibold inline-flex items-center hover:underline">
-            En savoir plus <FaArrowRight className="ml-2" />
-          </a>
+         
               </div>
             </div>
           ))}
