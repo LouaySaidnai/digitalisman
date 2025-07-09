@@ -25,10 +25,7 @@ async function main() {
       // Ciblage et positionnement
       niveauPriorite: 3,
       cible: 'Tous les entrepreneurs 50+ (surtout Digital Novice)',
-      conceptFondateur: {
-        probleme: 'Je ne maîtrise pas l\'IA et ça me paralyse',
-        solution: 'Kit de survie IA offert pour démarrer sans tech'
-      },
+      conceptFondateur: 'Problème → Solution : "Je ne maîtrise pas l\'IA et ça me paralyse" (p.2 coaching digital négligé)',
       
       // Contenu et processus
       contenu: `Webinaire découverte (60 min) :
@@ -42,21 +39,15 @@ Kit survie :
 - 5 vidéos Loom "Pas-à-pas"
 - Template : "Prompt parfait pour votre secteur"`,
       
-      processus: `Webinaire découverte (60 min) :
-"10 prompts magiques pour :
-✓ Rédiger des emails clients
-✓ Analyser la concurrence
-✓ Générer des idées de produits"
-
-Kit survie :
-- Liste des 12 outils IA gratuits
-- 5 vidéos Loom "Pas-à-pas"
-- Template : "Prompt parfait pour votre secteur"
-
-Accès à la communauté WhatsApp (90 jours) :
-- Support continu
-- Partage d'expériences
-- Questions/réponses en temps réel`,
+      processus: JSON.stringify({
+        type: 'webinaire',
+        duree: '60 minutes',
+        etapes: [
+          'Webinaire découverte',
+          'Accès au kit survie',
+          'Accès à la communauté WhatsApp'
+        ]
+      }),
       
       duree: '60 minutes',
       
@@ -128,26 +119,19 @@ Accès à la communauté WhatsApp (90 jours) :
       // Ciblage et positionnement
       niveauPriorite: 1,
       cible: 'Opportunistes Agile en phase de test',
-      conceptFondateur: {
-        probleme: 'J\'ai besoin d\'un avis expert rapide, pas d\'un coaching long',
-        solution: 'Coaching express pour débloquer rapidement'
-      },
+      conceptFondateur: 'Problème → Solution : "J\'ai besoin d\'un avis expert rapide, pas d\'un coaching long" (p.1 "durée insuffisante")',
 
       // Contenu et processus
-      contenu: `Déroulé :\nAudit express de votre projet via questionnaire préalable\n60 min de coaching ciblé :\n✓ Percer 1 blocage stratégique\n✓ Valider 1 hypothèse marché\n✓ Obtenir 1 prochaine action claire`,
-      processus: `Questionnaire préalable (15 min) :
-- Audit express de votre projet
-- Questions ciblées pour identifier les blocages
-
-Coaching live (60 min) :
-- Percer 1 blocage stratégique
-- Valider 1 hypothèse marché
-- Obtenir 1 prochaine action claire
-
-Débrief et plan d'action (15 min) :
-- Transcription de l'entretien
-- Fiche "Next Step" personnalisée
-- Enregistrement de la session`,
+      contenu: 'Déroulé :\nAudit express de votre projet via questionnaire préalable\n60 min de coaching ciblé :\n✓ Percer 1 blocage stratégique\n✓ Valider 1 hypothèse marché\n✓ Obtenir 1 prochaine action claire',
+      processus: {
+        type: 'coaching',
+        duree: '60 minutes',
+        etapes: [
+          'Questionnaire préalable',
+          'Coaching live 1h',
+          'Débrief et plan d\'action'
+        ]
+      },
       duree: '60 minutes',
 
       // Livrables et supports
@@ -214,27 +198,19 @@ Débrief et plan d'action (15 min) :
       // Ciblage et positionnement
       niveauPriorite: 1,
       cible: 'Bâtisseurs Visionnaires (expertise sectorielle forte)',
-      conceptFondateur: {
-        probleme: 'Mon savoir-faire ne se transforme pas en revenus récurrents',
-        solution: 'Transformer son expertise en revenus récurrents'
-      },
+      conceptFondateur: 'Problème → Solution : "Mon savoir-faire ne se transforme pas en revenus récurrents" (p.6 niveau 3 fondamental)',
 
       // Contenu et processus
-      contenu: `Parcours de transformation "Savoir → Produit"\n\nMois 1 : Fondations\n- Structurer l'offre phare : 3 sessions\n- Définir le pricing premium\n\nMois 2 : Écosystème\n- Site web vitrine + automatisation\n- Tournage témoignages clients\n\nMois 3 : Lancement\n- Sequence email "Early Birds"\n- Packaging 3 produits dérivés`,
-      processus: `Mois 1 : Fondations
-- Structurer l'offre phare : 3 sessions
-- Définir le pricing premium
-- Livrable : Offre phare structurée + pricing premium défini
-
-Mois 2 : Écosystème
-- Site web vitrine + automatisation
-- Tournage témoignages clients
-- Livrable : Site web vitrine + automatisation + témoignages clients
-
-Mois 3 : Lancement
-- Sequence email "Early Birds"
-- Packaging 3 produits dérivés
-- Livrable : Sequence email "Early Birds" + 3 produits dérivés packagés`,
+      contenu: 'Parcours de transformation "Savoir → Produit"\n\nMois 1 : Fondations\n- Structurer l\'offre phare : 3 sessions\n- Définir le pricing premium\n\nMois 2 : Écosystème\n- Site web vitrine + automatisation\n- Tournage témoignages clients\n\nMois 3 : Lancement\n- Sequence email "Early Birds"\n- Packaging 3 produits dérivés',
+      processus: {
+        type: 'programme',
+        duree: '3 mois',
+        etapes: [
+          'Mois 1 : Fondations',
+          'Mois 2 : Écosystème',
+          'Mois 3 : Lancement'
+        ]
+      },
       duree: '3 mois',
 
       // Livrables et supports
@@ -301,27 +277,25 @@ Mois 3 : Lancement
       // Ciblage et positionnement
       niveauPriorite: 2,
       cible: 'Stratèges Réticents en phase de validation',
-      conceptFondateur: {
-        probleme: 'Je ne sais pas si mon idée tient financièrement',
-        solution: 'Validation express de projet avec scénarios financiers'
-      },
+      conceptFondateur: 'Problème → Solution : "Je ne sais pas si mon idée tient financièrement" (p.5 "manque d\'information")',
 
       // Contenu et processus
-      contenu: `Déroulé :\nPré-travail : Questionnaire commercial et financier (20 min)\nSession Live (2h) :\n✓ Estimation du panier moyen et des croissances possibles de clients, des coûts et de la marge\n✓ Scénario optimiste/pessimiste\n✓ Calcul seuil rentabilité\n✓ Identification des 2 risques mortels`,
-      processus: `Questionnaire préalable (20 min) :
-- Questionnaire commercial et financier
-- Préparation de la session
-
+      contenu: `Déroulé :
+Pré-travail : Questionnaire commercial et financier (20 min)
 Session Live (2h) :
-- Estimation du panier moyen et des croissances possibles
-- Scénario optimiste/pessimiste
-- Calcul seuil rentabilité
-- Identification des 2 risques mortels
-
-Analyse et recommandations (1 semaine) :
-- Fiche "Go/No-Go" avec indicateurs clés
-- Modèle Excel modifiable
-- Enregistrement personnalisé`,
+✓ Estimation du panier moyen et des croissances possibles de clients, des coûts et de la marge
+✓ Scénario optimiste/pessimiste
+✓ Calcul seuil rentabilité
+✓ Identification des 2 risques mortels`,
+      processus: {
+        type: 'validation',
+        duree: '2h live',
+        etapes: [
+          'Questionnaire préalable (20 min)',
+          'Session Live (2h)',
+          'Analyse et recommandations'
+        ]
+      },
       duree: '2h live',
 
       // Livrables et supports
@@ -366,8 +340,6 @@ Analyse et recommandations (1 semaine) :
     }
   })
 
-  console.log('✅ Produit créé:', produit4.nom)
-
   // Produit 5: Premiers clients, la preuve par 3+3+3
   const produit5 = await prisma.produit.upsert({
     where: { slug: 'premiers-clients-preuve-3-3-3' },
@@ -388,24 +360,22 @@ Analyse et recommandations (1 semaine) :
       // Ciblage et positionnement
       niveauPriorite: 2,
       cible: 'Tous profils - phase de commercialisation',
-      conceptFondateur: {
-        probleme: 'J\'ai structuré mon offre mais aucun client',
-        solution: 'Programme 3 semaines pour obtenir ses premiers clients'
-      },
+      conceptFondateur: 'Problème → Solution : "J\'ai structuré mon offre mais aucun client" (p.6 "comment avoir des clients ?")',
 
       // Contenu et processus
-      contenu: `Calendrier :\nSemaine 1 - Défi : Packager 3 offres - Outils : Template "Argumentaire Choc"\nSemaine 2 - Défi : Tester 3 canaux - Outils : Scripts phoning/messaging sectoriels\nSemaine 3 - Défi : Signer 3 clients - Outils : Checklist closing`,
-      processus: `Semaine 1 :
-- Défi : Packager 3 offres
-- Outil : Template "Argumentaire Choc"
-
-Semaine 2 :
-- Défi : Tester 3 canaux
-- Outil : Scripts phoning/messaging sectoriels
-
-Semaine 3 :
-- Défi : Signer 3 clients
-- Outil : Checklist closing`,
+      contenu: `Calendrier :
+Semaine 1 - Défi : Packager 3 offres - Outils : Template "Argumentaire Choc"
+Semaine 2 - Défi : Tester 3 canaux - Outils : Scripts phoning/messaging sectoriels
+Semaine 3 - Défi : Signer 3 clients - Outils : Checklist closing`,
+      processus: {
+        type: 'programme',
+        duree: '3 semaines',
+        etapes: [
+          'Semaine 1 : Packager 3 offres',
+          'Semaine 2 : Tester 3 canaux',
+          'Semaine 3 : Signer 3 clients'
+        ]
+      },
       duree: '3 semaines',
 
       // Livrables et supports
@@ -472,28 +442,34 @@ Semaine 3 :
       // Ciblage et positionnement
       niveauPriorite: 3,
       cible: 'Entrepreneurs en reconversion totale, prêts à s\'impliquer comme co-fondateur actif',
-      conceptFondateur: {
-        probleme: 'Je veux une aventure entrepreneuriale clé-en-main',
-        solution: 'Intégration comme co-fondateur dans une startup africaine avec accompagnement complet'
-      },
+      conceptFondateur: 'Problème : Je veux une aventure entrepreneuriale clé-en-main. Solution : Intégration comme co-fondateur dans une startup africaine avec accompagnement complet',
       
       // Contenu et processus
       contenu: 'Séances de coaching & webinaires • Matching projet • Pack installation • Contrats types',
-      processus: `Phase 1 : Immersion
-- Cartographie des hubs tech (Dakar, Abidjan, Casablanca)
-- Outils : Carte interactive + PDF dynamique
-
-Phase 2 : Scouting
-- Base de 15 startups 'fit' avec critères : Stade, Secteur, Besoin expertise
-- Outils : Template Airtable
-
-Phase 3 : Matching
-- Grille de compatibilité valeurs/compétences
-- Outils : Questionnaire algorithmique
-
-Phase 4 : Implémentation
-- Journal de bord personnalisé (objectifs 30/60/90j)
-- Outils : Template Notion`,
+      processus: {
+        phases: [
+          {
+            nom: 'Immersion',
+            contenu: 'Cartographie des hubs tech (Dakar, Abidjan, Casablanca)',
+            outils: 'Carte interactive + PDF dynamique'
+          },
+          {
+            nom: 'Scouting',
+            contenu: 'Base de 15 startups \'fit\' avec critères : Stade, Secteur, Besoin expertise',
+            outils: 'Template Airtable'
+          },
+          {
+            nom: 'Matching',
+            contenu: 'Grille de compatibilité valeurs/compétences',
+            outils: 'Questionnaire algorithmique'
+          },
+          {
+            nom: 'Implémentation',
+            contenu: 'Journal de bord personnalisé (objectifs 30/60/90j)',
+            outils: 'Template Notion'
+          }
+        ]
+      },
       duree: '4 phases sur 3 mois',
       
       // Livrables et supports
@@ -564,28 +540,38 @@ Phase 4 : Implémentation
       // Ciblage et positionnement
       niveauPriorite: 3,
       cible: 'Experts retraités/consultants seniors',
-      conceptFondateur: {
-        probleme: 'Comment monétiser mon réseau et savoir-faire en Afrique ?',
-        solution: 'Programme de formation pour devenir mentor de startups africaines'
-      },
+      conceptFondateur: 'Problème : Comment monétiser mon réseau et savoir-faire en Afrique ? Solution : Programme de formation pour devenir mentor de startups africaines',
       
       // Contenu et processus
       contenu: 'Série de 4 webinaires de 90 mn pour devenir mentor de startups africaines',
-      processus: `Webinaire 1 : Écosystèmes startups Dakar/Casablanca (90 min)
-- Découverte des écosystèmes startup africains
-- Cartographie des opportunités
-
-Webinaire 2 : Cultural intelligence (négociation Afrique) (90 min)
-- Maîtriser les codes culturels pour négocier en Afrique
-- Techniques de communication interculturelle
-
-Webinaire 3 : Cas pratiques sectoriels (90 min)
-- Études de cas concrets par secteur d'activité
-- Retours d'expérience de mentors
-
-Webinaire 4 : Modèles de rémunération (€500-2k/mois) (90 min)
-- Comment structurer sa rémunération de mentor
-- Stratégies de pricing et négociation`,
+      processus: {
+        webinaires: [
+          {
+            numero: 1,
+            titre: 'Écosystèmes startups Dakar/Casablanca',
+            duree: '90 minutes',
+            contenu: 'Découverte des écosystèmes startup africains'
+          },
+          {
+            numero: 2,
+            titre: 'Cultural intelligence (négociation Afrique)',
+            duree: '90 minutes',
+            contenu: 'Maîtriser les codes culturels pour négocier en Afrique'
+          },
+          {
+            numero: 3,
+            titre: 'Cas pratiques sectoriels',
+            duree: '90 minutes',
+            contenu: 'Études de cas concrets par secteur d\'activité'
+          },
+          {
+            numero: 4,
+            titre: 'Modèles de rémunération (€500-2k/mois)',
+            duree: '90 minutes',
+            contenu: 'Comment structurer sa rémunération de mentor'
+          }
+        ]
+      },
       duree: '4 webinaires de 90 minutes',
       
       // Livrables et supports
@@ -656,28 +642,34 @@ Webinaire 4 : Modèles de rémunération (€500-2k/mois) (90 min)
       // Ciblage et positionnement
       niveauPriorite: 1,
       cible: 'Bâtisseurs Visionnaires cherchent financement',
-      conceptFondateur: {
-        probleme: 'Mon business plan ne convainc pas les investisseurs',
-        solution: 'Business plan et pitch-decks professionnels en 10 jours clé-en-mains'
-      },
+      conceptFondateur: 'Problème : Mon business plan ne convainc pas les investisseurs. Solution : Business plan et pitch-decks professionnels en 10 jours clé-en-mains',
       
       // Contenu et processus
       contenu: 'Synthèse 2-3 pages • Fichier tableur de simulations • pitch-deck clients • pitch-deck investisseur • Stratégie financement',
-      processus: `J1-2 : Modèle financier 3 ans (scénarios + sensibilité)
-- Fichier Excel avec KPI dynamiques
-- Scénarios optimiste/pessimiste
-
-J3-5 : Pitch deck clients ('problème/solution')
-- Pitch deck clients prêt à présenter
-- Focus sur la valeur client
-
-J6-8 : Pitch deck investisseurs (ROI + exit strategy)
-- Pitch deck investisseurs prêt à présenter
-- Focus sur le retour sur investissement
-
-J9-10 : Stratégie financement (subventions → VC)
-- Liste ciblée de 50 investisseurs sectoriels
-- Roadmap de financement`,
+      processus: {
+        phases: [
+          {
+            jour: 'J1-2',
+            activite: 'Modèle financier 3 ans (scénarios + sensibilité)',
+            livrable: 'Fichier Excel avec KPI dynamiques'
+          },
+          {
+            jour: 'J3-5',
+            activite: 'Pitch deck clients (\'problème/solution\')',
+            livrable: 'Pitch deck clients prêt à présenter'
+          },
+          {
+            jour: 'J6-8',
+            activite: 'Pitch deck investisseurs (ROI + exit strategy)',
+            livrable: 'Pitch deck investisseurs prêt à présenter'
+          },
+          {
+            jour: 'J9-10',
+            activite: 'Stratégie financement (subventions → VC)',
+            livrable: 'Liste ciblée de 50 investisseurs sectoriels'
+          }
+        ]
+      },
       duree: '10 jours',
       
       // Livrables et supports
@@ -760,24 +752,32 @@ J9-10 : Stratégie financement (subventions → VC)
       // Ciblage et positionnement
       niveauPriorite: 1,
       cible: 'Entrepreneurs déterminés (CA > 50k€)',
-      conceptFondateur: {
-        probleme: 'J\'ai un projet et des idées, mais pas de vision claire',
-        solution: 'Audit stratégique approfondi avec focus sur l\'actionnable immédiat'
-      },
+      conceptFondateur: 'Problème : J\'ai un projet et des idées, mais pas de vision claire. Solution : Audit stratégique approfondi avec focus sur l\'actionnable immédiat',
       
       // Contenu et processus
       contenu: 'Quick wins • Roadmap • Recommandations sectorielles',
-      processus: `Jour 1 : Diagnostic stratégique (2 demi-journées)
-- Verbatim détaillé des 4 séances
-- Analyse approfondie de votre situation
-
-Pause 7j : Tests terrain (7 jours)
-- Validation des hypothèses
-- Tests sur le terrain
-
-Jour 8 : Plan de bataille 90j (2 demi-journées)
-- Roadmap des priorités
-- Plan d'action concret`,
+      processus: {
+        phases: [
+          {
+            jour: 'Jour 1',
+            activite: 'Diagnostic stratégique',
+            duree: '2 demi-journées',
+            livrable: 'Verbatim détaillé des 4 séances'
+          },
+          {
+            jour: 'Pause 7j',
+            activite: 'Tests terrain',
+            duree: '7 jours',
+            livrable: 'Validation des hypothèses'
+          },
+          {
+            jour: 'Jour 8',
+            activite: 'Plan de bataille 90j',
+            duree: '2 demi-journées',
+            livrable: 'Roadmap des priorités'
+          }
+        ]
+      },
       duree: '2 x 2 demi-journées espacées d\'une semaine',
       
       // Livrables et supports
@@ -848,28 +848,51 @@ Jour 8 : Plan de bataille 90j (2 demi-journées)
       // Ciblage et positionnement
       niveauPriorite: 3,
       cible: 'Entrepreneurs en réinvention radicale (passion/opportunité)',
-      conceptFondateur: {
-        probleme: 'Je veux lancer un projet aligné avec mes valeurs, pas juste mon CV',
-        solution: 'Parcours de transformation de la passion au projet'
-      },
+      conceptFondateur: 'Problème : Je veux lancer un projet aligné avec mes valeurs, pas juste mon CV. Solution : Parcours de transformation de la passion au projet',
       
       // Contenu et processus
       contenu: 'Étude concurrence • Argumentaire • Checklist export',
-      processus: `Séance 1 : 'Éveil' (2h)
-- Cartographie des passions/convictions
-- Identification des opportunités
-- Livrable : Carte des passions et opportunités identifiées
-
-Semaines 1-4 : 'Exploration' (4x30min/sem)
-- Session 1 : Business model alternatif (30 min)
-- Session 2 : Étude concurrence éthique (30 min)
-- Session 3 : Prototype rapide (30 min)
-- Session 4 : Test marché minimal (30 min)
-
-Séance 6 : 'Révélation' (1h)
-- Plan de transition sur 90j
-- Checklist export (si applicable)
-- Livrable : Plan de transition et checklist export`,
+      processus: {
+        phases: [
+          {
+            nom: 'Séance 1 : \'Éveil\' (2h)',
+            contenu: 'Cartographie des passions/convictions, Identification des opportunités',
+            duree: '2 heures',
+            livrable: 'Carte des passions et opportunités identifiées'
+          },
+          {
+            nom: 'Semaines 1-4 : \'Exploration\' (4x30min/sem)',
+            sessions: [
+              {
+                numero: 1,
+                contenu: 'Business model alternatif',
+                duree: '30 minutes'
+              },
+              {
+                numero: 2,
+                contenu: 'Étude concurrence éthique',
+                duree: '30 minutes'
+              },
+              {
+                numero: 3,
+                contenu: 'Prototype rapide',
+                duree: '30 minutes'
+              },
+              {
+                numero: 4,
+                contenu: 'Test marché minimal',
+                duree: '30 minutes'
+              }
+            ]
+          },
+          {
+            nom: 'Séance 6 : \'Révélation\' (1h)',
+            contenu: 'Plan de transition sur 90j, Checklist export (si applicable)',
+            duree: '1 heure',
+            livrable: 'Plan de transition et checklist export'
+          }
+        ]
+      },
       duree: '6 semaines',
       
       // Livrables et supports

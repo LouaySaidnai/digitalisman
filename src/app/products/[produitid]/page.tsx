@@ -114,8 +114,8 @@ function getIcon(name: string) {
   return <FaChartLine className="text-white text-6xl" />
 }
 
-export default function ProduitDetail({ params }: { params: Promise<{ produitid: string }> }) {
-  const { produitid } = use(params)
+export default function ProduitDetail({ params }: { params: { produitid: string } }) {
+  const { produitid } = params;
   const [produit, setProduit] = useState<Produit | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -367,7 +367,7 @@ export default function ProduitDetail({ params }: { params: Promise<{ produitid:
           {produit.conceptFondateur && (
             <div className="bg-white border-2 border-[#4B2E05] rounded-3xl p-8">
               <div className="space-y-6">
-                {produit.conceptFondateur.probleme.split('.').filter(probleme => probleme.trim()).map((probleme, index) => (
+                {(produit.conceptFondateur.probleme || '').split('.').filter(probleme => probleme.trim()).map((probleme, index) => (
                   <div key={index} className="flex items-start space-x-4">
                     <div className="flex-shrink-0 w-3 h-3 bg-[#7A5230] rounded-full mt-2"></div>
                     <p className="text-xl font-medium text-[#4B2E05] leading-relaxed">
@@ -398,7 +398,7 @@ export default function ProduitDetail({ params }: { params: Promise<{ produitid:
           {produit.conceptFondateur && (
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-[#4B2E05] rounded-3xl p-8 mb-12">
               <div className="space-y-6">
-                {produit.conceptFondateur.solution.split('.').filter(solution => solution.trim()).map((solution, index) => (
+                {(produit.conceptFondateur.solution || '').split('.').filter(solution => solution.trim()).map((solution, index) => (
                   <div key={index} className="flex items-start space-x-4">
                     <div className="flex-shrink-0 w-3 h-3 bg-[#7A5230] rounded-full mt-2"></div>
                     <p className="text-xl font-medium text-[#4B2E05] leading-relaxed">
@@ -467,7 +467,9 @@ export default function ProduitDetail({ params }: { params: Promise<{ produitid:
                   <div className="bg-white/60 rounded-2xl p-6 border-l-4 border-[#7A5230]">
                     <div className="prose prose-lg max-w-none">
                       <div className="whitespace-pre-line text-[#5C3A00] leading-relaxed">
-                        {produit.processus}
+                        {(produit.processus || '').split('\n').map((line, index) => (
+                          <p key={index}>{line.trim()}</p>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -792,7 +794,11 @@ export default function ProduitDetail({ params }: { params: Promise<{ produitid:
                 <FaCheckCircle className="text-white text-2xl" />
               </div>
               <h3 className="font-bold text-[#4B2E05] mb-4">Livrables</h3>
-              <p className="text-lg italic text-[#5C3A00]">"{produit.livrablesDetailles || 'Livrables à ajouter'}"</p>
+              <p className="text-lg italic text-[#5C3A00]">"{Array.isArray(produit.livrablesDetailles)
+                ? produit.livrablesDetailles.map((livrable: string) => livrable.trim()).join('\n')
+                : (typeof produit.livrablesDetailles === 'string'
+                    ? produit.livrablesDetailles.split('\n').map((livrable: string) => livrable.trim()).join('\n')
+                    : null)}"</p>
             </div>
           </div>
         </div>
