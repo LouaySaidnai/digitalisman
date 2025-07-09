@@ -890,23 +890,7 @@ export default function ProduitDetail({ params }: { params: Promise<{ produitid:
         `}</style>
       </section>
 
-      {/* CTA Final */}
-      <section className="py-20 px-6 bg-gradient-to-r from-[#7A5230] to-[#B9986F] text-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold mb-6">Prêt à transformer votre expertise ?</h2>
-          <p className="text-xl mb-8 opacity-90">
-            {produit.argumentsCommerciaux || "Argument commercial à ajouter"}
-          </p>
-          {produit.urgence && (
-            <p className="text-lg mb-6 opacity-90 bg-red-500/20 px-4 py-2 rounded-lg">
-              ⚠️ {produit.urgence}
-            </p>
-          )}
-          <button className="bg-white text-[#7A5230] px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all shadow-lg text-lg transform hover:scale-105">
-            Commencer ma transformation
-          </button>
-        </div>
-      </section>
+     
     </main>
   )
 } 

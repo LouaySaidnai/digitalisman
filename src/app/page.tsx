@@ -161,22 +161,24 @@ Clarification stratégique, validation de votre idée, offres sur-mesure : tout 
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {produits.map((p, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 transition-all duration-300"
-            >
-              <div className={`h-48 bg-gradient-to-r ${p.color} flex items-center justify-center`}>
-          {p.icon}
+        <div className="flex justify-center">
+          <div className="flex flex-row gap-6 overflow-x-auto pb-4 scrollbar-hide max-w-6xl">
+            {produits.map((p, i) => (
+              <div
+                key={i}
+                className="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 transition-all duration-300 flex-shrink-0 w-80"
+              >
+                <div className={`h-48 bg-gradient-to-r ${p.color} flex items-center justify-center`}>
+            {p.icon}
+                </div>
+                <div className="p-8">
+            <h3 className="text-2xl font-bold text-[#4B2E05] mb-3">{p.title}</h3>
+            <p className="text-[#5C3A00] mb-4">{p.desc}</p>
+           
+                </div>
               </div>
-              <div className="p-8">
-          <h3 className="text-2xl font-bold text-[#4B2E05] mb-3">{p.title}</h3>
-          <p className="text-[#5C3A00] mb-4">{p.desc}</p>
-         
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
         {/* Voir tous les produits button */}
         <div className="flex justify-end mt-10">
