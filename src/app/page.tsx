@@ -41,7 +41,6 @@ export default function Home() {
   const router = useRouter();
   const floatRef = useRef<HTMLImageElement | null>(null);
 
-  // For floating dots - use fixed positions to avoid hydration issues
   const [dotStyles, setDotStyles] = useState([
     { left: "20%", top: "30%", animationDelay: "0s" },
     { left: "80%", top: "60%", animationDelay: "1s" },
@@ -66,7 +65,6 @@ export default function Home() {
         }
       );
     }
-    // Set random positions for dots (client only) - but only after initial render
     const timer = setTimeout(() => {
       setDotStyles([
         {
@@ -163,49 +161,24 @@ Clarification stratégique, validation de votre idée, offres sur-mesure : tout 
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {produits.map((p, i) => {
-            // 'processus' property may not exist on 'p', so we check safely
-            let processus = null;
-            // Only try to parse if 'processus' exists on 'p'
-            if ('processus' in p && p.processus) {
-              try {
-                processus = typeof p.processus === 'string'
-                  ? JSON.parse(p.processus)
-                  : p.processus;
-              } catch (e) {
-                processus = null;
-              }
-            }
-            return (
+        <div className="flex justify-center">
+          <div className="flex flex-row gap-6 overflow-x-auto pb-4 scrollbar-hide max-w-6xl">
+            {produits.map((p, i) => (
               <div
                 key={i}
-                className="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 transition-all duration-300"
+                className="bg-white rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 transition-all duration-300 flex-shrink-0 w-80"
               >
                 <div className={`h-48 bg-gradient-to-r ${p.color} flex items-center justify-center`}>
-                  {p.icon || null}
+            {p.icon}
                 </div>
                 <div className="p-8">
-                  <h3 className="text-2xl font-bold text-[#4B2E05] mb-3">{p.title || 'Titre manquant'}</h3>
-                  <p className="text-[#5C3A00] mb-4">{p.desc}</p>
-                  <a href={p.link} className="text-[#7A5230] font-semibold inline-flex items-center hover:underline">
-                    En savoir plus <FaArrowRight className="ml-2" />
-                  </a>
-                  {processus && (
-                    <div>
-                      <p>Type : {processus.type || 'Non renseigné'}</p>
-                      <p>Durée : {processus.duree || 'Non renseignée'}</p>
-                      <ul>
-                        {Array.isArray(processus.etapes) && processus.etapes.map((etape: string, idx: number) => (
-                          <li key={idx}>{etape}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+            <h3 className="text-2xl font-bold text-[#4B2E05] mb-3">{p.title}</h3>
+            <p className="text-[#5C3A00] mb-4">{p.desc}</p>
+           
                 </div>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
         {/* Voir tous les produits button */}
         <div className="flex justify-end mt-10">

@@ -15,57 +15,63 @@ datasource db {
 }
 
 model Produit {
-  id                    Int      @id @default(autoincrement())
-  
+  id Int @id @default(autoincrement())
+
   // Informations de base
-  nom                   String
-  sousTitre             String?
-  slug                  String   @unique
-  
+  nom       String
+  sousTitre String?
+  slug      String  @unique
+
   // Tarification (JSON structuré)
-  prix                  Json     // Format: "495€" ou { "Atelier": "495€", "Programme": "1990€" } ou { "original": "495€", "promo": "295€", "condition": "sur rendez-vous" }
-  prixOriginal          String?  // Prix barré pour les promos
-  
+  prix         Json // Format: "495€" ou { "Atelier": "495€", "Programme": "1990€" } ou { "original": "495€", "promo": "295€", "condition": "sur rendez-vous" }
+  prixOriginal String? // Prix barré pour les promos
+
   // Ciblage et positionnement
-  niveauPriorite        Int?     // 1 (urgent), 2 (moyen), 3 (complémentaire)
-  cible                 String?
-  conceptFondateur      Json?    // Format: { "probleme": "...", "solution": "..." } 
-  
+  niveauPriorite   Int? // 1 (urgent), 2 (moyen), 3 (complémentaire)
+  cible            String?
+  conceptFondateur Json? // Format: { "probleme": "...", "solution": "..." } 
+
   // Contenu et processus
-  contenu               String?  @db.Text
-  processus             Json?  // Description du processus en texte libre, sans limite de taille
-  duree                 String?  // "3 semaines", "60 minutes", etc.
-  
+  contenu   String? @db.Text
+  processus String? @db.Text // Description du processus en texte libre, sans limite de taille
+  duree     String? // "3 semaines", "60 minutes", etc.
+
   // Livrables et supports
-  livrablesDetailles    String?  @db.Text
-  supportsInclus        String?
-  
+  livrablesDetailles String? @db.Text
+  supportsInclus     String?
+
   // Preuves sociales
-  temoignages           String?
-  argumentsCommerciaux  String?
-  
+  temoignages          String?
+  argumentsCommerciaux String?
+
   // Médias
-  imageHero             String?
-  videoUrl              String?
-  gifSolution           String?
-  
+  imageHero   String?
+  videoUrl    String?
+  gifSolution String?
+
   // Écosystème et entonnoir
-  entonnoirNaturel      String?  // Nom du produit précédent dans l'entonnoir
-  
+  entonnoirNaturel String? // Nom du produit précédent dans l'entonnoir
+
   // Urgence et conditions
-  urgence               String?  // Message d'urgence (ex: concurrence sur un produit)
-  
+  urgence String? // Message d'urgence (ex: concurrence sur un produit)
+
   // Nouveaux champs
-  scriptType            String?  // La "question magique" qui fait que ce coaching fonctionne
-  format                String?  // Type de service: "Coaching live", "Formation", "Webinaire", etc.
-  QuestionReponse       Json?    // FAQ structurée en JSON
-  conditionsPaiement    String?  // "3x sans frais"
-  garantie              String?  // "Satisfait ou remboursé 30 jours"
-  
+  scriptType         String? // La "question magique" qui fait que ce coaching fonctionne
+  format             String? // Type de service: "Coaching live", "Formation", "Webinaire", etc.
+  QuestionReponse    Json? // FAQ structurée en JSON
+  conditionsPaiement String? // "3x sans frais"
+  garantie           String? // "Satisfait ou remboursé 30 jours"
+
   // Métadonnées
   statut           String   @default("actif")
   dateCreation     DateTime @default(now())
   dateModification DateTime @updatedAt
+
+  // Calendrier des événements
+  meeting Json? // Format: { "nom_event": [{ "date": "2024-12-20", "type": "webinaire" }, { "date": "2024-12-23", "type": "individuel" }] }
+
+  // Disponibilité du produit
+  disponibilite String? // "disponible", "non  disponible" sinon "iconnu"
 
   // Relationship with TestResult
   testResults TestResult[]
@@ -81,4 +87,16 @@ model TestResult {
   // Relationship with Produit
   produitId Int?
   produit   Produit? @relation(fields: [produitId], references: [id])
+}
+
+model User {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  password        String
+  nom             String?
+  prenom          String?
+  resetToken      String?
+  resetTokenExpiry DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
