@@ -148,9 +148,9 @@ export default function LoginPage() {
                       className="group text-[#B9986F] hover:text-[#7A5230] transition-all duration-200 ease-in-out ml-1"
                       href="/register"
                     >
-                      <span className="bg-left-bottom bg-gradient-to-r from-[#B9986F] to-[#7A5230] bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-300 ease-out">
+                      <Link href="/Register" className="bg-left-bottom bg-gradient-to-r from-[#B9986F] to-[#7A5230] bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-300 ease-out">
                         Créer un compte
-                      </span>
+                      </Link>
                     </a>
                   </h3>
                 </div>
