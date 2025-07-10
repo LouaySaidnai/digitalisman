@@ -1,6 +1,6 @@
 'use client'
-
-import { useState } from 'react'
+import { getPasswordFeedback } from "@/lib/passwordChecker";
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { FaArrowLeft, FaEye, FaEyeSlash, FaUser, FaEnvelope, FaLock, FaPhone, FaBuilding } from 'react-icons/fa'
 
@@ -20,6 +20,8 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+  const [passwordFeedback, setPasswordFeedback] = useState("");
+  const [commonPasswords, setCommonPasswords] = useState<string[]>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -29,6 +31,23 @@ export default function RegisterPage() {
     }))
   }
 
+  // Assure that useEffect is imported at the top of the file, not here.
+
+  useEffect(() => {
+    fetch("/common.txt")
+      .then(res => res.text())
+      .then(text => setCommonPasswords(text.split("\n").map(p => p.trim()).filter(Boolean)))
+      .catch(() => setCommonPasswords([]));
+  }, []);
+
+  // Feedback mot de passe en temps réel
+  useEffect(() => {
+    if (formData.motDePasse && commonPasswords.length > 0) {
+      setPasswordFeedback(getPasswordFeedback(formData.motDePasse, formData.email, "", commonPasswords));
+    } else {
+      setPasswordFeedback("");
+    }
+  }, [formData.motDePasse, formData.email, commonPasswords]);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -46,6 +65,17 @@ export default function RegisterPage() {
       setError('Le mot de passe doit contenir au moins 6 caractères')
       setLoading(false)
       return
+    }
+
+    // Vérification de la force du mot de passe
+    if (
+      passwordFeedback.includes('trop faible') ||
+      passwordFeedback.includes('trop commun') ||
+      passwordFeedback.includes('faible')
+    ) {
+      setError('Le mot de passe n\'est pas assez fort. Choisissez un mot de passe plus complexe.');
+      setLoading(false);
+      return;
     }
 
     try {
@@ -277,6 +307,11 @@ export default function RegisterPage() {
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </button>
               </div>
+              {passwordFeedback && (
+                <div className="mt-2 text-sm text-[#7A5230] text-center font-medium">
+                  {passwordFeedback}
+                </div>
+              )}
             </div>
 
             {/* Confirmer mot de passe */}
