@@ -10,7 +10,7 @@ generator client {
 }
 
 datasource db {
-  provider="postgresql"
+  provider="mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -75,6 +75,8 @@ model Produit {
 
   // Relationship with TestResult
   testResults TestResult[]
+  
+
 }
 
 model TestResult {
@@ -99,4 +101,116 @@ model User {
   resetTokenExpiry DateTime?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+
+  // Relations
+  factures Facture[]
+  utilisationsCoupon UtilisationCoupon[]
+}
+
+model Facture {
+  id        Int      @id @default(autoincrement())
+  
+  // Informations client (capturées au moment de la facturation)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+  
+  // Données client persistantes (en cas de suppression de l'utilisateur)
+  clientEmail    String? // Email du client au moment de la facturation
+  clientNom      String? // Nom du client au moment de la facturation
+  clientPrenom   String? // Prénom du client au moment de la facturation
+  
+  // Informations de facturation
+  numeroFacture String   @unique // Format: "FAC-2024-001"
+  dateFacture   DateTime @default(now())
+  statut        String   @default("en_attente") // "en_attente", "payee", "annulee", "remboursee"
+  
+  // Données des produits (capturées au moment de l'achat)
+  produits Json // Format: [{ "nomProduit": "...", "quantiteProduit": 1, "prixUnitaire": "497€", "prixTotal": "497€" }]
+  
+  // Totaux
+  sousTotal    Float    @default(0)
+  reduction    Float    @default(0) // Montant de la réduction appliquée
+  total        Float    @default(0)
+  
+  // Informations de paiement
+  methodePaiement String @default("carte") // Mode unique pour les formations
+  referencePaiement String? // Référence du paiement externe
+  datePaiement DateTime?
+  
+  // Informations d'accès aux formations
+  dateAcces DateTime? // Date d'activation de l'accès
+  statutAcces String @default("en_attente") // "en_attente", "active", "expiree"
+  
+  // Métadonnées
+  notes String? @db.Text // Notes internes
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  utilisationsCoupon UtilisationCoupon[]
+
+  @@index([userId])
+  @@index([numeroFacture])
+  @@index([dateFacture])
+  @@index([statut])
+}
+
+model Coupon {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique // Code unique du coupon (ex: "WELCOME10")
+  description String?  // Description du coupon
+  
+  // Type de réduction
+  typeReduction String // "pourcentage" ou "montant_fixe"
+  valeurReduction Float // 10 pour 10% ou 50 pour 50€
+  
+  // Conditions d'utilisation
+  montantMinimum Float? // Montant minimum de commande requis
+  montantMaximum Float? // Montant maximum de réduction : Exactement ! Le montant de réduction ne doit jamais dépasser le montant maximum défini par l'admin.
+  
+  // Limites d'utilisation
+  nombreUtilisationsMax Int? // Nombre maximum d'utilisations totales
+  nombreUtilisationsActuelles Int @default(0) // Nombre d'utilisations actuelles
+  
+  // Limites par utilisateur
+  nombreUtilisationsParUtilisateur Int @default(1) // Nombre d'utilisations par utilisateur
+  
+  // Dates de validité
+  dateDebut DateTime?
+  dateFin   DateTime?
+  
+  // Statut
+  actif Boolean @default(true)
+  
+  // Métadonnées
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  utilisationsCoupon UtilisationCoupon[]
+}
+
+model UtilisationCoupon {//c un journal pour mettre dans la base quel utilisateur a utilisé quel coupon sur quelle facture en faite
+  id        Int      @id @default(autoincrement())
+  
+  // Relations
+  couponId  Int
+  coupon    Coupon   @relation(fields: [couponId], references: [id])
+  
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  
+  factureId Int?
+  facture   Facture? @relation(fields: [factureId], references: [id])
+  
+  // Détails de l'utilisation
+  montantReduction Float
+  montantCommande  Float
+  
+  // Métadonnées
+  createdAt DateTime @default(now())
+  
+  @@index([couponId])
+  @@index([userId])
+  @@index([factureId])
 }
