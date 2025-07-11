@@ -1,31 +1,43 @@
-import sgMail from "@sendgrid/mail";
+// Test simple de l'envoi d'email
+require('dotenv').config();
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
+const sgMail = require('@sendgrid/mail');
 
-export async function sendResetEmail(to: string, resetLink: string) {
-  const msg = {
-    to,
-    from: "testmalek2004@gmail.com",
-    subject: "Réinitialisation de votre mot de passe",
-    html: `
-      <p>Bonjour,</p>
-      <p>Pour réinitialiser votre mot de passe, cliquez sur le lien ci-dessous :</p>
-      <a href="${resetLink}">${resetLink}</a>
-      <p>Ce lien expirera dans 1 heure.</p>
-    `,
-  };
-
-  await sgMail.send(msg);
+// Configuration SendGrid
+const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY;
+if (!SENDGRID_API_KEY) {
+  console.error('❌ SENDGRID_API_KEY non configurée dans le fichier .env');
+  process.exit(1);
 }
+sgMail.setApiKey(SENDGRID_API_KEY);
 
-export async function sendPaymentConfirmationEmail(
-  to: string,
-  facture: any,
-  produits: any[]
-) {
-  const formatPrice = (price: number) => `${price.toFixed(2)}€`;
+// Données de test
+const factureTest = {
+  numeroFacture: "FAC-TEST-" + Date.now(),
+  datePaiement: new Date(),
+  referencePaiement: "pi_test_" + Date.now(),
+  sousTotal: 497.00,
+  reduction: 50.00,
+  total: 447.00,
+  clientEmail: "malek.azri@insat.ucar.tn", // Votre adresse email pour recevoir l'email de test
+  clientNom: "Azri",
+  clientPrenom: "Malek"
+};
+
+const produitsTest = [
+  {
+    nomProduit: "Formation Entrepreneuriat Avancé",
+    quantiteProduit: 1,
+    prixUnitaire: "497€",
+    prixTotal: "497€"
+  }
+];
+
+// Fonction d'envoi d'email (copiée de src/lib/email.ts)
+async function sendPaymentConfirmationEmail(to, facture, produits) {
+  const formatPrice = (price) => `${price.toFixed(2)}€`;
   
-  const produitsHtml = produits.map((produit: any) => `
+  const produitsHtml = produits.map((produit) => `
     <tr>
       <td style="padding: 12px; border-bottom: 1px solid #e5e7eb;">${produit.nomProduit}</td>
       <td style="padding: 12px; border-bottom: 1px solid #e5e7eb; text-align: center;">${produit.quantiteProduit}</td>
@@ -145,3 +157,25 @@ export async function sendPaymentConfirmationEmail(
 
   await sgMail.send(msg);
 }
+
+async function testEmail() {
+  try {
+    console.log('🧪 Test d\'envoi d\'email de confirmation...');
+    console.log('📧 Envoi vers:', factureTest.clientEmail);
+    
+    await sendPaymentConfirmationEmail(
+      factureTest.clientEmail,
+      factureTest,
+      produitsTest
+    );
+    
+    console.log('✅ Email de confirmation envoyé avec succès !');
+    console.log('📬 Vérifiez votre boîte email (et les spams)');
+  } catch (error) {
+    console.error('❌ Erreur lors de l\'envoi de l\'email:', error);
+    console.log('💡 Assurez-vous que SENDGRID_API_KEY est configurée dans vos variables d\'environnement');
+  }
+}
+
+// Exécuter le test
+testEmail(); 

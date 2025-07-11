@@ -8,14 +8,16 @@ async function getMeetingData() {
     // Récupérer tous les produits qui ont des données de meeting
     const produits = await prisma.produit.findMany({
       where: {
-        meeting: { not: null }
+        meeting: {
+          not: undefined
+        }
       },
       select: { meeting: true }
     });
 
     // Combiner toutes les données de meeting
     const allMeetingData = produits.reduce((acc, produit) => {
-      if (produit.meeting) {
+      if (produit.meeting && typeof produit.meeting === 'object') {
         return { ...acc, ...produit.meeting };
       }
       return acc;

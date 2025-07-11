@@ -1,12 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe } from '@/lib/stripe'
-import { prisma } from '@/lib/prisma'
+import { stripe } from '../../../../lib/stripe'
+import { prisma } from '../../../../lib/prisma'
+import { sendPaymentConfirmationEmail } from '../../../../lib/email'
 import { headers } from 'next/headers'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.text()
-    const signature = headers().get('stripe-signature')
+    const headersList = await headers()
+    const signature = headersList.get('stripe-signature')
 
     if (!signature) {
       return NextResponse.json(
@@ -64,7 +66,7 @@ async function handleCheckoutSessionCompleted(session: any) {
     const { factureId, userId, couponCode } = session.metadata
 
     // Mettre à jour la facture
-    await prisma.facture.update({
+    const facture = await prisma.facture.update({
       where: { id: parseInt(factureId) },
       data: {
         statut: 'payee',
@@ -100,6 +102,45 @@ async function handleCheckoutSessionCompleted(session: any) {
           data: { nombreUtilisationsActuelles: { increment: 1 } }
         })
       }
+    }
+
+    // Envoyer l'email de confirmation
+    try {
+      // Récupérer les vraies données de la facture depuis la base
+      const factureComplete = await prisma.facture.findUnique({
+        where: { id: parseInt(factureId) },
+        include: {
+          user: {
+            select: {
+              nom: true,
+              prenom: true,
+              email: true
+            }
+          }
+        }
+      })
+
+      if (factureComplete) {
+        // Utiliser les vraies données de la base
+        const emailData = {
+          ...factureComplete,
+          clientNom: factureComplete.clientNom || factureComplete.user?.nom,
+          clientPrenom: factureComplete.clientPrenom || factureComplete.user?.prenom,
+          clientEmail: factureComplete.clientEmail || factureComplete.user?.email
+        }
+
+        const produits = Array.isArray(factureComplete.produits) ? factureComplete.produits : []
+        
+        await sendPaymentConfirmationEmail(
+          emailData.clientEmail || session.customer_details?.email || '',
+          emailData,
+          produits
+        )
+        console.log(`📧 Email de confirmation envoyé pour la facture ${factureId}`)
+      }
+    } catch (emailError) {
+      console.error('Erreur envoi email de confirmation:', emailError)
+      // Ne pas faire échouer le traitement du paiement si l'email échoue
     }
 
     console.log(`✅ Paiement réussi pour la facture ${factureId}`)

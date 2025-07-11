@@ -8,6 +8,17 @@ Ajoutez ces variables dans les paramètres de votre projet Vercel :
 DATABASE_URL="mysql://username:password@host:port/database_name"
 NEXTAUTH_SECRET="your-secret-key"
 NEXTAUTH_URL="https://your-domain.vercel.app"
+
+# Stripe (paiements)
+STRIPE_SECRET_KEY="sk_test_..."
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."
+STRIPE_WEBHOOK_SECRET="whsec_..."
+
+# SendGrid (emails de confirmation)
+SENDGRID_API_KEY="SG.your-sendgrid-api-key"
+
+# URL de base de l'application
+NEXT_PUBLIC_BASE_URL="https://your-domain.vercel.app"
 ```
 
 ## Étapes de Déploiement

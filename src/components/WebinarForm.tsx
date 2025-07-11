@@ -12,6 +12,16 @@ interface WebinarFormData {
   description?: string;
 }
 
+interface WebinarFormErrors {
+  title?: string;
+  date?: string;
+  time?: string;
+  type?: string;
+  duration?: string;
+  maxParticipants?: string;
+  description?: string;
+}
+
 interface WebinarFormProps {
   onSubmit: (webinar: WebinarFormData) => void;
   onCancel: () => void;
@@ -28,10 +38,10 @@ const WebinarForm: React.FC<WebinarFormProps> = ({ onSubmit, onCancel }) => {
     description: ''
   });
 
-  const [errors, setErrors] = useState<Partial<WebinarFormData>>({});
+  const [errors, setErrors] = useState<WebinarFormErrors>({});
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<WebinarFormData> = {};
+    const newErrors: WebinarFormErrors = {};
 
     if (!formData.title.trim()) {
       newErrors.title = 'Le titre est requis';

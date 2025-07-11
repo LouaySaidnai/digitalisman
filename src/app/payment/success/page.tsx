@@ -27,7 +27,7 @@ export default function PaymentSuccessPage() {
 
         {/* Message */}
         <p className="text-xl text-[#5C3A00] mb-8">
-          Votre commande a été validée avec succès. Vous recevrez un email de confirmation dans quelques instants.
+          Votre commande a été validée avec succès ! Un email de confirmation avec tous les détails de votre commande vous a été envoyé.
         </p>
 
         {/* Informations de session */}

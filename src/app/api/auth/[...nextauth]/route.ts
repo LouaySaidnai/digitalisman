@@ -3,8 +3,9 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
+import type { SessionStrategy } from "next-auth";
 
-const handler = NextAuth({
+const authOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -41,7 +42,7 @@ const handler = NextAuth({
     })
   ],
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as SessionStrategy,
     maxAge: 24 * 60 * 60, // 24 heures par défaut
   },
   jwt: {
@@ -52,7 +53,6 @@ const handler = NextAuth({
       name: `next-auth.session-token`,
       options: {
         httpOnly: true,
-        sameSite: 'lax',
         path: '/',
         secure: process.env.NODE_ENV === 'production',
         maxAge: 24 * 60 * 60 // 24 heures par défaut
@@ -62,6 +62,8 @@ const handler = NextAuth({
   pages: {
     signIn: "/Login"
   }
-});
+};
 
-export { handler as GET, handler as POST };
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST, authOptions };

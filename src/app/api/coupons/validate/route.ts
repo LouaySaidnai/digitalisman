@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
 
     // Récupérer la session utilisateur
     const session = await getServerSession(authOptions)
-    const userId = session?.user?.id
+    const userId = session?.user?.email // Correction : utiliser email comme identifiant unique
 
     // Rechercher le coupon
     const coupon = await prisma.coupon.findUnique({

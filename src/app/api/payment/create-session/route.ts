@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { stripe } from '@/lib/stripe'
-import { prisma } from '@/lib/prisma'
+import { stripe } from '../../../../lib/stripe'
+import { prisma } from '../../../../lib/prisma'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '../../auth/[...nextauth]/route'
 
@@ -25,18 +25,30 @@ export async function POST(request: NextRequest) {
     
     const total = sousTotal - (montantReduction || 0)
 
+    // Récupérer l'utilisateur complet depuis la base de données
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email || '' }
+    })
+    
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Utilisateur non trouvé' },
+        { status: 404 }
+      )
+    }
+
     // Créer la facture en statut "en_attente"
     const facture = await prisma.facture.create({
       data: {
-        userId: session.user.id,
+        userId: user.id, // Utiliser l'ID de l'utilisateur, pas l'email
         numeroFacture: `FAC-${new Date().getFullYear()}-${String(await prisma.facture.count() + 1).padStart(3, '0')}`,
         produits: cartItems,
         sousTotal,
         reduction: montantReduction || 0,
         total,
         clientEmail: session.user.email || '',
-        clientNom: session.user.nom || '',
-        clientPrenom: session.user.prenom || '',
+        clientNom: session.user.name || '',
+        clientPrenom: '',
         statut: 'en_attente'
       }
     })
@@ -68,16 +80,22 @@ export async function POST(request: NextRequest) {
       })
     }
 
+    // Déterminer l'URL de base
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 
+                   (process.env.NODE_ENV === 'production' 
+                     ? 'https://my-app-lake-eight-18.vercel.app' 
+                     : 'http://localhost:3000')
+
     // Créer la session Stripe
     const stripeSession = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/payment/cancel?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${baseUrl}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${baseUrl}/payment/cancel?session_id={CHECKOUT_SESSION_ID}`,
       metadata: {
         factureId: facture.id.toString(),
-        userId: session.user.id,
+        userId: session.user.email || '',
         couponCode: couponCode || '',
       },
       customer_email: session.user.email || undefined,
