@@ -6,9 +6,6 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import LoginForm from "@/components/LoginForm";
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
-// @ts-ignore
-import { LoginSocialFacebook } from "reactjs-social-login";
-import { FacebookLoginButton } from "react-social-login-buttons";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -16,10 +13,8 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [profile, setProfile] = useState(null);
   const router = useRouter();
   const googleLoginRef = React.useRef<HTMLDivElement>(null);
-  const facebookLoginRef = React.useRef<HTMLDivElement>(null);
 
   // Charger les credentials sauvegardés au montage du composant
   useEffect(() => {
@@ -178,10 +173,51 @@ export default function LoginPage() {
                     <div className="relative">
                       <div ref={googleLoginRef} className="hidden">
                         <GoogleLogin
-                          onSuccess={credentialResponse => {
+                          onSuccess={async (credentialResponse) => {
                             console.log(credentialResponse);
-                            console.log(jwtDecode(credentialResponse.credential as string));
-                            window.location.href = '/';
+                            const decoded = jwtDecode(credentialResponse.credential as string) as any;
+                            console.log(decoded);
+                            
+                            try {
+                              // Envoyer les données à l'API pour créer l'utilisateur
+                              const response = await fetch('/api/auth/google-login', {
+                                method: 'POST',
+                                headers: {
+                                  'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                  credential: credentialResponse.credential,
+                                  userData: decoded
+                                }),
+                              });
+                              
+                              if (response.ok) {
+                                console.log('Utilisateur créé/connecté avec succès');
+                                
+                                // Utiliser NextAuth signIn pour créer une vraie session
+                                const result = await signIn("credentials", {
+                                  email: decoded.email,
+                                  password: "google_user", // Mot de passe factice pour les utilisateurs Google
+                                  redirect: false,
+                                  callbackUrl: "/",
+                                });
+                                
+                                if (result?.error) {
+                                  console.error('Erreur lors de la connexion NextAuth:', result.error);
+                                  setError("Erreur lors de la connexion Google");
+                                } else {
+                                  console.log('Session NextAuth créée avec succès');
+                                  // Rediriger vers la page d'accueil comme le login normal
+                                  router.push('/');
+                                }
+                              } else {
+                                console.error('Erreur lors de la création de l\'utilisateur');
+                                setError("Erreur lors de la connexion Google");
+                              }
+                            } catch (error) {
+                              console.error('Erreur:', error);
+                              setError("Erreur lors de la connexion Google");
+                            }
                           }}
                           onError={() => {
                             console.log('Login Failed');
@@ -197,37 +233,6 @@ export default function LoginPage() {
                         className="hover:scale-105 ease-in-out duration-300 shadow-lg p-3 rounded-xl m-1 bg-white/80 backdrop-blur-sm border border-[#D6C4A2] hover:border-[#A8875E] transition-all duration-200"
                       >
                         <img className="max-w-[25px]" src="https://ucarecdn.com/8f25a2ba-bdcf-4ff1-b596-088f330416ef/" alt="Google" />
-                      </button>
-                    </div>
-                    
-                    
-                    {/* Bouton Facebook personnalisé */}
-                    <div className="relative">
-                      <div ref={facebookLoginRef} className="hidden">
-                        <LoginSocialFacebook
-                          appId="2198486100613666"
-                          onResolve={(response: any) => {
-                            console.log(response);
-                            setProfile(response.data);
-                            window.location.href = '/';
-                          }}
-                          onReject={(error: any) => {
-                            console.log(error);
-                            setError("Erreur lors de la connexion Facebook");
-                          }}
-                        >
-                          <FacebookLoginButton />
-                        </LoginSocialFacebook>
-                      </div>
-                      <button 
-                        type="button" 
-                        onClick={() => {
-                          const facebookButton = facebookLoginRef.current?.querySelector('button') as HTMLElement;
-                          if (facebookButton) facebookButton.click();
-                        }}
-                        className="hover:scale-105 ease-in-out duration-300 shadow-lg p-3 rounded-xl m-1 bg-white/80 backdrop-blur-sm border border-[#D6C4A2] hover:border-[#A8875E] transition-all duration-200"
-                      >
-                        <img className="max-w-[25px]" src="https://ucarecdn.com/6f56c0f1-c9c0-4d72-b44d-51a79ff38ea9/" alt="Facebook" />
                       </button>
                     </div>
                   </div>

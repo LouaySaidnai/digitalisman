@@ -1,32 +1,5 @@
 import WebinarCalendar from '../../../components/WebinarCalendar';
 import { filterEventsByType } from '../../../types/meeting';
-import { prisma } from '../../../lib/prisma';
-
-// Fonction pour récupérer les données de meeting depuis la base de données
-async function getMeetingData() {
-  try {
-    // Récupérer tous les produits qui ont des données de meeting
-    const produits = await prisma.produit.findMany({
-      where: {
-        meeting: { not: null }
-      },
-      select: { meeting: true }
-    });
-
-    // Combiner toutes les données de meeting
-    const allMeetingData = produits.reduce((acc, produit) => {
-      if (produit.meeting) {
-        return { ...acc, ...produit.meeting };
-      }
-      return acc;
-    }, {});
-
-    return allMeetingData;
-  } catch (error) {
-    console.error('Erreur lors de la récupération des données de meeting:', error);
-    return {};
-  }
-}
 
 // Données d'exemple pour les consultations individuelles (fallback)
 const individualConsultations = [
@@ -72,15 +45,9 @@ const individualConsultations = [
   }
 ];
 
-export default async function ConsultationsIndividuellesPage() {
-  // Récupérer les données de meeting depuis la base de données
-  const meetingData = await getMeetingData();
-  
-  // Filtrer pour n'avoir que les consultations individuelles
-  const consultationsFromDB = filterEventsByType(meetingData, 'individuel');
-  
-  // Utiliser les données de la DB ou les données d'exemple en fallback
-  const consultationsToDisplay = consultationsFromDB.length > 0 ? consultationsFromDB : individualConsultations;
+export default function ConsultationsIndividuellesPage() {
+  // Utiliser les données d'exemple pour les consultations individuelles
+  const consultationsToDisplay = individualConsultations;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f0e6d0] via-[#e8dcc0] to-[#f5ecd7]">

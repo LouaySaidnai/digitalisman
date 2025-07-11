@@ -123,15 +123,7 @@ Kit survie :
 
       // Contenu et processus
       contenu: 'Déroulé :\nAudit express de votre projet via questionnaire préalable\n60 min de coaching ciblé :\n✓ Percer 1 blocage stratégique\n✓ Valider 1 hypothèse marché\n✓ Obtenir 1 prochaine action claire',
-      processus: {
-        type: 'coaching',
-        duree: '60 minutes',
-        etapes: [
-          'Questionnaire préalable',
-          'Coaching live 1h',
-          'Débrief et plan d\'action'
-        ]
-      },
+      processus: 'Questionnaire préalable → Coaching live 1h → Débrief et plan d\'action',
       duree: '60 minutes',
 
       // Livrables et supports
@@ -202,15 +194,7 @@ Kit survie :
 
       // Contenu et processus
       contenu: 'Parcours de transformation "Savoir → Produit"\n\nMois 1 : Fondations\n- Structurer l\'offre phare : 3 sessions\n- Définir le pricing premium\n\nMois 2 : Écosystème\n- Site web vitrine + automatisation\n- Tournage témoignages clients\n\nMois 3 : Lancement\n- Sequence email "Early Birds"\n- Packaging 3 produits dérivés',
-      processus: {
-        type: 'programme',
-        duree: '3 mois',
-        etapes: [
-          'Mois 1 : Fondations',
-          'Mois 2 : Écosystème',
-          'Mois 3 : Lancement'
-        ]
-      },
+      processus: 'Mois 1 : Fondations → Mois 2 : Écosystème → Mois 3 : Lancement',
       duree: '3 mois',
 
       // Livrables et supports
@@ -287,15 +271,7 @@ Session Live (2h) :
 ✓ Scénario optimiste/pessimiste
 ✓ Calcul seuil rentabilité
 ✓ Identification des 2 risques mortels`,
-      processus: {
-        type: 'validation',
-        duree: '2h live',
-        etapes: [
-          'Questionnaire préalable (20 min)',
-          'Session Live (2h)',
-          'Analyse et recommandations'
-        ]
-      },
+      processus: 'Questionnaire préalable (20 min) → Session Live (2h) → Analyse et recommandations',
       duree: '2h live',
 
       // Livrables et supports
@@ -367,15 +343,7 @@ Session Live (2h) :
 Semaine 1 - Défi : Packager 3 offres - Outils : Template "Argumentaire Choc"
 Semaine 2 - Défi : Tester 3 canaux - Outils : Scripts phoning/messaging sectoriels
 Semaine 3 - Défi : Signer 3 clients - Outils : Checklist closing`,
-      processus: {
-        type: 'programme',
-        duree: '3 semaines',
-        etapes: [
-          'Semaine 1 : Packager 3 offres',
-          'Semaine 2 : Tester 3 canaux',
-          'Semaine 3 : Signer 3 clients'
-        ]
-      },
+      processus: 'Semaine 1 : Packager 3 offres → Semaine 2 : Tester 3 canaux → Semaine 3 : Signer 3 clients',
       duree: '3 semaines',
 
       // Livrables et supports
@@ -446,30 +414,7 @@ Semaine 3 - Défi : Signer 3 clients - Outils : Checklist closing`,
       
       // Contenu et processus
       contenu: 'Séances de coaching & webinaires • Matching projet • Pack installation • Contrats types',
-      processus: {
-        phases: [
-          {
-            nom: 'Immersion',
-            contenu: 'Cartographie des hubs tech (Dakar, Abidjan, Casablanca)',
-            outils: 'Carte interactive + PDF dynamique'
-          },
-          {
-            nom: 'Scouting',
-            contenu: 'Base de 15 startups \'fit\' avec critères : Stade, Secteur, Besoin expertise',
-            outils: 'Template Airtable'
-          },
-          {
-            nom: 'Matching',
-            contenu: 'Grille de compatibilité valeurs/compétences',
-            outils: 'Questionnaire algorithmique'
-          },
-          {
-            nom: 'Implémentation',
-            contenu: 'Journal de bord personnalisé (objectifs 30/60/90j)',
-            outils: 'Template Notion'
-          }
-        ]
-      },
+      processus: 'Immersion → Scouting → Matching → Implémentation',
       duree: '4 phases sur 3 mois',
       
       // Livrables et supports
@@ -544,34 +489,7 @@ Semaine 3 - Défi : Signer 3 clients - Outils : Checklist closing`,
       
       // Contenu et processus
       contenu: 'Série de 4 webinaires de 90 mn pour devenir mentor de startups africaines',
-      processus: {
-        webinaires: [
-          {
-            numero: 1,
-            titre: 'Écosystèmes startups Dakar/Casablanca',
-            duree: '90 minutes',
-            contenu: 'Découverte des écosystèmes startup africains'
-          },
-          {
-            numero: 2,
-            titre: 'Cultural intelligence (négociation Afrique)',
-            duree: '90 minutes',
-            contenu: 'Maîtriser les codes culturels pour négocier en Afrique'
-          },
-          {
-            numero: 3,
-            titre: 'Cas pratiques sectoriels',
-            duree: '90 minutes',
-            contenu: 'Études de cas concrets par secteur d\'activité'
-          },
-          {
-            numero: 4,
-            titre: 'Modèles de rémunération (€500-2k/mois)',
-            duree: '90 minutes',
-            contenu: 'Comment structurer sa rémunération de mentor'
-          }
-        ]
-      },
+      processus: 'Webinaire 1 : Écosystèmes startups → Webinaire 2 : Cultural intelligence → Webinaire 3 : Cas pratiques → Webinaire 4 : Modèles de rémunération',
       duree: '4 webinaires de 90 minutes',
       
       // Livrables et supports
@@ -646,30 +564,7 @@ Semaine 3 - Défi : Signer 3 clients - Outils : Checklist closing`,
       
       // Contenu et processus
       contenu: 'Synthèse 2-3 pages • Fichier tableur de simulations • pitch-deck clients • pitch-deck investisseur • Stratégie financement',
-      processus: {
-        phases: [
-          {
-            jour: 'J1-2',
-            activite: 'Modèle financier 3 ans (scénarios + sensibilité)',
-            livrable: 'Fichier Excel avec KPI dynamiques'
-          },
-          {
-            jour: 'J3-5',
-            activite: 'Pitch deck clients (\'problème/solution\')',
-            livrable: 'Pitch deck clients prêt à présenter'
-          },
-          {
-            jour: 'J6-8',
-            activite: 'Pitch deck investisseurs (ROI + exit strategy)',
-            livrable: 'Pitch deck investisseurs prêt à présenter'
-          },
-          {
-            jour: 'J9-10',
-            activite: 'Stratégie financement (subventions → VC)',
-            livrable: 'Liste ciblée de 50 investisseurs sectoriels'
-          }
-        ]
-      },
+      processus: 'J1-2 : Modèle financier → J3-5 : Pitch deck clients → J6-8 : Pitch deck investisseurs → J9-10 : Stratégie financement',
       duree: '10 jours',
       
       // Livrables et supports
@@ -756,28 +651,7 @@ Semaine 3 - Défi : Signer 3 clients - Outils : Checklist closing`,
       
       // Contenu et processus
       contenu: 'Quick wins • Roadmap • Recommandations sectorielles',
-      processus: {
-        phases: [
-          {
-            jour: 'Jour 1',
-            activite: 'Diagnostic stratégique',
-            duree: '2 demi-journées',
-            livrable: 'Verbatim détaillé des 4 séances'
-          },
-          {
-            jour: 'Pause 7j',
-            activite: 'Tests terrain',
-            duree: '7 jours',
-            livrable: 'Validation des hypothèses'
-          },
-          {
-            jour: 'Jour 8',
-            activite: 'Plan de bataille 90j',
-            duree: '2 demi-journées',
-            livrable: 'Roadmap des priorités'
-          }
-        ]
-      },
+      processus: 'Jour 1 : Diagnostic stratégique → Pause 7j : Tests terrain → Jour 8 : Plan de bataille 90j',
       duree: '2 x 2 demi-journées espacées d\'une semaine',
       
       // Livrables et supports
@@ -852,47 +726,7 @@ Semaine 3 - Défi : Signer 3 clients - Outils : Checklist closing`,
       
       // Contenu et processus
       contenu: 'Étude concurrence • Argumentaire • Checklist export',
-      processus: {
-        phases: [
-          {
-            nom: 'Séance 1 : \'Éveil\' (2h)',
-            contenu: 'Cartographie des passions/convictions, Identification des opportunités',
-            duree: '2 heures',
-            livrable: 'Carte des passions et opportunités identifiées'
-          },
-          {
-            nom: 'Semaines 1-4 : \'Exploration\' (4x30min/sem)',
-            sessions: [
-              {
-                numero: 1,
-                contenu: 'Business model alternatif',
-                duree: '30 minutes'
-              },
-              {
-                numero: 2,
-                contenu: 'Étude concurrence éthique',
-                duree: '30 minutes'
-              },
-              {
-                numero: 3,
-                contenu: 'Prototype rapide',
-                duree: '30 minutes'
-              },
-              {
-                numero: 4,
-                contenu: 'Test marché minimal',
-                duree: '30 minutes'
-              }
-            ]
-          },
-          {
-            nom: 'Séance 6 : \'Révélation\' (1h)',
-            contenu: 'Plan de transition sur 90j, Checklist export (si applicable)',
-            duree: '1 heure',
-            livrable: 'Plan de transition et checklist export'
-          }
-        ]
-      },
+      processus: 'Séance 1 : Éveil → Semaines 1-4 : Exploration → Séance 6 : Révélation',
       duree: '6 semaines',
       
       // Livrables et supports
