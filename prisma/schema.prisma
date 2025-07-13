@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../node_modules/.prisma/client"
@@ -15,34 +9,22 @@ datasource db {
 }
 
 model Produit {
-  id Int @id @default(autoincrement())
-
-  // Informations de base
-  nom       String
-  sousTitre String?
-  slug      String  @unique
-
-  // Tarification (JSON structuré)
-  prix         Json // Format: "495€" ou { "Atelier": "495€", "Programme": "1990€" } ou { "original": "495€", "promo": "295€", "condition": "sur rendez-vous" }
-  prixOriginal String? // Prix barré pour les promos
-
-  // Ciblage et positionnement
-  niveauPriorite   Int? // 1 (urgent), 2 (moyen), 3 (complémentaire)
-  cible            String?
-  conceptFondateur Json? // Format: { "probleme": "...", "solution": "..." } 
-
-  // Contenu et processus
-  contenu   String? @db.Text
-  processus String? @db.Text // Description du processus en texte libre, sans limite de taille
-  duree     String? // "3 semaines", "60 minutes", etc.
-
-  // Livrables et supports
-  livrablesDetailles String? @db.Text
-  supportsInclus     String?
-
-  // Preuves sociales
-  temoignages          String?
-  argumentsCommerciaux String?
+  id                   Int          @id @default(autoincrement())
+  nom                  String
+  sousTitre            String?
+  slug                 String       @unique
+  prix                 Json
+  prixOriginal         String?
+  niveauPriorite       Int?
+  cible                String?
+  conceptFondateur     Json?
+  contenu              String? @db.Text
+  processus            String? @db.Text
+  duree                String?
+  livrablesDetailles   String? @db.Text
+  supportsInclus       String? @db.Text
+  temoignages          String? @db.Text
+  argumentsCommerciaux String? @db.Text
 
   // Médias
   imageHero   String?
@@ -68,7 +50,7 @@ model Produit {
   dateModification DateTime @updatedAt
 
   // Calendrier des événements
-  meeting Json? // Format: { "nom_event": [{ "date": "2024-12-20", "type": "webinaire" }, { "date": "2024-12-23", "type": "individuel" }] }
+  meeting Json? // Format: { "nom_event": [{ "date": "2024-12-20", "type": "webinaire", "lien": "https://meet.google.com/..." }, { "date": "2024-12-23", "type": "individuel", "lien": "https://zoom.us/..." }] }
 
   // Disponibilité du produit
   disponibilite String? // "disponible", "non  disponible" sinon "iconnu"
@@ -85,19 +67,17 @@ model TestResult {
   answers     Json
   personality String
   createdAt   DateTime @default(now())
-
-  // Relationship with Produit
-  produitId Int?
-  produit   Produit? @relation(fields: [produitId], references: [id])
+  produitId   Int?
+  produit     Produit? @relation(fields: [produitId], references: [id])
 }
 
 model User {
-  id              String    @id @default(cuid())
-  email           String    @unique
-  password        String
-  nom             String?
-  prenom          String?
-  resetToken      String?
+  id               String    @id @default(cuid())
+  email            String    @unique
+  password         String
+  nom              String?
+  prenom           String?
+  resetToken       String?
   resetTokenExpiry DateTime?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
@@ -139,7 +119,7 @@ model Facture {
   
   // Informations d'accès aux formations
   dateAcces DateTime? // Date d'activation de l'accès
-  statutAcces String @default("en_attente") // "en_attente", "active", "expiree"
+  statutAcces String @default("en_attente") // "en_attente", "active", "expiree" pour gerer l'accès aux formations  car si l'accès est expiré j'aurais un statut payé mais un acces expiree
   
   // Métadonnées
   notes String? @db.Text // Notes internes
@@ -208,9 +188,29 @@ model UtilisationCoupon {//c un journal pour mettre dans la base quel utilisateu
   montantCommande  Float
   
   // Métadonnées
-  createdAt DateTime @default(now())
+  provider         String?
+  providerId       String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
   
   @@index([couponId])
   @@index([userId])
   @@index([factureId])
+}
+model Contact {//pour que l'admin puisse changer les contacts dans  la page contact 
+  id        String   @id @default(cuid())
+  label     String   @unique // "contact-phone", "contact-email", "contact-address", etc.
+  value     String   // La valeur réelle
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+//pour centraliser touts les messages reçus je vais creer un model Message pour l'afficher sur le dash admin après
+model Message {
+  id        Int      @id @default(autoincrement())
+  nom       String
+  email     String
+  telephone String?
+  objet     String
+  message   String
+  createdAt DateTime @default(now())
 }

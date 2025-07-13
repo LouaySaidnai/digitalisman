@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../hooks/useAuth';
 
 interface Webinar {
   id: string;
@@ -11,6 +12,8 @@ interface Webinar {
   duration: string;
   maxParticipants?: number;
   currentParticipants?: number;
+  lien?: string;
+  produitSlug?: string; // Slug du produit associé à cet événement
 }
 
 interface WebinarCalendarProps {
@@ -20,6 +23,45 @@ interface WebinarCalendarProps {
 const WebinarCalendar: React.FC<WebinarCalendarProps> = ({ webinars = [] }) => {
   const [selectedMonth, setSelectedMonth] = useState(new Date());
   const [selectedWebinar, setSelectedWebinar] = useState<Webinar | null>(null);
+  const [paymentStatus, setPaymentStatus] = useState<{[key: string]: boolean}>({});
+  const [loadingPayment, setLoadingPayment] = useState<{[key: string]: boolean}>({});
+  const { user, isAuthenticated } = useAuth();
+
+  // Vérifier le statut de paiement pour un événement
+  const checkPaymentStatus = async (webinar: Webinar) => {
+    if (!isAuthenticated || !webinar.produitSlug) {
+      return false;
+    }
+
+    setLoadingPayment(prev => ({ ...prev, [webinar.id]: true }));
+
+    try {
+      const response = await fetch('/api/produits/check-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          produitSlug: webinar.produitSlug
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setPaymentStatus(prev => ({ 
+          ...prev, 
+          [webinar.id]: data.hasPaid 
+        }));
+        return data.hasPaid;
+      }
+    } catch (error) {
+      console.error('Erreur lors de la vérification du paiement:', error);
+    } finally {
+      setLoadingPayment(prev => ({ ...prev, [webinar.id]: false }));
+    }
+
+    return false;
+  };
 
   // Fonction pour obtenir le nom du mois
   const getMonthName = (date: Date): string => {
@@ -84,6 +126,16 @@ const WebinarCalendar: React.FC<WebinarCalendarProps> = ({ webinars = [] }) => {
     setSelectedMonth(new Date(selectedMonth.getFullYear(), selectedMonth.getMonth() + 1, 1));
   };
 
+  // Gérer le clic sur un événement
+  const handleEventClick = async (webinar: Webinar) => {
+    setSelectedWebinar(webinar);
+    
+    // Vérifier le statut de paiement si l'utilisateur est connecté et que l'événement a un lien
+    if (isAuthenticated && webinar.lien && webinar.produitSlug) {
+      await checkPaymentStatus(webinar);
+    }
+  };
+
   return (
     <div className="max-w-6xl mx-auto p-6">
       {/* En-tête du calendrier */}
@@ -106,7 +158,7 @@ const WebinarCalendar: React.FC<WebinarCalendarProps> = ({ webinars = [] }) => {
       </div>
 
       {/* Grille du calendrier */}
-      <div className="grid grid-cols-7 gap-4 mb-6">
+      <div className="grid grid-cols-7 gap-2">
         {/* En-têtes des jours */}
         {['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'].map(day => (
           <div key={day} className="text-center font-semibold text-gray-600 py-2">
@@ -139,7 +191,7 @@ const WebinarCalendar: React.FC<WebinarCalendarProps> = ({ webinars = [] }) => {
                 {dayWebinars.map(webinar => (
                   <div
                     key={webinar.id}
-                    onClick={() => setSelectedWebinar(webinar)}
+                    onClick={() => handleEventClick(webinar)}
                     className={`text-xs p-1 rounded cursor-pointer transition-colors ${
                       webinar.type === 'collectif' 
                         ? 'bg-green-100 text-green-800 hover:bg-green-200' 
@@ -226,10 +278,37 @@ const WebinarCalendar: React.FC<WebinarCalendarProps> = ({ webinars = [] }) => {
                 </div>
               )}
 
+              {/* Lien de réunion */}
+              {selectedWebinar.lien && (
+                <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium text-gray-700">Lien de réunion:</span>
+                    {loadingPayment[selectedWebinar.id] ? (
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#7A5230]"></div>
+                    ) : !isAuthenticated ? (
+                      <span className="text-sm text-orange-600">Connectez-vous pour accéder</span>
+                    ) : paymentStatus[selectedWebinar.id] ? (
+                      <a
+                        href={selectedWebinar.lien}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-[#7A5230] text-white px-3 py-1 rounded text-sm hover:bg-[#B9986F] transition-colors"
+                      >
+                        Rejoindre
+                      </a>
+                    ) : (
+                      <span className="text-sm text-red-600">Achat requis</span>
+                    )}
+                  </div>
+                </div>
+              )}
+
               <div className="flex space-x-3 mt-6">
-                <button className="flex-1 bg-[#7A5230] text-white py-2 px-4 rounded hover:bg-[#B9986F] transition-colors">
-                  S'inscrire
-                </button>
+                {!selectedWebinar.lien && (
+                  <button className="flex-1 bg-[#7A5230] text-white py-2 px-4 rounded hover:bg-[#B9986F] transition-colors">
+                    S'inscrire
+                  </button>
+                )}
                 <button 
                   onClick={() => setSelectedWebinar(null)}
                   className="flex-1 bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400 transition-colors"
@@ -241,8 +320,6 @@ const WebinarCalendar: React.FC<WebinarCalendarProps> = ({ webinars = [] }) => {
           </div>
         </div>
       )}
-
-    
     </div>
   );
 };

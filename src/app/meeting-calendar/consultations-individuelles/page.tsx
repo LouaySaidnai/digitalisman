@@ -1,5 +1,5 @@
 import WebinarCalendar from '../../../components/WebinarCalendar';
-import { filterEventsByType } from '../../../types/meeting';
+import { filterEventsByType, convertMeetingDataToWebinars } from '../../../types/meeting';
 import { prisma } from '../../../lib/prisma';
 
 // Fonction pour récupérer les données de meeting depuis la base de données
@@ -12,13 +12,27 @@ async function getMeetingData() {
           not: undefined
         }
       },
-      select: { meeting: true }
+      select: { 
+        id: true,
+        nom: true,
+        slug: true,
+        meeting: true 
+      }
     });
 
-    // Combiner toutes les données de meeting
+    // Combiner toutes les données de meeting avec les slugs des produits
     const allMeetingData = produits.reduce((acc, produit) => {
       if (produit.meeting && typeof produit.meeting === 'object') {
-        return { ...acc, ...produit.meeting };
+        // Ajouter le slug du produit à chaque événement
+        const eventsWithProductSlug = Object.entries(produit.meeting).reduce((eventAcc, [eventName, events]) => {
+          eventAcc[eventName] = (events as any[]).map((event: any) => ({
+            ...event,
+            produitSlug: produit.slug
+          }));
+          return eventAcc;
+        }, {} as any);
+        
+        return { ...acc, ...eventsWithProductSlug };
       }
       return acc;
     }, {});
@@ -38,7 +52,8 @@ const individualConsultations = [
     date: new Date(2024, 11, 20), // 20 décembre 2024
     time: '09:00 - 10:30',
     type: 'individuel' as const,
-    duration: '1h30'
+    duration: '1h30',
+    produitId: 1
   },
   {
     id: '5',
@@ -46,7 +61,8 @@ const individualConsultations = [
     date: new Date(2024, 11, 23), // 23 décembre 2024
     time: '14:00 - 15:30',
     type: 'individuel' as const,
-    duration: '1h30'
+    duration: '1h30',
+    produitId: 1
   },
   {
     id: '7',
@@ -54,7 +70,8 @@ const individualConsultations = [
     date: new Date(2024, 11, 27), // 27 décembre 2024
     time: '16:00 - 17:30',
     type: 'individuel' as const,
-    duration: '1h30'
+    duration: '1h30',
+    produitId: 1
   },
   {
     id: '9',
@@ -62,7 +79,8 @@ const individualConsultations = [
     date: new Date(2024, 11, 30), // 30 décembre 2024
     time: '10:00 - 11:30',
     type: 'individuel' as const,
-    duration: '1h30'
+    duration: '1h30',
+    produitId: 1
   },
   {
     id: '10',
@@ -70,19 +88,23 @@ const individualConsultations = [
     date: new Date(2025, 0, 3), // 3 janvier 2025
     time: '13:00 - 14:30',
     type: 'individuel' as const,
-    duration: '1h30'
+    duration: '1h30',
+    produitId: 1
   }
 ];
 
 export default async function ConsultationsIndividuellesPage() {
-  // Récupérer les données de meeting depuis la base de données
+  // Récupérer les vraies données depuis la base
   const meetingData = await getMeetingData();
   
-  // Filtrer pour n'avoir que les consultations individuelles
-  const consultationsFromDB = filterEventsByType(meetingData, 'individuel');
+  // Convertir les données en format compatible avec WebinarCalendar
+  const realConsultations = convertMeetingDataToWebinars(meetingData);
   
-  // Utiliser les données de la DB ou les données d'exemple en fallback
-  const consultationsToDisplay = consultationsFromDB.length > 0 ? consultationsFromDB : individualConsultations;
+  // Filtrer pour ne garder que les consultations individuelles
+  const consultationsIndividuelles = realConsultations.filter(consultation => consultation.type === 'individuel');
+  
+  // Utiliser les vraies données si disponibles, sinon les données d'exemple
+  const consultationsToDisplay = consultationsIndividuelles.length > 0 ? consultationsIndividuelles : individualConsultations;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f0e6d0] via-[#e8dcc0] to-[#f5ecd7]">
@@ -103,123 +125,50 @@ export default async function ConsultationsIndividuellesPage() {
           </p>
         </div>
 
-        <WebinarCalendar webinars={individualConsultations} />
+        <WebinarCalendar webinars={consultationsToDisplay} />
 
         {/* Section d'informations sur les consultations individuelles */}
-        <div className="mt-12 bg-gradient-to-br from-[#f5ecd7] to-[#f3e6c4] p-8 rounded-3xl shadow-xl">
-          <h3 className="text-2xl font-semibold text-[#4B2E05] mb-6 text-center">
-            Pourquoi choisir nos consultations individuelles ?
-          </h3>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h4 className="text-lg font-semibold text-[#4B2E05] mb-3">Avantages de l'accompagnement personnalisé</h4>
-              <ul className="space-y-2 text-[#5C3A00]">
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#7A5230] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Analyse approfondie de votre projet spécifique
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#7A5230] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Conseils adaptés à votre situation
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#7A5230] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Plan d'action détaillé et concret
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#7A5230] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Suivi post-consultation inclus
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-[#4B2E05] mb-3">Comment se déroule une consultation</h4>
-              <ul className="space-y-2 text-[#5C3A00]">
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#B9986F] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                  </svg>
-                  Prise de rendez-vous en ligne
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#B9986F] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                  </svg>
-                  Questionnaire pré-consultation
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#B9986F] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                  </svg>
-                  Session privée de 1h30
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#B9986F] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                  </svg>
-                  Compte-rendu détaillé envoyé
-                </li>
-              </ul>
+        <div className="mt-16 grid md:grid-cols-3 gap-8">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-[#7A5230] to-[#B9986F] rounded-full mx-auto mb-4 flex items-center justify-center">
+                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-[#4B2E05] mb-2">Accompagnement Personnalisé</h3>
+              <p className="text-[#5C3A00]">
+                Un suivi sur-mesure adapté à votre situation spécifique et à vos objectifs.
+              </p>
             </div>
           </div>
-        </div>
 
-        {/* Types de consultations disponibles */}
-        <div className="mt-12 bg-gradient-to-br from-[#f5ecd7] to-[#f3e6c4] p-8 rounded-3xl shadow-xl">
-          <h3 className="text-2xl font-semibold text-[#4B2E05] mb-6 text-center">
-            Types de consultations disponibles
-          </h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-gradient-to-br from-[#f5ecd7] to-[#f3e6c4] p-6 rounded-2xl shadow-lg border border-[#B9986F]/20">
-              <div className="w-12 h-12 bg-[#B9986F] rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-[#7A5230] to-[#B9986F] rounded-full mx-auto mb-4 flex items-center justify-center">
+                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                 </svg>
               </div>
-              <h4 className="font-semibold text-[#4B2E05] mb-2">Business Plan</h4>
-              <p className="text-[#5C3A00] text-sm">Structuration et validation de votre projet d'entreprise</p>
-            </div>
-            <div className="bg-gradient-to-br from-[#f5ecd7] to-[#f3e6c4] p-6 rounded-2xl shadow-lg border border-[#B9986F]/20">
-              <div className="w-12 h-12 bg-[#B9986F] rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4zM18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"/>
-                </svg>
-              </div>
-              <h4 className="font-semibold text-[#4B2E05] mb-2">Analyse Financière</h4>
-              <p className="text-[#5C3A00] text-sm">Évaluation de la viabilité financière de votre projet</p>
-            </div>
-            <div className="bg-gradient-to-br from-[#f5ecd7] to-[#f3e6c4] p-6 rounded-2xl shadow-lg border border-[#B9986F]/20">
-              <div className="w-12 h-12 bg-[#B9986F] rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
-                </svg>
-              </div>
-              <h4 className="font-semibold text-[#4B2E05] mb-2">Stratégie de Croissance</h4>
-              <p className="text-[#5C3A00] text-sm">Planification du développement de votre activité</p>
+              <h3 className="text-xl font-bold text-[#4B2E05] mb-2">Expertise Spécialisée</h3>
+              <p className="text-[#5C3A00]">
+                Bénéficiez de l'expertise d'experts reconnus dans leur domaine d'activité.
+              </p>
             </div>
           </div>
-        </div>
 
-        {/* Call-to-action */}
-        <div className="mt-12 text-center">
-          <div className="bg-gradient-to-r from-[#7A5230] to-[#B9986F] text-white p-8 rounded-3xl shadow-2xl">
-            <h3 className="text-2xl font-bold mb-4">
-              Besoin d'un accompagnement personnalisé ?
-            </h3>
-            <p className="text-lg mb-6 opacity-90">
-              Réservez votre consultation individuelle et transformez votre projet en réalité
-            </p>
-            <button className="bg-white text-[#7A5230] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-              Réserver une consultation
-            </button>
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-[#7A5230] to-[#B9986F] rounded-full mx-auto mb-4 flex items-center justify-center">
+                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-[#4B2E05] mb-2">Plan d'Action Concret</h3>
+              <p className="text-[#5C3A00]">
+                Repartez avec un plan d'action détaillé et des étapes concrètes à suivre.
+              </p>
+            </div>
           </div>
         </div>
       </div>

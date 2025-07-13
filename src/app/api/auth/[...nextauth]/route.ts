@@ -1,6 +1,9 @@
 {/*api d'authentification*/}
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
+import LinkedInProvider from "next-auth/providers/linkedin";
+import GithubProvider from "next-auth/providers/github";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import type { SessionStrategy } from "next-auth";
@@ -14,7 +17,7 @@ const authOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
+        if (!credentials?.email) {
           return null;
         }
 
@@ -23,6 +26,21 @@ const authOptions = {
         });
 
         if (!user) {
+          return null;
+        }
+
+        // Si c'est un utilisateur Google (avec provider), accepter sans vérifier le mot de passe
+        if (user.provider === 'google' && credentials.password === 'google_user') {
+          return {
+            id: user.id,
+            email: user.email,
+            nom: user.nom,
+            prenom: user.prenom,
+          };
+        }
+
+        // Pour les utilisateurs normaux, vérifier le mot de passe
+        if (!credentials.password) {
           return null;
         }
 
@@ -39,8 +57,31 @@ const authOptions = {
           prenom: user.prenom,
         };
       }
-    })
+    }),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
+    LinkedInProvider({
+      clientId: process.env.LINKEDIN_CLIENT_ID!,
+      clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
+    }),
+    GithubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    }),
   ],
+  callbacks: {
+    signIn: async ({ user, account, profile, email, credentials }: any) => {
+      return true;
+    },
+    jwt: async ({ token, user, account, profile, isNewUser }: any) => {
+      return token;
+    },
+    session: async ({ session, token, user }: any) => {
+      return session;
+    }
+  },
   session: {
     strategy: "jwt" as SessionStrategy,
     maxAge: 24 * 60 * 60, // 24 heures par défaut

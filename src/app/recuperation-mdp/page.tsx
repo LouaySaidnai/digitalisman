@@ -3,6 +3,7 @@
 import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import LoginForm from "@/components/LoginForm";
+import { Suspense } from "react";
 
 function RecuperationMdpForm() {
   const router = useRouter();

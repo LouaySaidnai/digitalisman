@@ -14,6 +14,7 @@ import {
 import "@/app/globals.css";
 import { FaSun, FaBoxes, FaUserCheck } from "react-icons/fa";
 import { LuMapPin, LuPhone, LuMail } from "react-icons/lu";
+import { useAuth } from "../../hooks/useAuth";
 const produits = [
   {
     icon: <FaSun className="text-white text-6xl" />,
@@ -39,6 +40,7 @@ const produits = [
 ];
 export default function Home() {
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
   const floatRef = useRef<HTMLImageElement | null>(null);
 
   const [dotStyles, setDotStyles] = useState([
@@ -112,12 +114,18 @@ Clarification stratégique, validation de votre idée, offres sur-mesure : tout 
 <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
  <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
   {/* Bouton 1 – plus foncé */}
-  <button className="bg-gradient-to-r from-[#5A3A1C] to-[#7A5230] text-[#F5E9D1] px-8 py-4 rounded-xl font-bold hover:from-[#6C4622] hover:to-[#8B603A] transition-all transform hover:scale-105 shadow-lg">
+  <button
+    className="bg-gradient-to-r from-[#5A3A1C] to-[#7A5230] text-[#F5E9D1] px-8 py-4 rounded-xl font-bold hover:from-[#6C4622] hover:to-[#8B603A] transition-all transform hover:scale-105 shadow-lg"
+    onClick={() => router.push('/Register')}
+  >
     S'inscrire
   </button>
 
   {/* Bouton 2 – ton moyen */}
-  <button className="bg-gradient-to-r from-[#7A5230] to-[#A8875E] text-[#F3E4C0] px-8 py-4 rounded-xl font-bold hover:from-[#8B603A] hover:to-[#B9986F] transition-all transform hover:scale-105 shadow-lg">
+  <button
+    className="bg-gradient-to-r from-[#7A5230] to-[#A8875E] text-[#F3E4C0] px-8 py-4 rounded-xl font-bold hover:from-[#8B603A] hover:to-[#B9986F] transition-all transform hover:scale-105 shadow-lg"
+    onClick={() => router.push('/Login')}
+  >
     Connexion
   </button>
 
@@ -439,7 +447,9 @@ au sein de l'UTICA
           <div>
           <div className="flex items-center mb-6">
         <Users className="w-8 h-8 text-[#F3E4C0] mr-3" />
-        <span className="text-[#F3E4C0] font-medium">Nos Formateurs</span>
+       <p>
+          Nos Formateurs
+        </p>
           </div>
           <h3 className="text-3xl font-bold leading-tight mb-6">
          Découvrez les experts qui vous accompagnent pas à pas
@@ -447,9 +457,12 @@ au sein de l'UTICA
           </div>
           
           <div>
-          <button className="group/btn bg-white text-[#7A5230] px-8 py-4 rounded-xl font-semibold hover:bg-[#F3E4C0] transition-all duration-300 flex items-center space-x-3 hover:space-x-4">
-        <span>Voir leurs profils</span>
-        <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
+          <button
+            className="group/btn bg-white text-[#7A5230] px-8 py-4 rounded-xl font-semibold hover:bg-[#F3E4C0] transition-all duration-300 flex items-center space-x-3 hover:space-x-4"
+            onClick={() => router.push('/formateurs')}
+          >
+            <span>Voir leurs profils</span>
+            <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-300" />
           </button>
           </div>
         </div>
@@ -592,38 +605,7 @@ au sein de l'UTICA
         </div>
           </div>
 
-          {/* Services */}
-          <div className="space-y-6">
-        <h4 className="text-xl font-semibold text-amber-100 mb-4">
-          Nos Services
-        </h4>
-        <ul className="space-y-3">
-          <li>
-            <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
-          <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
-          Stratégie d'entreprise
-            </a>
-          </li>
-          <li>
-            <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
-          <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
-          Nos missions
-            </a>
-          </li>
-          <li>
-            <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
-          <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
-          Accompagnement personnalisé
-            </a>
-          </li>
-          <li>
-            <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
-          <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
-          Formation et coaching
-            </a>
-          </li>
-        </ul>
-          </div>
+        
 
           {/* Quick Links */}
           <div className="space-y-6">
@@ -650,10 +632,13 @@ au sein de l'UTICA
             </a>
           </li>
           <li>
-            <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
-          <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
-          Contact
-            </a>
+            <button
+              onClick={() => router.push(isAuthenticated ? '/contact' : '/Login')}
+              className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group w-full text-left"
+            >
+              <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
+              Contact
+            </button>
           </li>
         </ul>
           </div>
@@ -681,27 +666,7 @@ au sein de l'UTICA
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-amber-700">
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-        <div className="text-amber-300 text-sm">
-          © 2024 Votre Entreprise. Tous droits réservés.
-        </div>
-        <div className="flex space-x-6 text-sm">
-          <a href="#" className="text-amber-300 hover:text-amber-100 transition-colors duration-300">
-            Politique de confidentialité
-          </a>
-          <a href="#" className="text-amber-300 hover:text-amber-100 transition-colors duration-300">
-            Conditions d'utilisation
-          </a>
-          <a href="#" className="text-amber-300 hover:text-amber-100 transition-colors duration-300">
-            Mentions légales
-          </a>
-        </div>
-          </div>
-        </div>
-      </div>
+     
 
       {/* Decorative Elements */}
       <div className="absolute inset-0 pointer-events-none">

@@ -1,5 +1,5 @@
 import WebinarCalendar from '../../../components/WebinarCalendar';
-import { filterEventsByType } from '../../../types/meeting';
+import { filterEventsByType, convertMeetingDataToWebinars } from '../../../types/meeting';
 import { prisma } from '../../../lib/prisma';
 
 // Fonction pour récupérer les données de meeting depuis la base de données
@@ -12,13 +12,27 @@ async function getMeetingData() {
           not: undefined
         }
       },
-      select: { meeting: true }
+      select: { 
+        id: true,
+        nom: true,
+        slug: true,
+        meeting: true 
+      }
     });
 
-    // Combiner toutes les données de meeting
+    // Combiner toutes les données de meeting avec les slugs des produits
     const allMeetingData = produits.reduce((acc, produit) => {
       if (produit.meeting && typeof produit.meeting === 'object') {
-        return { ...acc, ...produit.meeting };
+        // Ajouter le slug du produit à chaque événement
+        const eventsWithProductSlug = Object.entries(produit.meeting).reduce((eventAcc, [eventName, events]) => {
+          eventAcc[eventName] = (events as any[]).map((event: any) => ({
+            ...event,
+            produitSlug: produit.slug
+          }));
+          return eventAcc;
+        }, {} as any);
+        
+        return { ...acc, ...eventsWithProductSlug };
       }
       return acc;
     }, {});
@@ -40,7 +54,8 @@ const groupWebinars = [
     type: 'collectif' as const,
     duration: '2 heures',
     maxParticipants: 50,
-    currentParticipants: 23
+    currentParticipants: 23,
+    produitSlug: 'tchiquetchiquetchique-ai-ai-ai'
   },
   {
     id: '2',
@@ -50,7 +65,8 @@ const groupWebinars = [
     type: 'collectif' as const,
     duration: '2 heures',
     maxParticipants: 30,
-    currentParticipants: 15
+    currentParticipants: 15,
+    produitSlug: 'tchiquetchiquetchique-ai-ai-ai'
   },
   {
     id: '4',
@@ -60,7 +76,8 @@ const groupWebinars = [
     type: 'collectif' as const,
     duration: '2 heures',
     maxParticipants: 40,
-    currentParticipants: 28
+    currentParticipants: 28,
+    produitSlug: 'tchiquetchiquetchique-ai-ai-ai'
   },
   {
     id: '6',
@@ -70,7 +87,8 @@ const groupWebinars = [
     type: 'collectif' as const,
     duration: '2 heures',
     maxParticipants: 35,
-    currentParticipants: 12
+    currentParticipants: 12,
+    produitSlug: 'tchiquetchiquetchique-ai-ai-ai'
   },
   {
     id: '8',
@@ -80,19 +98,23 @@ const groupWebinars = [
     type: 'collectif' as const,
     duration: '2 heures',
     maxParticipants: 45,
-    currentParticipants: 31
+    currentParticipants: 31,
+    produitSlug: 'tchiquetchiquetchique-ai-ai-ai'
   }
 ];
 
 export default async function WebinairesPage() {
-  // Récupérer les données de meeting depuis la base de données
+  // Récupérer les vraies données depuis la base
   const meetingData = await getMeetingData();
   
-  // Filtrer pour n'avoir que les webinaires
-  const webinairesFromDB = filterEventsByType(meetingData, 'webinaire');
+  // Convertir les données en format compatible avec WebinarCalendar
+  const realWebinars = convertMeetingDataToWebinars(meetingData);
   
-  // Utiliser les données de la DB ou les données d'exemple en fallback
-  const webinarsToDisplay = webinairesFromDB.length > 0 ? webinairesFromDB : groupWebinars;
+  // Filtrer pour ne garder que les webinaires collectifs
+  const webinairesCollectifs = realWebinars.filter(webinar => webinar.type === 'collectif');
+  
+  // Utiliser les vraies données si disponibles, sinon les données d'exemple
+  const webinarsToDisplay = webinairesCollectifs.length > 0 ? webinairesCollectifs : groupWebinars;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f0e6d0] via-[#e8dcc0] to-[#f5ecd7]">
@@ -113,87 +135,50 @@ export default async function WebinairesPage() {
           </p>
         </div>
 
-        <WebinarCalendar webinars={groupWebinars} />
+        <WebinarCalendar webinars={webinarsToDisplay} />
 
         {/* Section d'informations sur les webinaires collectifs */}
-        <div className="mt-12 bg-gradient-to-br from-[#f5ecd7] to-[#f3e6c4] p-8 rounded-3xl shadow-xl">
-          <h3 className="text-2xl font-semibold text-[#4B2E05] mb-6 text-center">
-            Pourquoi choisir nos webinaires collectifs ?
-          </h3>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <h4 className="text-lg font-semibold text-[#4B2E05] mb-3">Avantages des sessions en groupe</h4>
-              <ul className="space-y-2 text-[#5C3A00]">
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#7A5230] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Échanges enrichissants avec d'autres entrepreneurs
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#7A5230] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Questions-réponses en direct avec l'expert
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#7A5230] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Contenu structuré et progressif
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#7A5230] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Accès aux enregistrements après la session
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold text-[#4B2E05] mb-3">Comment ça fonctionne</h4>
-              <ul className="space-y-2 text-[#5C3A00]">
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#B9986F] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                  </svg>
-                  Inscription gratuite en ligne
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#B9986F] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                  </svg>
-                  Lien de connexion envoyé par email
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#B9986F] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                  </svg>
-                  Session interactive en ligne
-                </li>
-                <li className="flex items-center">
-                  <svg className="w-5 h-5 text-[#B9986F] mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                  </svg>
-                  Support et ressources post-session
-                </li>
-              </ul>
+        <div className="mt-16 grid md:grid-cols-3 gap-8">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-[#7A5230] to-[#B9986F] rounded-full mx-auto mb-4 flex items-center justify-center">
+                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-[#4B2E05] mb-2">Contenu Structuré</h3>
+              <p className="text-[#5C3A00]">
+                Des sessions organisées avec un programme clair et des objectifs définis pour maximiser votre apprentissage.
+              </p>
             </div>
           </div>
-        </div>
 
-        {/* Call-to-action */}
-        <div className="mt-12 text-center">
-          <div className="bg-gradient-to-r from-[#7A5230] to-[#B9986F] text-white p-8 rounded-3xl shadow-2xl">
-            <h3 className="text-2xl font-bold mb-4">
-              Prêt à rejoindre nos webinaires ?
-            </h3>
-            <p className="text-lg mb-6 opacity-90">
-              Inscrivez-vous gratuitement et développez vos compétences entrepreneuriales
-            </p>
-            <button className="bg-white text-[#7A5230] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
-              S'inscrire maintenant
-            </button>
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-[#7A5230] to-[#B9986F] rounded-full mx-auto mb-4 flex items-center justify-center">
+                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-[#4B2E05] mb-2">Échanges Interactifs</h3>
+              <p className="text-[#5C3A00]">
+                Posez vos questions en direct et partagez vos expériences avec d'autres entrepreneurs.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-[#7A5230] to-[#B9986F] rounded-full mx-auto mb-4 flex items-center justify-center">
+                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-[#4B2E05] mb-2">Réseau Professionnel</h3>
+              <p className="text-[#5C3A00]">
+                Développez votre réseau en rencontrant d'autres entrepreneurs partageant vos ambitions.
+              </p>
+            </div>
           </div>
         </div>
       </div>
