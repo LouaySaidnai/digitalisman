@@ -9,6 +9,7 @@ export async function POST(req: Request) {
     const saved = await prisma.testResult.create({
       data: {
         userId: body.userId,
+        email: body.email,
         answers: body.answers,
         personality: body.personality,
       },

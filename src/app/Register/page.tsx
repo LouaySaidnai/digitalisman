@@ -15,6 +15,11 @@ export default function RegisterPage() {
     confirmerMotDePasse: ''
   })
   
+  const [acceptTerms, setAcceptTerms] = useState(false)
+  const [acceptPrivacy, setAcceptPrivacy] = useState(false)
+  const [showTerms, setShowTerms] = useState(false)
+  const [showPrivacy, setShowPrivacy] = useState(false)
+  
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -74,6 +79,19 @@ export default function RegisterPage() {
       passwordFeedback.includes('faible')
     ) {
       setError('Le mot de passe n\'est pas assez fort. Choisissez un mot de passe plus complexe.');
+      setLoading(false);
+      return;
+    }
+
+    // Vérification des conditions d'utilisation et politique de confidentialité
+    if (!acceptTerms) {
+      setError('Vous devez accepter les conditions d\'utilisation pour continuer.');
+      setLoading(false);
+      return;
+    }
+
+    if (!acceptPrivacy) {
+      setError('Vous devez accepter la politique de confidentialité pour continuer.');
       setLoading(false);
       return;
     }
@@ -341,10 +359,106 @@ export default function RegisterPage() {
               </div>
             </div>
 
+            {/* Conditions d'utilisation et Politique de confidentialité */}
+            <div className="space-y-4">
+              {/* Conditions d'utilisation */}
+              <div className="flex items-start space-x-3">
+                <input
+                  type="checkbox"
+                  id="acceptTerms"
+                  checked={acceptTerms}
+                  onChange={(e) => setAcceptTerms(e.target.checked)}
+                  className="mt-1 h-4 w-4 text-[#7A5230] border-[#B9986F] rounded focus:ring-[#7A5230] focus:ring-2"
+                />
+                <label htmlFor="acceptTerms" className="text-sm text-[#5C3A00] leading-relaxed">
+                  J'accepte les{' '}
+                  <button 
+                    type="button"
+                    onClick={() => setShowTerms(!showTerms)}
+                    className="text-[#7A5230] hover:text-[#5C3A00] font-semibold underline"
+                  >
+                    conditions d'utilisation
+                  </button>
+                  {' '}*
+                </label>
+              </div>
+
+              {/* Politique de confidentialité */}
+              <div className="flex items-start space-x-3">
+                <input
+                  type="checkbox"
+                  id="acceptPrivacy"
+                  checked={acceptPrivacy}
+                  onChange={(e) => setAcceptPrivacy(e.target.checked)}
+                  className="mt-1 h-4 w-4 text-[#7A5230] border-[#B9986F] rounded focus:ring-[#7A5230] focus:ring-2"
+                />
+                <label htmlFor="acceptPrivacy" className="text-sm text-[#5C3A00] leading-relaxed">
+                  J'accepte la{' '}
+                  <button 
+                    type="button"
+                    onClick={() => setShowPrivacy(!showPrivacy)}
+                    className="text-[#7A5230] hover:text-[#5C3A00] font-semibold underline"
+                  >
+                    politique de confidentialité
+                  </button>
+                  {' '}*
+                </label>
+              </div>
+
+              {/* Affichage des Conditions d'utilisation */}
+              {showTerms && (
+                <div className="bg-white/80 border border-[#B9986F]/30 rounded-xl p-4 mt-4 max-h-48 overflow-y-auto">
+                  <h4 className="font-semibold text-[#4B2E05] mb-2">Conditions d'utilisation</h4>
+                  <div className="text-sm text-[#5C3A00] space-y-2">
+                    <p><strong>1. Acceptation des conditions</strong></p>
+                    <p>En utilisant notre plateforme, vous acceptez d'être lié par ces conditions d'utilisation.</p>
+                    
+                    <p><strong>2. Utilisation du service</strong></p>
+                    <p>Vous vous engagez à utiliser nos services de manière légale et éthique, sans porter atteinte aux droits d'autrui.</p>
+                    
+                    <p><strong>3. Responsabilité</strong></p>
+                    <p>Vous êtes responsable de la confidentialité de vos identifiants et de toutes les activités effectuées sous votre compte.</p>
+                    
+                    <p><strong>4. Modifications</strong></p>
+                    <p>Nous nous réservons le droit de modifier ces conditions à tout moment, avec notification préalable aux utilisateurs.</p>
+                    
+                    <p><strong>5. Résiliation</strong></p>
+                    <p>Nous pouvons suspendre ou résilier votre compte en cas de non-respect de ces conditions.</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Affichage de la Politique de confidentialité */}
+              {showPrivacy && (
+                <div className="bg-white/80 border border-[#B9986F]/30 rounded-xl p-4 mt-4 max-h-48 overflow-y-auto">
+                  <h4 className="font-semibold text-[#4B2E05] mb-2">Politique de confidentialité</h4>
+                  <div className="text-sm text-[#5C3A00] space-y-2">
+                    <p><strong>1. Collecte des données</strong></p>
+                    <p>Nous collectons les informations que vous nous fournissez directement lors de l'inscription et de l'utilisation de nos services.</p>
+                    
+                    <p><strong>2. Utilisation des données</strong></p>
+                    <p>Vos données sont utilisées pour fournir nos services, améliorer votre expérience et communiquer avec vous.</p>
+                    
+                    <p><strong>3. Protection des données</strong></p>
+                    <p>Nous mettons en œuvre des mesures de sécurité appropriées pour protéger vos informations personnelles.</p>
+                    
+                    <p><strong>4. Partage des données</strong></p>
+                    <p>Nous ne vendons, n'échangeons ni ne louons vos informations personnelles à des tiers sans votre consentement.</p>
+                    
+                    <p><strong>5. Vos droits</strong></p>
+                    <p>Vous avez le droit d'accéder, de modifier ou de supprimer vos données personnelles à tout moment.</p>
+                    
+                    <p><strong>6. Cookies</strong></p>
+                    <p>Nous utilisons des cookies pour améliorer votre expérience de navigation et analyser l'utilisation de notre site.</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
             {/* Bouton d'inscription */}
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !acceptTerms || !acceptPrivacy}
               className="w-full bg-gradient-to-r from-[#7A5230] to-[#B9986F] text-white py-4 px-6 rounded-xl font-semibold text-lg hover:from-[#8B603A] hover:to-[#D6C4A2] transition-all duration-300 transform hover:scale-105 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
               {loading ? (

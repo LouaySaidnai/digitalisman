@@ -1,6 +1,11 @@
 'use client'
-import EntrepreneurialTest from './EntrepreneurialTest' // si tu l'as dans /components
+import ProtectedRoute from '../../components/ProtectedRoute';
+import EntrepreneurialTest from './EntrepreneurialTest';
 
 export default function TestPage() {
-  return <EntrepreneurialTest />;
+  return (
+    <ProtectedRoute>
+      <EntrepreneurialTest />
+    </ProtectedRoute>
+  );
 }

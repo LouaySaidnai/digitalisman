@@ -112,19 +112,23 @@ Clarification stratégique, validation de votre idée, offres sur-mesure : tout 
 <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
  <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
   {/* Bouton 1 – plus foncé */}
-  <button className="bg-gradient-to-r from-[#5A3A1C] to-[#7A5230] text-[#F5E9D1] px-8 py-4 rounded-xl font-bold hover:from-[#6C4622] hover:to-[#8B603A] transition-all transform hover:scale-105 shadow-lg">
+  <button 
+    onClick={() => router.push('/Register')}
+    className="bg-gradient-to-r from-[#5A3A1C] to-[#7A5230] text-[#F5E9D1] px-8 py-4 rounded-xl font-bold hover:from-[#6C4622] hover:to-[#8B603A] transition-all transform hover:scale-105 shadow-lg"
+  >
     S'inscrire
   </button>
 
   {/* Bouton 2 – ton moyen */}
-  <button className="bg-gradient-to-r from-[#7A5230] to-[#A8875E] text-[#F3E4C0] px-8 py-4 rounded-xl font-bold hover:from-[#8B603A] hover:to-[#B9986F] transition-all transform hover:scale-105 shadow-lg">
+  <button 
+    onClick={() => router.push('/Login')}
+    className="bg-gradient-to-r from-[#7A5230] to-[#A8875E] text-[#F3E4C0] px-8 py-4 rounded-xl font-bold hover:from-[#8B603A] hover:to-[#B9986F] transition-all transform hover:scale-105 shadow-lg"
+  >
     Connexion
   </button>
 
   {/* Bouton 3 – plus clair */}
-  <button className="bg-gradient-to-r from-[#A8875E] to-[#C8B48E] text-[#3B2F1B] px-8 py-4 rounded-xl font-bold hover:from-[#B9986F] hover:to-[#D6C4A2] transition-all transform hover:scale-105 shadow-lg">
-    En savoir plus
-  </button>
+  
 </div>
 </div>
             </div>
@@ -513,52 +517,7 @@ au sein de l'UTICA
     }}
   />
   <hr />
-  <div className="marque-container h-full w-full flex items-center justify-center bg-[#FFFDE6] text-black">
-  <h2 className="text-3xl font-bold text-center mb-6 text-[#2d1800]">Our Partners</h2>
-  <div className="Marquee w-full box-border p-4 text-black font-light flex items-center overflow-hidden bg-[#FFFDE6]">
-    <div className="Marquee-content flex animate-marquee hover:animate-pause bg-[#FFFDE6]">
-
-        <div className="Marquee-tag w-52 mx-2 p-2 inline-flex items-center justify-center transition-all duration-900 ease-in-out hover:scale-110">
-          <img
-            src="https://www.joodek.com/storage/940/5eee36f2dbb34.png"
-            alt=""
-            srcSet=""
-          />
-        </div>
-        <div className="Marquee-tag w-52 mx-2 p-2 inline-flex items-center justify-center transition-all duration-900 ease-in-out hover:scale-110">
-          <img
-            src="https://th.bing.com/th/id/R.76609ccdeaa5dc12ed70c6b66e8ab7da?rik=zT7lkz24Ya%2f5OQ&riu=http%3a%2f%2f1.bp.blogspot.com%2f-A7DZCRD79OA%2fVX7fOH1wsgI%2fAAAAAAAA9t0%2fEbOnb4UrI_U%2fs1600%2flarge_news_ESS-LOGO-ETOILE-SPORTIVE-DU-SAHEL.jpg&ehk=vl%2fXxZ7rBDseXr0u7FkV9SOY68PNyWgysMPrjrHZB3I%3d&risl=&pid=ImgRaw&r=0&sres=1&sresct=1"
-            alt=""
-            srcSet=""
-          />
-        </div>
-        <div className="Marquee-tag w-52 mx-2 p-2 inline-flex items-center justify-center transition-all duration-900 ease-in-out hover:scale-110">
-          <img
-            src="https://th.bing.com/th/id/R.3a31a28420deec7142715225f0966a67?rik=KYE18irtD7yDjw&pid=ImgRaw&r=0"
-            alt=""
-            srcSet=""
-          />
-        </div>
-        <div className="Marquee-tag w-52 mx-2 p-2 inline-flex items-center justify-center transition-all duration-900 ease-in-out hover:scale-110">
-          <img
-            src="https://tse1.mm.bing.net/th/id/OIP.uJRSHlFaiA1vkOODSF-xNQEsBJ?rs=1&pid=ImgDetMain&o=7&rm=3"
-            alt=""
-            srcSet=""
-          />
-        </div>
-        <div className="Marquee-tag w-52 mx-2 p-2 inline-flex items-center justify-center transition-all duration-900 ease-in-out hover:scale-110">
-          <img
-            src="https://tse4.mm.bing.net/th/id/OIP.f8cz1DhBybOjrBIbn2f_DwHaBO?rs=1&pid=ImgDetMain&o=7&rm=3"
-            alt=""
-            srcSet=""
-          />
-        </div>
-        <div className="Marquee-tag w-52 mx-2 p-2 inline-flex items-center justify-center transition-all duration-900 ease-in-out hover:scale-110">
-          {/* Removed empty image to fix warning */}
-        </div>
-      </div>
-    </div>
-  </div>
+  
 </>
 
     </section>
@@ -577,18 +536,14 @@ au sein de l'UTICA
           Clarification stratégique et validation de vos idées.
         </p>
         <div className="flex space-x-4">
-          <a href="#" className="bg-amber-700 hover:bg-amber-600 p-3 rounded-full transition-colors duration-300">
+          <a href="https://www.facebook.com/DigitalismanTunisie" className="bg-amber-700 hover:bg-amber-600 p-3 rounded-full transition-colors duration-300">
             <FaFacebookF size={20} />
           </a>
-          <a href="#" className="bg-amber-700 hover:bg-amber-600 p-3 rounded-full transition-colors duration-300">
-            <FaTwitter size={20} />
-          </a>
-          <a href="#" className="bg-amber-700 hover:bg-amber-600 p-3 rounded-full transition-colors duration-300">
+          
+          <a href="https://www.linkedin.com/company/912-commerce/" className="bg-amber-700 hover:bg-amber-600 p-3 rounded-full transition-colors duration-300">
             <FaLinkedin size={20} />
           </a>
-          <a href="#" className="bg-amber-700 hover:bg-amber-600 p-3 rounded-full transition-colors duration-300">
-            <FaInstagram size={20} />
-          </a>
+          
         </div>
           </div>
 
@@ -652,7 +607,7 @@ au sein de l'UTICA
           <li>
             <a href="#" className="text-amber-200 hover:text-amber-100 transition-colors duration-300 flex items-center group">
           <span className="w-2 h-2 bg-amber-400 rounded-full mr-3 group-hover:scale-125 transition-transform duration-300"></span>
-          Contact
+          Contactez-nous
             </a>
           </li>
         </ul>

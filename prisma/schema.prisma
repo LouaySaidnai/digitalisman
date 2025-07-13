@@ -45,7 +45,9 @@ model Produit {
 
 model TestResult {
   id          Int      @id @default(autoincrement())
-  userId      Int
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  email       String?   // email du client ayant fait le test (optionnel)
   answers     Json
   personality String
   createdAt   DateTime @default(now())
@@ -65,4 +67,5 @@ model User {
   updatedAt        DateTime  @updatedAt
   provider         String?
   providerId       String?
+  testResults      TestResult[]
 }

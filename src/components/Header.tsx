@@ -43,6 +43,17 @@ export default function Header() {
             {isAuthenticated ? (
               <>
                 <Link
+                  href="/test"
+                  className="relative group px-4 py-2 rounded-lg transition-all duration-300"
+                >
+                  <span className="text-[#F5E9D1] font-medium text-lg group-hover:text-white transition-colors duration-300">
+                    Test Entrepreneurial
+                  </span>
+                  <div className="absolute inset-0 bg-[#B9986F]/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#B9986F] to-[#A8875E] group-hover:w-full transition-all duration-300"></div>
+                </Link>
+                
+                <Link
                   href="/mes-offres"
                   className="relative group px-4 py-2 rounded-lg transition-all duration-300"
                 >
@@ -66,16 +77,29 @@ export default function Header() {
                 </button>
               </>
             ) : (
-              <Link
-                href="/Login"
-                className="relative group px-6 py-3 rounded-lg transition-all duration-300 overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-[#B9986F] to-[#A8875E] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <span className="relative text-[#F5E9D1] font-medium text-lg group-hover:text-white transition-colors duration-300">
-                  Se connecter
-                </span>
-                <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></div>
-              </Link>
+              <>
+                <Link
+                  href="/Register"
+                  className="relative group px-4 py-2 rounded-lg transition-all duration-300"
+                >
+                  <span className="text-[#F5E9D1] font-medium text-lg group-hover:text-white transition-colors duration-300">
+                    S'inscrire
+                  </span>
+                  <div className="absolute inset-0 bg-[#B9986F]/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#B9986F] to-[#A8875E] group-hover:w-full transition-all duration-300"></div>
+                </Link>
+                
+                <Link
+                  href="/Login"
+                  className="relative group px-6 py-3 rounded-lg transition-all duration-300 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#B9986F] to-[#A8875E] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <span className="relative text-[#F5E9D1] font-medium text-lg group-hover:text-white transition-colors duration-300">
+                    Se connecter
+                  </span>
+                  <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></div>
+                </Link>
+              </>
             )}
           </nav>
         </div>

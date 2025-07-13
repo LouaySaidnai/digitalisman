@@ -1,8 +1,10 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import { ChevronRight, CheckCircle, User, Target, Lightbulb, Zap, BarChart3, TrendingUp, Award, Rocket, Trophy } from 'lucide-react';
+import { useAuth } from '../../../hooks/useAuth';
 
 const EntrepreneurialTest = () => {
+  const { user } = useAuth();
   const [currentStep, setCurrentStep] = useState('intro');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState({});
@@ -148,14 +150,19 @@ const handleAnswer = (value: 'vrai' | 'faux') => {
     setPersonalityType(resultType);
   };
 const handleSubmit = async () => {
-  const userId = 123; // tu peux générer un ID unique ou lier à l'utilisateur connecté
+  if (!user?.id) {
+    console.error('Utilisateur non connecté');
+    return;
+  }
+
   const response = await fetch('/api/save', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      userId,
+      userId: user.id,
+      email: user.email,
       answers,
       personality: personalityType,
     }),
@@ -529,8 +536,13 @@ interface PersonalityType {
             </button>
             
             <p className="text-sm text-blue-200 mt-4">
-              ⏱️ Durée estimée : 5-7 minutes • 100% gratuit et anonyme
+              ⏱️ Durée estimée : 5-7 minutes • 100% gratuit
             </p>
+            <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 mt-4">
+              <p className="text-green-200 text-sm">
+                ✅ Vous êtes connecté en tant que <strong>{user?.email}</strong>
+              </p>
+            </div>
           </div>
         </div>
       </div>

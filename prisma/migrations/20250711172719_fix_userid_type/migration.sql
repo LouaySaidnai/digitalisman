@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "TestResult" ALTER COLUMN "userId" SET DATA TYPE TEXT;
+
+-- AddForeignKey
+ALTER TABLE "TestResult" ADD CONSTRAINT "TestResult_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
