@@ -4,10 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../../hooks/useAuth";
+import { useCart } from "../../hooks/useCart";
 
 export default function Header() {
   const router = useRouter();
   const { user, isAuthenticated, signOut } = useAuth();
+  const { getItemCount } = useCart();
 
   const handleLogin = () => {
     console.log('Bouton Se connecter cliqué');
@@ -43,12 +45,17 @@ export default function Header() {
             {isAuthenticated ? (
               <>
                 <Link
-                  href="/mes-offres"
+                  href="/Panier"
                   className="relative group px-4 py-2 rounded-lg transition-all duration-300"
                 >
                   <span className="text-[#F5E9D1] font-medium text-lg group-hover:text-white transition-colors duration-300">
                     Mon panier
                   </span>
+                  {getItemCount() > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center font-bold">
+                      {getItemCount()}
+                    </span>
+                  )}
                   <div className="absolute inset-0 bg-[#B9986F]/10 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#B9986F] to-[#A8875E] group-hover:w-full transition-all duration-300"></div>
                 </Link>

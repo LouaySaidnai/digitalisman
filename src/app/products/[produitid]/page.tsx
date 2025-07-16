@@ -3,6 +3,7 @@
 import { useEffect, useState, use } from 'react'
 import Link from 'next/link'
 import { FaArrowLeft, FaCheckCircle, FaStar, FaArrowRight, FaPlay, FaClock, FaUsers, FaShieldAlt, FaImage, FaVideo, FaGift, FaExclamationTriangle, FaPlus, FaCompass, FaGraduationCap, FaHandshake, FaLightbulb, FaSeedling, FaChartLine } from 'react-icons/fa'
+import { useCart } from '../../../../hooks/useCart'
 
 // Fonction pour formater le prix
 function formatPrix(prix: any): string {
@@ -120,6 +121,7 @@ export default function ProduitDetail({ params }: { params: { produitid: string 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [mounted, setMounted] = useState(false)
+  const { addToCart } = useCart()
 
   useEffect(() => {
     setMounted(true)
@@ -679,8 +681,15 @@ export default function ProduitDetail({ params }: { params: { produitid: string 
                   {/* Bouton Ajouter au panier pour chaque option */}
                   <button 
                     onClick={() => {
-                      // TODO: Implémenter la logique d'ajout au panier avec l'option spécifique
-                      alert(`Option "${key}" ajoutée au panier !`);
+                      if (addToCart({
+                        id: produit.id,
+                        nom: `${produit.nom} - ${key}`,
+                        prix: prix,
+                        description: produit.sousTitre || produit.contenu || '',
+                        slug: produit.slug
+                      })) {
+                        alert(`Option "${key}" ajoutée au panier !`);
+                      }
                     }}
                     className="group relative w-full bg-gradient-to-r from-[#7A5230] to-[#B9986F] text-white py-3 px-6 rounded-xl font-semibold text-base hover:from-[#8B603A] hover:to-[#D6C4A2] transition-all duration-300 transform hover:scale-105 hover:shadow-xl shadow-md"
                   >
@@ -716,8 +725,15 @@ export default function ProduitDetail({ params }: { params: { produitid: string 
                 <div className="mt-8">
                   <button 
                     onClick={() => {
-                      // TODO: Implémenter la logique d'ajout au panier
-                      alert('Produit ajouté au panier !');
+                      if (addToCart({
+                        id: produit.id,
+                        nom: produit.nom,
+                        prix: formatPrix(produit.prix),
+                        description: produit.sousTitre || produit.contenu || '',
+                        slug: produit.slug
+                      })) {
+                        alert('Produit ajouté au panier !');
+                      }
                     }}
                     className="group relative w-full bg-gradient-to-r from-[#7A5230] to-[#B9986F] text-white py-4 px-8 rounded-2xl font-bold text-lg hover:from-[#8B603A] hover:to-[#D6C4A2] transition-all duration-300 transform hover:scale-105 hover:shadow-2xl shadow-lg"
                   >

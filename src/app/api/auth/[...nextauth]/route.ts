@@ -6,72 +6,9 @@ import LinkedInProvider from "next-auth/providers/linkedin";
 import GithubProvider from "next-auth/providers/github";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import { signIn } from "next-auth/react";
+import type { SessionStrategy } from "next-auth";
 
-const authCallbacks = {
-  async signIn({
-    user,
-    account,
-    profile,
-  }: {
-    user: any;
-    account: any;
-    profile?: any;
-  }) {
-    if (account?.provider === "credentials") {
-      return true;
-    }
-
-    // Pour les providers OAuth, créer ou mettre à jour l'utilisateur
-    if (account?.provider && profile) {
-      try {
-        const existingUser = await (prisma as any).user.findUnique({
-          where: { email: user.email }
-        });
-
-        if (!existingUser) {
-          // Créer un nouvel utilisateur
-          await (prisma as any).user.create({
-            data: {
-              email: user.email!,
-              nom: user.name?.split(' ').slice(-1)[0] || '',
-              prenom: user.name?.split(' ')[0] || '',
-              password: '', // Pas de mot de passe pour les utilisateurs OAuth
-              provider: account.provider,
-              providerId: account.providerAccountId,
-            }
-          });
-        }
-        return true;
-      } catch (error) {
-        console.error("Erreur lors de la création/mise à jour de l'utilisateur:", error);
-        return false;
-      }
-    }
-
-    return true;
-  },
-  async jwt({ token, user, account }: { token: any; user?: any; account?: any }) {
-    if (user) {
-      token.id = user.id;
-      token.email = user.email;
-      token.nom = user.nom;
-      token.prenom = (user as any).prenom;
-    }
-    return token;
-  },
-  async session({ session, token }: { session: any; token: any }) {
-    if (token && session.user) {
-      session.user.id = token.id as string;
-      session.user.email = token.email as string;
-      (session.user as any).nom = token.nom as string;
-      (session.user as any).prenom = token.prenom as string;
-    }
-    return session;
-  }
-};
-
-const handler = NextAuth({
+const authOptions = {
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -135,30 +72,18 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    ...authCallbacks,
-    // Ensure callback signatures match NextAuth types
-    signIn: async ({ user, account, profile, email, credentials }) => {
-      if (authCallbacks.signIn) {
-        // Pass only the expected arguments to the user-defined callback
-        return authCallbacks.signIn({ user, account, profile });
-      }
+    signIn: async ({ user, account, profile, email, credentials }: any) => {
       return true;
     },
-    jwt: async ({ token, user, account, profile, isNewUser }) => {
-      if (authCallbacks.jwt) {
-        return authCallbacks.jwt({ token, user, account });
-      }
+    jwt: async ({ token, user, account, profile, isNewUser }: any) => {
       return token;
     },
-    session: async ({ session, token, user }) => {
-      if (authCallbacks.session) {
-        return authCallbacks.session({ session, token });
-      }
+    session: async ({ session, token, user }: any) => {
       return session;
     }
   },
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as SessionStrategy,
     maxAge: 24 * 60 * 60, // 24 heures par défaut
   },
   jwt: {
@@ -169,7 +94,6 @@ const handler = NextAuth({
       name: `next-auth.session-token`,
       options: {
         httpOnly: true,
-        sameSite: 'lax',
         path: '/',
         secure: process.env.NODE_ENV === 'production',
         maxAge: 24 * 60 * 60 // 24 heures par défaut
@@ -179,6 +103,8 @@ const handler = NextAuth({
   pages: {
     signIn: "/Login"
   }
-});
+};
 
-export { handler as GET, handler as POST };
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST, authOptions };

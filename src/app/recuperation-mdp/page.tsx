@@ -1,11 +1,11 @@
 // my-app/src/app/recuperation-mdp/page.tsx
 "use client";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import LoginForm from "@/components/LoginForm";
 import { Suspense } from "react";
 
-function RecuperationMdpContent() {
+function RecuperationMdpForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
@@ -97,8 +97,8 @@ function RecuperationMdpContent() {
 
 export default function RecuperationMdpPage() {
   return (
-    <Suspense fallback={<div>Chargement...</div>}>
-      <RecuperationMdpContent />
+    <Suspense>
+      <RecuperationMdpForm />
     </Suspense>
   );
 }

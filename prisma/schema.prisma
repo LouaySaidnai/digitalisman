@@ -4,7 +4,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider="mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -18,29 +18,47 @@ model Produit {
   niveauPriorite       Int?
   cible                String?
   conceptFondateur     Json?
-  contenu              String?
-  processus            String?
+  contenu              String? @db.Text
+  processus            String? @db.Text
   duree                String?
-  livrablesDetailles   String?
-  supportsInclus       String?
-  temoignages          String?
-  argumentsCommerciaux String?
-  imageHero            String?
-  videoUrl             String?
-  gifSolution          String?
-  entonnoirNaturel     String?
-  urgence              String?
-  scriptType           String?
-  format               String?
-  QuestionReponse      Json?
-  conditionsPaiement   String?
-  garantie             String?
-  statut               String       @default("actif")
-  dateCreation         DateTime     @default(now())
-  dateModification     DateTime     @updatedAt
-  meeting              Json?
-  disponibilite        String?
-  testResults          TestResult[]
+  livrablesDetailles   String? @db.Text
+  supportsInclus       String? @db.Text
+  temoignages          String? @db.Text
+  argumentsCommerciaux String? @db.Text
+
+  // Médias
+  imageHero   String?
+  videoUrl    String?
+  gifSolution String?
+
+  // Écosystème et entonnoir
+  entonnoirNaturel String? // Nom du produit précédent dans l'entonnoir
+
+  // Urgence et conditions
+  urgence String? // Message d'urgence (ex: concurrence sur un produit)
+
+  // Nouveaux champs
+  scriptType         String? // La "question magique" qui fait que ce coaching fonctionne
+  format             String? // Type de service: "Coaching live", "Formation", "Webinaire", etc.
+  QuestionReponse    Json? // FAQ structurée en JSON
+  conditionsPaiement String? // "3x sans frais"
+  garantie           String? // "Satisfait ou remboursé 30 jours"
+
+  // Métadonnées
+  statut           String   @default("actif")
+  dateCreation     DateTime @default(now())
+  dateModification DateTime @updatedAt
+
+  // Calendrier des événements
+  meeting Json? // Format: { "nom_event": [{ "date": "2024-12-20", "type": "webinaire", "lien": "https://meet.google.com/..." }, { "date": "2024-12-23", "type": "individuel", "lien": "https://zoom.us/..." }] }
+
+  // Disponibilité du produit
+  disponibilite String? // "disponible", "non  disponible" sinon "iconnu"
+
+  // Relationship with TestResult
+  testResults TestResult[]
+  
+
 }
 
 model TestResult {
@@ -61,8 +79,138 @@ model User {
   prenom           String?
   resetToken       String?
   resetTokenExpiry DateTime?
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  factures Facture[]
+  utilisationsCoupon UtilisationCoupon[]
+}
+
+model Facture {
+  id        Int      @id @default(autoincrement())
+  
+  // Informations client (capturées au moment de la facturation)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+  
+  // Données client persistantes (en cas de suppression de l'utilisateur)
+  clientEmail    String? // Email du client au moment de la facturation
+  clientNom      String? // Nom du client au moment de la facturation
+  clientPrenom   String? // Prénom du client au moment de la facturation
+  
+  // Informations de facturation
+  numeroFacture String   @unique // Format: "FAC-2024-001"
+  dateFacture   DateTime @default(now())
+  statut        String   @default("en_attente") // "en_attente", "payee", "annulee", "remboursee"
+  
+  // Données des produits (capturées au moment de l'achat)
+  produits Json // Format: [{ "nomProduit": "...", "quantiteProduit": 1, "prixUnitaire": "497€", "prixTotal": "497€" }]
+  
+  // Totaux
+  sousTotal    Float    @default(0)
+  reduction    Float    @default(0) // Montant de la réduction appliquée
+  total        Float    @default(0)
+  
+  // Informations de paiement
+  methodePaiement String @default("carte") // Mode unique pour les formations
+  referencePaiement String? // Référence du paiement externe
+  datePaiement DateTime?
+  
+  // Informations d'accès aux formations
+  dateAcces DateTime? // Date d'activation de l'accès
+  statutAcces String @default("en_attente") // "en_attente", "active", "expiree" pour gerer l'accès aux formations  car si l'accès est expiré j'aurais un statut payé mais un acces expiree
+  
+  // Métadonnées
+  notes String? @db.Text // Notes internes
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  utilisationsCoupon UtilisationCoupon[]
+
+  @@index([userId])
+  @@index([numeroFacture])
+  @@index([dateFacture])
+  @@index([statut])
+}
+
+model Coupon {
+  id          Int      @id @default(autoincrement())
+  code        String   @unique // Code unique du coupon (ex: "WELCOME10")
+  description String?  // Description du coupon
+  
+  // Type de réduction
+  typeReduction String // "pourcentage" ou "montant_fixe"
+  valeurReduction Float // 10 pour 10% ou 50 pour 50€
+  
+  // Conditions d'utilisation
+  montantMinimum Float? // Montant minimum de commande requis
+  montantMaximum Float? // Montant maximum de réduction : Exactement ! Le montant de réduction ne doit jamais dépasser le montant maximum défini par l'admin.
+  
+  // Limites d'utilisation
+  nombreUtilisationsMax Int? // Nombre maximum d'utilisations totales
+  nombreUtilisationsActuelles Int @default(0) // Nombre d'utilisations actuelles
+  
+  // Limites par utilisateur
+  nombreUtilisationsParUtilisateur Int @default(1) // Nombre d'utilisations par utilisateur
+  
+  // Dates de validité
+  dateDebut DateTime?
+  dateFin   DateTime?
+  
+  // Statut
+  actif Boolean @default(true)
+  
+  // Métadonnées
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  utilisationsCoupon UtilisationCoupon[]
+}
+
+model UtilisationCoupon {//c un journal pour mettre dans la base quel utilisateur a utilisé quel coupon sur quelle facture en faite
+  id        Int      @id @default(autoincrement())
+  
+  // Relations
+  couponId  Int
+  coupon    Coupon   @relation(fields: [couponId], references: [id])
+  
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  
+  factureId Int?
+  facture   Facture? @relation(fields: [factureId], references: [id])
+  
+  // Détails de l'utilisation
+  montantReduction Float
+  montantCommande  Float
+  
+  // Métadonnées
   provider         String?
   providerId       String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  
+  @@index([couponId])
+  @@index([userId])
+  @@index([factureId])
+}
+model Contact {//pour que l'admin puisse changer les contacts dans  la page contact 
+  id        String   @id @default(cuid())
+  label     String   @unique // "contact-phone", "contact-email", "contact-address", etc.
+  value     String   // La valeur réelle
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+//pour centraliser touts les messages reçus je vais creer un model Message pour l'afficher sur le dash admin après
+model Message {
+  id        Int      @id @default(autoincrement())
+  nom       String
+  email     String
+  telephone String?
+  objet     String
+  message   String
+  createdAt DateTime @default(now())
 }
